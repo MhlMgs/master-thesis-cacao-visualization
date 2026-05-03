@@ -8,6 +8,6 @@ The file can be run directly in an IDE. It can also be run through the terminal 
 python json_to_xml.py "your_path/example_file.json" "your_path/example_file.bpmn" <br />
 The first argument specifies the JSON file you want to transform and the second argument specifies where the created BPMN file should be stored. <br />
 <br />
-Usage example for the restricted executable proof of concept: <br />
+The exporter for executable BPMN files is used as follows: <br />
 python json_to_executable_xml.py "your_path/example_file.json" "your_path/example_file.bpmn" --task-mode script --decision-step-name "example_step" --decision-default true <br />
 Again, the first argument specifies the playbook and the second argument specifies where the BPMN file should be saved. The option "--task-mode script" creates script tasks. The option "--decision-step-name" specifies the step that sets the decision variable and "--decision-default" defines its default value.
