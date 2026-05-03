@@ -1,4 +1,4 @@
-The input folder contains exclusively the synthetically created CACAO playbooks. Publicly available CACAO examples where used as well, for example from the official OASIS CACAO repository. These playbooks were used but will not be redistributed here. They can be accessed through their original repositories.
+The input folder contains exclusively the synthetically created CACAO playbooks. Publicly available CACAO examples were used as well, for example from the official OASIS CACAO repository. These playbooks were used but will not be redistributed here. They can be accessed through their original repositories.
 
 Repositories used for Input: <br />
 https://github.com/Fraunhofer-FIT-DSAI/SASP/tree/main/SASP/example%20playbooks <br />
