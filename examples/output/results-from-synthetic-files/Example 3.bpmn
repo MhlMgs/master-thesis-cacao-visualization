@@ -1,0 +1,607 @@
+<?xml version='1.0' encoding='utf-8'?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:cacao="https://example.org/cacao-bpmn/extensions" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_89dba48a-a136-4e5e-b69e-77b477236fd3" targetNamespace="https://example.org/cacao-bpmn">
+  <bpmn:process id="Process_playbook_3c4d5e6f-1111-4222-8333-1234567890ab" name="Phishing Investigation and Remediation Demonstration" isExecutable="false">
+    <bpmn:extensionElements>
+      <cacao:property name="playbook_id" value="playbook--3c4d5e6f-1111-4222-8333-1234567890ab" />
+      <cacao:property name="spec_version" value="2.0" />
+      <cacao:property name="playbook_types" value="[&quot;investigation&quot;, &quot;remediation&quot;, &quot;notification&quot;]" />
+      <cacao:property name="playbook_activities" value="[&quot;analyze-collected-data&quot;, &quot;restrict-access&quot;, &quot;notify&quot;]" />
+      <cacao:property name="playbook_processing_summary" value="Combines analyst review, automated account restriction and stakeholder notification." />
+      <cacao:property name="workflow_start" value="start--phishing" />
+      <cacao:property name="created" value="2025-04-24T09:00:00Z" />
+      <cacao:property name="modified" value="2025-04-24T09:00:00Z" />
+      <cacao:property name="created_by" value="identity--9b8f4e12-aaaa-4b56-9c12-abcdefabcdef" />
+      <cacao:property name="valid_from" value="2025-04-24T09:00:00Z" />
+      <cacao:property name="valid_until" value="2026-04-24T09:00:00Z" />
+      <cacao:property name="revoked" value="false" />
+      <cacao:property name="derived_from" value="[&quot;playbook--legacy-phishing-investigation-demo&quot;]" />
+      <cacao:property name="labels" value="[&quot;synthetic&quot;, &quot;phishing&quot;, &quot;validation-demo&quot;]" />
+      <cacao:property name="markings" value="[&quot;marking-definition--tlp-green-demo&quot;]" />
+      <cacao:property name="industry_sectors" value="[&quot;finance&quot;, &quot;government&quot;]" />
+    </bpmn:extensionElements>
+    <bpmn:startEvent id="StartEvent_start_phishing" name="Start Investigation">
+      <bpmn:documentation>Begin handling of a reported phishing email.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="start--phishing" />
+        <cacao:property name="cacao_step_type" value="start" />
+      </bpmn:extensionElements>
+    </bpmn:startEvent>
+    <bpmn:task id="Task_action_review_alert" name="Review Reported Alert">
+      <bpmn:documentation>Analyst reviews the reported message and initial enrichment context.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="action--review-alert" />
+        <cacao:property name="cacao_step_type" value="action" />
+        <cacao:property name="delay" value="PT5M" />
+        <cacao:property name="timeout" value="PT20M" />
+        <cacao:property name="in_args" value="[&quot;reported_message_id&quot;, &quot;reporting_user&quot;]" />
+        <cacao:property name="out_args" value="[&quot;message_headers&quot;, &quot;mailbox_user&quot;, &quot;phishing_score&quot;]" />
+        <cacao:property name="step_variables" value="[&quot;triage_status&quot;]" />
+        <cacao:property name="markings" value="[&quot;marking-definition--tlp-green-demo&quot;]" />
+        <cacao:property name="agent" value="group--soc-tier2" />
+        <cacao:property name="targets" value="[&quot;http-api--email-archive&quot;, &quot;linux--mail-analysis-host&quot;]" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="Gateway_if_credible" name="Phishing Credible?">
+      <bpmn:documentation>Determine whether the reported email should be treated as a phishing incident.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="if--credible" />
+        <cacao:property name="cacao_step_type" value="if-condition" />
+      </bpmn:extensionElements>
+    </bpmn:exclusiveGateway>
+    <bpmn:parallelGateway id="Gateway_parallel_response" name="Immediate Response Activities">
+      <bpmn:documentation>Perform automated restriction and evidence collection in parallel.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="parallel--response" />
+        <cacao:property name="cacao_step_type" value="parallel" />
+      </bpmn:extensionElements>
+    </bpmn:parallelGateway>
+    <bpmn:task id="Task_action_disable_account" name="Disable Account via OpenC2">
+      <bpmn:documentation>Use the SOAR platform to suspend the impacted mailbox account.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="action--disable-account" />
+        <cacao:property name="cacao_step_type" value="action" />
+        <cacao:property name="in_args" value="[&quot;mailbox_user&quot;]" />
+        <cacao:property name="out_args" value="[&quot;account_status=disabled&quot;]" />
+        <cacao:property name="step_variables" value="[&quot;notification_required&quot;]" />
+        <cacao:property name="agent" value="http-api--soar" />
+        <cacao:property name="targets" value="[&quot;security-category--credential-theft&quot;]" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="Gateway_if_disable_successful" name="Account Disable Successful?">
+      <bpmn:documentation>Check whether automated account disabling completed successfully before synchronizing the immediate response branches.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="if--disable-successful" />
+        <cacao:property name="cacao_step_type" value="if-condition" />
+      </bpmn:extensionElements>
+    </bpmn:exclusiveGateway>
+    <bpmn:parallelGateway id="Gateway_parallel_response_join" name="Join Immediate Response Activities">
+      <bpmn:documentation>Synchronize the successful account disable path with artifact collection before documentation.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="parallel--response-join" />
+        <cacao:property name="cacao_step_type" value="parallel" />
+      </bpmn:extensionElements>
+    </bpmn:parallelGateway>
+    <bpmn:task id="Task_action_document_response" name="Document Immediate Response">
+      <bpmn:documentation>Record the first response actions in the case system.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="action--document-response" />
+        <cacao:property name="cacao_step_type" value="action" />
+        <cacao:property name="out_args" value="[&quot;case_status=contained&quot;]" />
+        <cacao:property name="agent" value="organization--security-ops" />
+        <cacao:property name="targets" value="[&quot;security-category--phishing&quot;]" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="Gateway_switch_escalation" name="Select Additional Escalation Path">
+      <bpmn:documentation>Choose the next path based on confidence and communication needs.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="switch--escalation" />
+        <cacao:property name="cacao_step_type" value="switch-condition" />
+      </bpmn:extensionElements>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="Task_playbook_action_notify_stakeholders" name="Call Stakeholder Notification Playbook">
+      <bpmn:documentation>Invoke a separate notification playbook for business stakeholders.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="playbook-action--notify-stakeholders" />
+        <cacao:property name="cacao_step_type" value="playbook-action" />
+        <cacao:property name="in_args" value="[&quot;mailbox_user&quot;, &quot;artifact_bundle&quot;]" />
+        <cacao:property name="out_args" value="[&quot;notification_status=sent&quot;]" />
+        <cacao:property name="agent" value="organization--security-ops" />
+        <cacao:property name="targets" value="[&quot;organization--hr&quot;]" />
+        <cacao:property name="playbook_id" value="playbook--stakeholder-notification-demo" />
+        <cacao:property name="playbook_version" value="1.0" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:task id="Task_action_close_contained" name="Close Contained Case">
+      <bpmn:documentation>Finalize the phishing case after remediation and communication steps.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="action--close-contained" />
+        <cacao:property name="cacao_step_type" value="action" />
+        <cacao:property name="out_args" value="[&quot;case_status=closed_contained&quot;]" />
+        <cacao:property name="agent" value="organization--security-ops" />
+        <cacao:property name="targets" value="[&quot;security-category--phishing&quot;]" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:endEvent id="EndEvent_end_closed" name="Case Closed">
+      <bpmn:documentation>The phishing case has been finalized.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="end--closed" />
+        <cacao:property name="cacao_step_type" value="end" />
+      </bpmn:extensionElements>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_055e6320394b46e199cf350d11bf07cf" sourceRef="Task_action_close_contained" targetRef="EndEvent_end_closed" />
+    <bpmn:sequenceFlow id="Flow_729ec24a152243798f65c7aa2e83f9ab" sourceRef="Task_playbook_action_notify_stakeholders" targetRef="Task_action_close_contained" />
+    <bpmn:sequenceFlow id="Flow_79bb2827b66c43ef96b3519015fe0d43" sourceRef="Gateway_switch_escalation" targetRef="Task_playbook_action_notify_stakeholders" name="high-confidence" />
+    <bpmn:task id="Task_action_manual_review" name="Escalate to Manual Review">
+      <bpmn:documentation>Escalate the case to deeper analyst review and scope assessment.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="action--manual-review" />
+        <cacao:property name="cacao_step_type" value="action" />
+        <cacao:property name="timeout" value="PT45M" />
+        <cacao:property name="agent" value="group--soc-tier2" />
+        <cacao:property name="targets" value="[&quot;security-category--credential-theft&quot;]" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_4ca60dbb7a454b55b9c4b37fe476895e" sourceRef="Task_action_manual_review" targetRef="Task_action_close_contained" />
+    <bpmn:sequenceFlow id="Flow_33eadff1a59b41cea4c05ba79c3410c2" sourceRef="Gateway_switch_escalation" targetRef="Task_action_manual_review" name="requires-hunting" />
+    <bpmn:sequenceFlow id="Flow_d91223b1b0114227bedbdd76c7041502" sourceRef="Gateway_switch_escalation" targetRef="Task_action_close_contained" name="Default" />
+    <bpmn:sequenceFlow id="Flow_d57cbc68481c4fbeab3cea9f1d4524b3" sourceRef="Task_action_document_response" targetRef="Gateway_switch_escalation" />
+    <bpmn:sequenceFlow id="Flow_8237a67f13084929bd496cf72e693e01" sourceRef="Gateway_parallel_response_join" targetRef="Task_action_document_response" />
+    <bpmn:sequenceFlow id="Flow_6fe5c378241a4eea894ae90d904c309e" sourceRef="Gateway_if_disable_successful" targetRef="Gateway_parallel_response_join" name="True" />
+    <bpmn:endEvent id="EndEvent_end_exception" name="Workflow Exception End">
+      <bpmn:documentation>Used when automated restriction or enrichment cannot be completed.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="end--exception" />
+        <cacao:property name="cacao_step_type" value="end" />
+      </bpmn:extensionElements>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_239d4a9056364bbb9e48fa4bd5aa0e04" sourceRef="Gateway_if_disable_successful" targetRef="EndEvent_end_exception" name="False" />
+    <bpmn:sequenceFlow id="Flow_bb20db61c59049fcb3c7d878811d9ddb" sourceRef="Task_action_disable_account" targetRef="Gateway_if_disable_successful" />
+    <bpmn:sequenceFlow id="Flow_302c519848ee42b3a09c1f00bbad9ea5" sourceRef="Gateway_parallel_response" targetRef="Task_action_disable_account" />
+    <bpmn:task id="Task_action_collect_artifacts" name="Collect Mailbox Artifacts">
+      <bpmn:documentation>Collect headers, attachments and URLs for later review.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="action--collect-artifacts" />
+        <cacao:property name="cacao_step_type" value="action" />
+        <cacao:property name="in_args" value="[&quot;reported_message_id&quot;]" />
+        <cacao:property name="out_args" value="[&quot;artifact_bundle&quot;, &quot;contains_malicious_link&quot;]" />
+        <cacao:property name="step_variables" value="[&quot;artifact_status&quot;]" />
+        <cacao:property name="agent" value="software--mail-gateway" />
+        <cacao:property name="targets" value="[&quot;linux--mail-analysis-host&quot;]" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_05337cc968094b30a0cec7c8e3c4aaf2" sourceRef="Task_action_collect_artifacts" targetRef="Gateway_parallel_response_join" />
+    <bpmn:sequenceFlow id="Flow_90de30cefe024c19ae9987ea02e0c540" sourceRef="Gateway_parallel_response" targetRef="Task_action_collect_artifacts" />
+    <bpmn:sequenceFlow id="Flow_3257d925b7f74b2f8726c0c5d2f75c14" sourceRef="Gateway_if_credible" targetRef="Gateway_parallel_response" name="True" />
+    <bpmn:task id="Task_action_record_benign" name="Record Benign Outcome">
+      <bpmn:documentation>Document the alert as benign and retain the enrichment result.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="action--record-benign" />
+        <cacao:property name="cacao_step_type" value="action" />
+        <cacao:property name="out_args" value="[&quot;case_status=benign_closed&quot;]" />
+        <cacao:property name="agent" value="organization--security-ops" />
+        <cacao:property name="targets" value="[&quot;security-category--credential-theft&quot;]" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_fbaf1d38e0c040a392fceec09a8d31f1" sourceRef="Task_action_record_benign" targetRef="EndEvent_end_closed" />
+    <bpmn:sequenceFlow id="Flow_91266c1aaf154fd59c2b7d4f660ae4c6" sourceRef="Gateway_if_credible" targetRef="Task_action_record_benign" name="False" />
+    <bpmn:sequenceFlow id="Flow_7ac9e98898ea42429c5d45921d7362b9" sourceRef="Task_action_review_alert" targetRef="Gateway_if_credible" />
+    <bpmn:sequenceFlow id="Flow_44304191da3f4fffb327e0fd4822f842" sourceRef="StartEvent_start_phishing" targetRef="Task_action_review_alert" />
+    <bpmn:textAnnotation id="TextAnnotation_9ece27ba2ba74e52826f410f06bc6de9">
+      <bpmn:text>META: id=playbook--3c4d5e6f-1111-4222-8333-1234567890ab; name=Phishing Investigation and Remediation
+      Demonstration
+      description=Synthetic playbook used to demonstrate a combined semi-automated phishing investigation
+and remediation workflow.; spec_version=2.0; playbook_types=investigation, remediation, notification
+      playbook_activities=analyze-collected-data, restrict-access, notify; processing=C, o, m, b, i, n, ...
+(+78 more); created=2025-04-24T09:00:00Z; modified=2025-04-24T09:00:00Z; valid_from=2025-04-24T09:00:00Z
+      valid_until=2026-04-24T09:00:00Z; workflow_start=start--phishing;
+created_by=identity--9b8f4e12-aaaa-4b56-9c12-abcdefabcdef; revoked=False;
+derived_from=playbook--legacy-phishing-investigation-demo
+      labels=synthetic, phishing, validation-demo; industry_sectors=finance, government
+      variables=phishing_score (type=integer), mailbox_user (type=string), contains_malicious_link
+(type=boolean), notification_required (type=boolean); authentication=SOAR API Key [http-api-key]
+      marking_refs=marking-definition--tlp-green-demo; data_markings=TLP:GREEN [TLP=green];
+extensions=Phishing Case Extension (type=property-extension; version=1.0;
+schema=https://example.org/schemas/phishing-...)
+      signatures=RS256 (algorithm=RS256; issuer=security-automation-lab); external_references=1</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_a34b671e6d8d4f1f977a7dff750b3f89" sourceRef="StartEvent_start_phishing" targetRef="TextAnnotation_9ece27ba2ba74e52826f410f06bc6de9" />
+    <bpmn:textAnnotation id="TextAnnotation_c13cd7de85334ad497297cef24e62a2e">
+      <bpmn:text>META: delay=PT5M; timeout=PT20M; markings=marking-definition--tlp-green-demo
+DATA: commands=http-api:POST /mail/archive/query with reported_message_id,
+      command_auth[0]=auth-info--soar-api, in_args=reported_message_id, reporting_user,
+      out_args=message_headers, mailbox_user, phishing_score, variables=triage_status,
+      extensions=, authentication=SOAR API Key [http-api-key]
+ROLE: agent=SOC Tier 2; type=group; targets=Email Archive API; type=http-api, Mail
+      Analysis Host; type=linux-system</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_a68b18009fc94f9ea887b0bfce4c6c6a" sourceRef="Task_action_review_alert" targetRef="TextAnnotation_c13cd7de85334ad497297cef24e62a2e" />
+    <bpmn:textAnnotation id="TextAnnotation_63085c3d12d044648a9ff7074c0515b0">
+      <bpmn:text>DATA: commands=openc2-http:POST /openc2/actuator/account action=deny targe...,
+      command_auth[0]=auth-info--soar-api, in_args=mailbox_user, out_args=account_status=disabled,
+      variables=notification_required, authentication=SOAR API Key [http-api-key]
+ROLE: agent=SOAR Platform API; type=http-api; targets=Credential Theft; type=security-category;
+      category=credential-theft</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0aba7cbbdc094864afd8eea99b442f97" sourceRef="Task_action_disable_account" targetRef="TextAnnotation_63085c3d12d044648a9ff7074c0515b0" />
+    <bpmn:textAnnotation id="TextAnnotation_1d577329d7e54037a5a30f13f10828ba">
+      <bpmn:text>DATA: commands=manual:Update the case record with immediate response ...,
+      out_args=case_status=contained
+ROLE: agent=Security Operations; type=organization; targets=security-category--phishing</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_e57591c86530461cb2bb527529379c68" sourceRef="Task_action_document_response" targetRef="TextAnnotation_1d577329d7e54037a5a30f13f10828ba" />
+    <bpmn:textAnnotation id="TextAnnotation_682263726b7b49a6989d8f1f7f1bca53">
+      <bpmn:text>DATA: in_args=mailbox_user, artifact_bundle, out_args=notification_status=sent,
+      playbook_id=playbook--stakeholder-notification-demo, playbook_version=1.0
+ROLE: agent=Security Operations; type=organization; targets=Human Resources; type=organization</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_771ccf04fc5c4820941edef307594cf6" sourceRef="Task_playbook_action_notify_stakeholders" targetRef="TextAnnotation_682263726b7b49a6989d8f1f7f1bca53" />
+    <bpmn:textAnnotation id="TextAnnotation_b94e0cbf6c634d7d8d3d19cf4e558ebc">
+      <bpmn:text>DATA: commands=manual:Mark case as contained and close the workflow.,
+      out_args=case_status=closed_contained
+ROLE: agent=Security Operations; type=organization; targets=security-category--phishing</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_c3213a20348b477fadeda3db2e8cd351" sourceRef="Task_action_close_contained" targetRef="TextAnnotation_b94e0cbf6c634d7d8d3d19cf4e558ebc" />
+    <bpmn:textAnnotation id="TextAnnotation_7bfa0a55c0a2467f9dc0c1ed1476e351">
+      <bpmn:text>META: timeout=PT45M
+DATA: commands=manual:Assign case to senior analyst and request deepe...
+ROLE: agent=SOC Tier 2; type=group; targets=Credential Theft;
+      type=security-category; category=credential-theft</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_c6104d9ec09c4065a126c72c29f07ebb" sourceRef="Task_action_manual_review" targetRef="TextAnnotation_7bfa0a55c0a2467f9dc0c1ed1476e351" />
+    <bpmn:textAnnotation id="TextAnnotation_eab6eaffcdb9479eaa1f0adade4204d0">
+      <bpmn:text>DATA: commands=bash:extract_mail_artifacts.sh --case ${reported_mes..., in_args=reported_message_id,
+      out_args=artifact_bundle, contains_malicious_link, variables=artifact_status
+ROLE: agent=Mail Gateway; type=software; targets=Mail Analysis Host; type=linux-system</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_94cd054652f945888fddb78caaf1e2dc" sourceRef="Task_action_collect_artifacts" targetRef="TextAnnotation_eab6eaffcdb9479eaa1f0adade4204d0" />
+    <bpmn:textAnnotation id="TextAnnotation_8ba0d16051a9489f96d29162c5f46c3c">
+      <bpmn:text>DATA: commands=manual:Document benign classification in case manageme...,
+      out_args=case_status=benign_closed
+ROLE: agent=Security Operations; type=organization; targets=Credential
+      Theft; type=security-category; category=credential-theft</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_35a47549559a472dbef4a33b37e4cc4f" sourceRef="Task_action_record_benign" targetRef="TextAnnotation_8ba0d16051a9489f96d29162c5f46c3c" />
+    <bpmn:textAnnotation id="TextAnnotation_304d1c42ca724076ae0229b8201c07c4">
+      <bpmn:text>COND: ${phishing_score &gt;= 70 || contains_malicious_link ==
+      true}</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_4a04b65747c042fa88ffe028ebddf2c7" sourceRef="Gateway_if_credible" targetRef="TextAnnotation_304d1c42ca724076ae0229b8201c07c4" />
+    <bpmn:textAnnotation id="TextAnnotation_fd7e5a19c904422db574050395f1261f">
+      <bpmn:text>COND: ${account_status == "disabled"}</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_edb9b895cb8a4277b7fab72c3ce38dea" sourceRef="Gateway_if_disable_successful" targetRef="TextAnnotation_fd7e5a19c904422db574050395f1261f" />
+    <bpmn:textAnnotation id="TextAnnotation_c4fd3feb144c4320a4ce8618d920d68d">
+      <bpmn:text>OUTCOME: workflow_exception endpoint</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_4d7dea268ddf43549eefb82b2fa8ae9f" sourceRef="EndEvent_end_exception" targetRef="TextAnnotation_c4fd3feb144c4320a4ce8618d920d68d" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_playbook_3c4d5e6f-1111-4222-8333-1234567890ab">
+      <bpmndi:BPMNShape id="BPMNShape_0" bpmnElement="StartEvent_start_phishing">
+        <dc:Bounds x="100" y="120" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1" bpmnElement="Task_action_review_alert">
+        <dc:Bounds x="380" y="120" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_2" bpmnElement="Gateway_if_credible">
+        <dc:Bounds x="660" y="120" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_3" bpmnElement="Gateway_parallel_response">
+        <dc:Bounds x="940" y="120" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_4" bpmnElement="Task_action_record_benign">
+        <dc:Bounds x="940" y="270" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_5" bpmnElement="EndEvent_end_closed">
+        <dc:Bounds x="1220" y="120" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_6" bpmnElement="Task_action_collect_artifacts">
+        <dc:Bounds x="1220" y="270" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_7" bpmnElement="Task_action_disable_account">
+        <dc:Bounds x="1220" y="420" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_8" bpmnElement="Gateway_if_disable_successful">
+        <dc:Bounds x="1500" y="120" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_9" bpmnElement="Gateway_parallel_response_join">
+        <dc:Bounds x="1500" y="270" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_10" bpmnElement="EndEvent_end_exception">
+        <dc:Bounds x="1780" y="120" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_11" bpmnElement="Task_action_document_response">
+        <dc:Bounds x="1780" y="270" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_12" bpmnElement="Gateway_switch_escalation">
+        <dc:Bounds x="2060" y="120" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_13" bpmnElement="Task_action_close_contained">
+        <dc:Bounds x="2340" y="120" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_14" bpmnElement="Task_action_manual_review">
+        <dc:Bounds x="2340" y="270" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_15" bpmnElement="Task_playbook_action_notify_stakeholders">
+        <dc:Bounds x="2340" y="420" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_9ece27ba2ba74e52826f410f06bc6de9" bpmnElement="TextAnnotation_9ece27ba2ba74e52826f410f06bc6de9">
+        <dc:Bounds x="226" y="376" width="760" height="318" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_a34b671e6d8d4f1f977a7dff750b3f89" bpmnElement="Association_a34b671e6d8d4f1f977a7dff750b3f89">
+        <di:waypoint x="136" y="138" />
+        <di:waypoint x="166" y="138" />
+        <di:waypoint x="166" y="535" />
+        <di:waypoint x="226" y="535" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_c13cd7de85334ad497297cef24e62a2e" bpmnElement="TextAnnotation_c13cd7de85334ad497297cef24e62a2e">
+        <dc:Bounds x="630" y="710" width="620" height="156" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_a68b18009fc94f9ea887b0bfce4c6c6a" bpmnElement="Association_a68b18009fc94f9ea887b0bfce4c6c6a">
+        <di:waypoint x="540" y="165" />
+        <di:waypoint x="670" y="165" />
+        <di:waypoint x="670" y="788" />
+        <di:waypoint x="630" y="788" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_63085c3d12d044648a9ff7074c0515b0" bpmnElement="TextAnnotation_63085c3d12d044648a9ff7074c0515b0">
+        <dc:Bounds x="1470" y="420" width="700" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_0aba7cbbdc094864afd8eea99b442f97" bpmnElement="Association_0aba7cbbdc094864afd8eea99b442f97">
+        <di:waypoint x="1380" y="465" />
+        <di:waypoint x="1410" y="465" />
+        <di:waypoint x="1410" y="480" />
+        <di:waypoint x="1470" y="480" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_1d577329d7e54037a5a30f13f10828ba" bpmnElement="TextAnnotation_1d577329d7e54037a5a30f13f10828ba">
+        <dc:Bounds x="2030" y="558" width="620" height="84" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_e57591c86530461cb2bb527529379c68" bpmnElement="Association_e57591c86530461cb2bb527529379c68">
+        <di:waypoint x="1940" y="315" />
+        <di:waypoint x="2070" y="315" />
+        <di:waypoint x="2070" y="600" />
+        <di:waypoint x="2030" y="600" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_682263726b7b49a6989d8f1f7f1bca53" bpmnElement="TextAnnotation_682263726b7b49a6989d8f1f7f1bca53">
+        <dc:Bounds x="2590" y="420" width="700" height="84" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_771ccf04fc5c4820941edef307594cf6" bpmnElement="Association_771ccf04fc5c4820941edef307594cf6">
+        <di:waypoint x="2500" y="465" />
+        <di:waypoint x="2530" y="465" />
+        <di:waypoint x="2530" y="462" />
+        <di:waypoint x="2590" y="462" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_b94e0cbf6c634d7d8d3d19cf4e558ebc" bpmnElement="TextAnnotation_b94e0cbf6c634d7d8d3d19cf4e558ebc">
+        <dc:Bounds x="2590" y="120" width="620" height="84" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_c3213a20348b477fadeda3db2e8cd351" bpmnElement="Association_c3213a20348b477fadeda3db2e8cd351">
+        <di:waypoint x="2500" y="165" />
+        <di:waypoint x="2530" y="165" />
+        <di:waypoint x="2530" y="162" />
+        <di:waypoint x="2590" y="162" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_7bfa0a55c0a2467f9dc0c1ed1476e351" bpmnElement="TextAnnotation_7bfa0a55c0a2467f9dc0c1ed1476e351">
+        <dc:Bounds x="2590" y="270" width="540" height="102" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_c6104d9ec09c4065a126c72c29f07ebb" bpmnElement="Association_c6104d9ec09c4065a126c72c29f07ebb">
+        <di:waypoint x="2500" y="315" />
+        <di:waypoint x="2530" y="315" />
+        <di:waypoint x="2530" y="321" />
+        <di:waypoint x="2590" y="321" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_eab6eaffcdb9479eaa1f0adade4204d0" bpmnElement="TextAnnotation_eab6eaffcdb9479eaa1f0adade4204d0">
+        <dc:Bounds x="1470" y="654" width="740" height="84" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_94cd054652f945888fddb78caaf1e2dc" bpmnElement="Association_94cd054652f945888fddb78caaf1e2dc">
+        <di:waypoint x="1380" y="315" />
+        <di:waypoint x="1410" y="315" />
+        <di:waypoint x="1410" y="696" />
+        <di:waypoint x="1470" y="696" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_8ba0d16051a9489f96d29162c5f46c3c" bpmnElement="TextAnnotation_8ba0d16051a9489f96d29162c5f46c3c">
+        <dc:Bounds x="1190" y="880" width="540" height="102" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_35a47549559a472dbef4a33b37e4cc4f" bpmnElement="Association_35a47549559a472dbef4a33b37e4cc4f">
+        <di:waypoint x="1100" y="315" />
+        <di:waypoint x="1230" y="315" />
+        <di:waypoint x="1230" y="931" />
+        <di:waypoint x="1190" y="931" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_304d1c42ca724076ae0229b8201c07c4" bpmnElement="TextAnnotation_304d1c42ca724076ae0229b8201c07c4">
+        <dc:Bounds x="800" y="1000" width="440" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_4a04b65747c042fa88ffe028ebddf2c7" bpmnElement="Association_4a04b65747c042fa88ffe028ebddf2c7">
+        <di:waypoint x="710" y="145" />
+        <di:waypoint x="840" y="145" />
+        <di:waypoint x="840" y="1038" />
+        <di:waypoint x="800" y="1038" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_fd7e5a19c904422db574050395f1261f" bpmnElement="TextAnnotation_fd7e5a19c904422db574050395f1261f">
+        <dc:Bounds x="1640" y="760" width="440" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_edb9b895cb8a4277b7fab72c3ce38dea" bpmnElement="Association_edb9b895cb8a4277b7fab72c3ce38dea">
+        <di:waypoint x="1550" y="145" />
+        <di:waypoint x="1680" y="145" />
+        <di:waypoint x="1680" y="798" />
+        <di:waypoint x="1640" y="798" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_c4fd3feb144c4320a4ce8618d920d68d" bpmnElement="TextAnnotation_c4fd3feb144c4320a4ce8618d920d68d">
+        <dc:Bounds x="1906" y="848" width="400" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_4d7dea268ddf43549eefb82b2fa8ae9f" bpmnElement="Association_4d7dea268ddf43549eefb82b2fa8ae9f">
+        <di:waypoint x="1816" y="138" />
+        <di:waypoint x="1946" y="138" />
+        <di:waypoint x="1946" y="886" />
+        <di:waypoint x="1906" y="886" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_0" bpmnElement="Flow_055e6320394b46e199cf350d11bf07cf">
+        <di:waypoint x="2500" y="165" />
+        <di:waypoint x="2524" y="165" />
+        <di:waypoint x="2524" y="230" />
+        <di:waypoint x="1280" y="230" />
+        <di:waypoint x="1280" y="138" />
+        <di:waypoint x="1256" y="138" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_1" bpmnElement="Flow_729ec24a152243798f65c7aa2e83f9ab">
+        <di:waypoint x="2500" y="465" />
+        <di:waypoint x="2524" y="465" />
+        <di:waypoint x="2524" y="230" />
+        <di:waypoint x="2316" y="230" />
+        <di:waypoint x="2316" y="165" />
+        <di:waypoint x="2340" y="165" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_2" bpmnElement="Flow_79bb2827b66c43ef96b3519015fe0d43">
+        <di:waypoint x="2110" y="145" />
+        <di:waypoint x="2134" y="145" />
+        <di:waypoint x="2134" y="390" />
+        <di:waypoint x="2316" y="390" />
+        <di:waypoint x="2316" y="465" />
+        <di:waypoint x="2340" y="465" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2287" y="511" width="96" height="22" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_3" bpmnElement="Flow_4ca60dbb7a454b55b9c4b37fe476895e">
+        <di:waypoint x="2500" y="315" />
+        <di:waypoint x="2524" y="315" />
+        <di:waypoint x="2524" y="230" />
+        <di:waypoint x="2316" y="230" />
+        <di:waypoint x="2316" y="153" />
+        <di:waypoint x="2340" y="153" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_4" bpmnElement="Flow_33eadff1a59b41cea4c05ba79c3410c2">
+        <di:waypoint x="2110" y="133" />
+        <di:waypoint x="2134" y="133" />
+        <di:waypoint x="2134" y="305" />
+        <di:waypoint x="2316" y="305" />
+        <di:waypoint x="2316" y="315" />
+        <di:waypoint x="2340" y="315" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2287" y="277" width="96" height="22" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_5" bpmnElement="Flow_d91223b1b0114227bedbdd76c7041502">
+        <di:waypoint x="2110" y="157" />
+        <di:waypoint x="2134" y="157" />
+        <di:waypoint x="2134" y="155" />
+        <di:waypoint x="2316" y="155" />
+        <di:waypoint x="2316" y="177" />
+        <di:waypoint x="2340" y="177" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2300" y="109" width="70" height="22" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_6" bpmnElement="Flow_d57cbc68481c4fbeab3cea9f1d4524b3">
+        <di:waypoint x="1940" y="315" />
+        <di:waypoint x="1964" y="315" />
+        <di:waypoint x="1964" y="155" />
+        <di:waypoint x="2036" y="155" />
+        <di:waypoint x="2036" y="145" />
+        <di:waypoint x="2060" y="145" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_7" bpmnElement="Flow_8237a67f13084929bd496cf72e693e01">
+        <di:waypoint x="1550" y="295" />
+        <di:waypoint x="1574" y="295" />
+        <di:waypoint x="1574" y="305" />
+        <di:waypoint x="1756" y="305" />
+        <di:waypoint x="1756" y="315" />
+        <di:waypoint x="1780" y="315" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_8" bpmnElement="Flow_6fe5c378241a4eea894ae90d904c309e">
+        <di:waypoint x="1550" y="145" />
+        <di:waypoint x="1574" y="145" />
+        <di:waypoint x="1574" y="230" />
+        <di:waypoint x="1476" y="230" />
+        <di:waypoint x="1476" y="295" />
+        <di:waypoint x="1500" y="295" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1472" y="326" width="46" height="22" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_9" bpmnElement="Flow_239d4a9056364bbb9e48fa4bd5aa0e04">
+        <di:waypoint x="1550" y="133" />
+        <di:waypoint x="1574" y="133" />
+        <di:waypoint x="1574" y="141" />
+        <di:waypoint x="1756" y="141" />
+        <di:waypoint x="1756" y="138" />
+        <di:waypoint x="1780" y="138" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1748" y="85" width="54" height="22" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_10" bpmnElement="Flow_bb20db61c59049fcb3c7d878811d9ddb">
+        <di:waypoint x="1380" y="465" />
+        <di:waypoint x="1404" y="465" />
+        <di:waypoint x="1404" y="155" />
+        <di:waypoint x="1476" y="155" />
+        <di:waypoint x="1476" y="145" />
+        <di:waypoint x="1500" y="145" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_11" bpmnElement="Flow_302c519848ee42b3a09c1f00bbad9ea5">
+        <di:waypoint x="990" y="145" />
+        <di:waypoint x="1014" y="145" />
+        <di:waypoint x="1014" y="230" />
+        <di:waypoint x="1196" y="230" />
+        <di:waypoint x="1196" y="465" />
+        <di:waypoint x="1220" y="465" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_12" bpmnElement="Flow_05337cc968094b30a0cec7c8e3c4aaf2">
+        <di:waypoint x="1380" y="315" />
+        <di:waypoint x="1404" y="315" />
+        <di:waypoint x="1404" y="305" />
+        <di:waypoint x="1476" y="305" />
+        <di:waypoint x="1476" y="283" />
+        <di:waypoint x="1500" y="283" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_13" bpmnElement="Flow_90de30cefe024c19ae9987ea02e0c540">
+        <di:waypoint x="990" y="133" />
+        <di:waypoint x="1014" y="133" />
+        <di:waypoint x="1014" y="230" />
+        <di:waypoint x="1196" y="230" />
+        <di:waypoint x="1196" y="315" />
+        <di:waypoint x="1220" y="315" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_14" bpmnElement="Flow_3257d925b7f74b2f8726c0c5d2f75c14">
+        <di:waypoint x="710" y="145" />
+        <di:waypoint x="940" y="145" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="875" y="92" width="46" height="22" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_15" bpmnElement="Flow_fbaf1d38e0c040a392fceec09a8d31f1">
+        <di:waypoint x="1100" y="315" />
+        <di:waypoint x="1124" y="315" />
+        <di:waypoint x="1124" y="141" />
+        <di:waypoint x="1196" y="141" />
+        <di:waypoint x="1196" y="132" />
+        <di:waypoint x="1220" y="132" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_16" bpmnElement="Flow_91266c1aaf154fd59c2b7d4f660ae4c6">
+        <di:waypoint x="710" y="133" />
+        <di:waypoint x="734" y="133" />
+        <di:waypoint x="734" y="305" />
+        <di:waypoint x="916" y="305" />
+        <di:waypoint x="916" y="315" />
+        <di:waypoint x="940" y="315" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="908" y="346" width="54" height="22" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_17" bpmnElement="Flow_7ac9e98898ea42429c5d45921d7362b9">
+        <di:waypoint x="540" y="165" />
+        <di:waypoint x="564" y="165" />
+        <di:waypoint x="564" y="155" />
+        <di:waypoint x="636" y="155" />
+        <di:waypoint x="636" y="145" />
+        <di:waypoint x="660" y="145" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_18" bpmnElement="Flow_44304191da3f4fffb327e0fd4822f842">
+        <di:waypoint x="136" y="138" />
+        <di:waypoint x="160" y="138" />
+        <di:waypoint x="160" y="155" />
+        <di:waypoint x="356" y="155" />
+        <di:waypoint x="356" y="165" />
+        <di:waypoint x="380" y="165" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
