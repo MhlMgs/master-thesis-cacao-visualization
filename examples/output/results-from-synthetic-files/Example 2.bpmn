@@ -1,0 +1,389 @@
+<?xml version='1.0' encoding='utf-8'?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:cacao="https://example.org/cacao-bpmn/extensions" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_166cb5d9-8f56-40f3-95f5-fe10c0399969" targetNamespace="https://example.org/cacao-bpmn">
+  <bpmn:process id="Process_playbook_22222222-3333-4444-8555-666666666666" name="TI Enrichment and Escalation Demo" isExecutable="false">
+    <bpmn:extensionElements>
+      <cacao:property name="playbook_id" value="playbook--22222222-3333-4444-8555-666666666666" />
+      <cacao:property name="spec_version" value="cacao-2.0" />
+      <cacao:property name="playbook_types" value="[&quot;investigation&quot;, &quot;detection&quot;, &quot;notification&quot;]" />
+      <cacao:property name="playbook_activities" value="[&quot;enrich&quot;, &quot;validate&quot;, &quot;notify&quot;, &quot;document&quot;]" />
+      <cacao:property name="playbook_processing_summary" value="[&quot;Enrich suspicious indicators via external intelligence&quot;, &quot;Assess confidence and escalation need&quot;, &quot;Notify stakeholders when escalation is required&quot;]" />
+      <cacao:property name="workflow_start" value="start--ti-enrichment" />
+      <cacao:property name="created" value="2026-04-21T08:00:00Z" />
+      <cacao:property name="modified" value="2026-04-21T08:45:00Z" />
+      <cacao:property name="created_by" value="identity--bbbbbbbb-cccc-4ddd-8eee-ffffffffffff" />
+      <cacao:property name="valid_from" value="2026-04-21T00:00:00Z" />
+      <cacao:property name="valid_until" value="2027-04-21T00:00:00Z" />
+      <cacao:property name="revoked" value="false" />
+      <cacao:property name="derived_from" value="[&quot;playbook--11111111-aaaa-4bbb-8ccc-000000000001&quot;]" />
+      <cacao:property name="labels" value="[&quot;synthetic&quot;, &quot;threat-intel&quot;, &quot;escalation&quot;]" />
+      <cacao:property name="markings" value="[&quot;marking-definition--tlp-green&quot;]" />
+      <cacao:property name="industry_sectors" value="[&quot;healthcare&quot;, &quot;information-technology&quot;]" />
+    </bpmn:extensionElements>
+    <bpmn:startEvent id="StartEvent_start_ti_enrichment" name="Start Enrichment">
+      <bpmn:documentation>Entry point for indicator enrichment.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="start--ti-enrichment" />
+        <cacao:property name="cacao_step_type" value="start" />
+      </bpmn:extensionElements>
+    </bpmn:startEvent>
+    <bpmn:task id="Task_action_query_threat_api" name="Query Threat API">
+      <bpmn:documentation>Query an external threat intelligence source.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="action--query-threat-api" />
+        <cacao:property name="cacao_step_type" value="action" />
+        <cacao:property name="delay" value="PT5S" />
+        <cacao:property name="timeout" value="PT2M" />
+        <cacao:property name="in_args" value="[&quot;ioc_value&quot;, &quot;ioc_type&quot;, &quot;tlp_default&quot;]" />
+        <cacao:property name="out_args" value="[&quot;confidence_score&quot;, &quot;matched_campaign&quot;, &quot;recommended_channel&quot;]" />
+        <cacao:property name="step_variables" value="[&quot;api_request_id&quot;, &quot;request_datatype&quot;]" />
+        <cacao:property name="markings" value="[&quot;marking-definition--tlp-green&quot;]" />
+        <cacao:property name="step_extensions" value="[&quot;triage_score&quot;]" />
+        <cacao:property name="agent" value="group--soc-tier2" />
+        <cacao:property name="targets" value="[&quot;http-api--threatfeed&quot;, &quot;linux--mail-gateway&quot;, &quot;security-category--phishing&quot;]" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="Gateway_if_condition_requires_escalation" name="Escalation Required?">
+      <bpmn:documentation>Check whether the enrichment result requires escalation.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="if-condition--requires-escalation" />
+        <cacao:property name="cacao_step_type" value="if-condition" />
+        <cacao:property name="delay" value="PT0S" />
+        <cacao:property name="timeout" value="PT30S" />
+        <cacao:property name="step_variables" value="[&quot;decision_basis&quot;]" />
+        <cacao:property name="markings" value="[&quot;marking-definition--tlp-green&quot;]" />
+      </bpmn:extensionElements>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="Task_playbook_action_notify_cert" name="Call Escalation Notification Playbook">
+      <bpmn:documentation>Trigger a notification playbook for the CERT and affected business unit.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="playbook-action--notify-cert" />
+        <cacao:property name="cacao_step_type" value="playbook-action" />
+        <cacao:property name="in_args" value="[&quot;ioc_value&quot;, &quot;confidence_score&quot;, &quot;preferred_channel&quot;]" />
+        <cacao:property name="out_args" value="[&quot;notification_status&quot;]" />
+        <cacao:property name="step_variables" value="[&quot;notify_mode&quot;]" />
+        <cacao:property name="agent" value="organization--cert" />
+        <cacao:property name="targets" value="[&quot;organization--biz-unit&quot;]" />
+        <cacao:property name="playbook_id" value="playbook--notify-0001" />
+        <cacao:property name="playbook_version" value="1.2" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:task id="Task_action_document_escalation" name="Document Escalation Decision">
+      <bpmn:documentation>Document who was notified and why escalation was required.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="action--document-escalation" />
+        <cacao:property name="cacao_step_type" value="action" />
+        <cacao:property name="in_args" value="[&quot;ioc_value&quot;, &quot;confidence_score&quot;, &quot;notification_status&quot;]" />
+        <cacao:property name="out_args" value="[&quot;case_summary&quot;]" />
+        <cacao:property name="step_variables" value="[&quot;ticket_datatype&quot;, &quot;final_status&quot;]" />
+        <cacao:property name="agent" value="group--soc-tier2" />
+        <cacao:property name="targets" value="[&quot;organization--biz-unit&quot;, &quot;security-category--phishing&quot;]" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:endEvent id="EndEvent_end_completed" name="Close Enrichment Case">
+      <bpmn:documentation>Normal end of the enrichment and triage process.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="end--completed" />
+        <cacao:property name="cacao_step_type" value="end" />
+      </bpmn:extensionElements>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_dd4bfc4b50f4425ca21ea4f61fc4c83e" sourceRef="Task_action_document_escalation" targetRef="EndEvent_end_completed" />
+    <bpmn:sequenceFlow id="Flow_8c0ee50f90db4398bcd680931cf2f703" sourceRef="Task_playbook_action_notify_cert" targetRef="Task_action_document_escalation" />
+    <bpmn:sequenceFlow id="Flow_eaf8ef06470148d2b1cf449ba6c6ad35" sourceRef="Gateway_if_condition_requires_escalation" targetRef="Task_playbook_action_notify_cert" name="True" />
+    <bpmn:task id="Task_action_record_low_priority" name="Record Low Priority Finding">
+      <bpmn:documentation>Document the finding as monitored and not escalated.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="action--record-low-priority" />
+        <cacao:property name="cacao_step_type" value="action" />
+        <cacao:property name="in_args" value="[&quot;ioc_value&quot;, &quot;confidence_score&quot;]" />
+        <cacao:property name="out_args" value="[&quot;case_summary&quot;]" />
+        <cacao:property name="step_variables" value="[&quot;final_status&quot;]" />
+        <cacao:property name="agent" value="group--soc-tier2" />
+        <cacao:property name="targets" value="[&quot;linux--mail-gateway&quot;]" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_d82a9df7ebe747149581ad4612d5a43a" sourceRef="Task_action_record_low_priority" targetRef="EndEvent_end_completed" />
+    <bpmn:sequenceFlow id="Flow_3f0a18488f8d41ac855a5a2017089cf0" sourceRef="Gateway_if_condition_requires_escalation" targetRef="Task_action_record_low_priority" name="False" />
+    <bpmn:sequenceFlow id="Flow_04c4a6c471b9431ba669a6aaa5e263e1" sourceRef="Task_action_query_threat_api" targetRef="Gateway_if_condition_requires_escalation" name="Success" />
+    <bpmn:task id="Task_action_record_enrichment_failure" name="Record Enrichment Failure">
+      <bpmn:documentation>Document that the enrichment request failed and hand the case to manual review.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="action--record-enrichment-failure" />
+        <cacao:property name="cacao_step_type" value="action" />
+        <cacao:property name="in_args" value="[&quot;ioc_value&quot;, &quot;ioc_type&quot;]" />
+        <cacao:property name="out_args" value="[&quot;case_summary&quot;]" />
+        <cacao:property name="step_variables" value="[&quot;final_status&quot;]" />
+        <cacao:property name="agent" value="group--soc-tier2" />
+        <cacao:property name="targets" value="[&quot;http-api--threatfeed&quot;, &quot;linux--mail-gateway&quot;]" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:endEvent id="EndEvent_end_workflow_exception" name="Workflow Exception">
+      <bpmn:documentation>Fallback end point for unrecoverable enrichment issues.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="end--workflow-exception" />
+        <cacao:property name="cacao_step_type" value="end" />
+      </bpmn:extensionElements>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_40fba76c6d554c6fa222913f0ee5eb1a" sourceRef="Task_action_record_enrichment_failure" targetRef="EndEvent_end_workflow_exception" />
+    <bpmn:sequenceFlow id="Flow_e051f6e4b99e4a73ab7dca33ba5e84d0" sourceRef="Task_action_query_threat_api" targetRef="Task_action_record_enrichment_failure" name="Failure" />
+    <bpmn:sequenceFlow id="Flow_ea21734c35234faa8f7901d045973572" sourceRef="StartEvent_start_ti_enrichment" targetRef="Task_action_query_threat_api" />
+    <bpmn:textAnnotation id="TextAnnotation_a052df95fefd43e5a2faa497dcf3e60f">
+      <bpmn:text>META: id=playbook--22222222-3333-4444-8555-666666666666; name=TI Enrichment and Escalation Demo
+      description=Synthetic context-heavy playbook for metadata, auth, agents, targets, markings and
+variables with a simple workflow.; spec_version=cacao-2.0; playbook_types=investigation, detection,
+notification
+      playbook_activities=enrich, validate, notify, document; processing=Enrich suspicious indicators
+via external intelligence, Assess confidence and escalation need, Notify stakeholders when escalation is
+required
+      created=2026-04-21T08:00:00Z; modified=2026-04-21T08:45:00Z; valid_from=2026-04-21T00:00:00Z;
+valid_until=2027-04-21T00:00:00Z; workflow_start=start--ti-enrichment
+      created_by=identity--bbbbbbbb-cccc-4ddd-8eee-ffffffffffff; revoked=False;
+derived_from=playbook--11111111-aaaa-4bbb-8ccc-000000000001; labels=synthetic, threat-intel, escalation
+      industry_sectors=healthcare, information-technology; variables=ioc_value, ioc_type,
+confidence_score, escalation_required, preferred_channel, tlp_default, ... (+2 more)
+      authentication=Threat API Basic Auth [http-basic] (username=ti-reader), Notification API OAuth2
+[oauth2] (grant_type=client-credentials); marking_refs=marking-definition--tlp-green
+      data_markings=TLP:GREEN [TLP=green]; extensions=triage-score-extension (type=property-extension;
+version=1.0; schema=https://example.org/schema/triage-sco...)
+      signatures=RS256 (algorithm=RS256; issuer=Example CERT); external_references=2</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_814e513ee45344b9b98f73e597746c80" sourceRef="StartEvent_start_ti_enrichment" targetRef="TextAnnotation_a052df95fefd43e5a2faa497dcf3e60f" />
+    <bpmn:textAnnotation id="TextAnnotation_eb612478a019447eb91bfe944c590e40">
+      <bpmn:text>META: delay=PT5S; timeout=PT2M; markings=marking-definition--tlp-green
+DATA: commands=http-api:GET /v1/indicator/lookup?value=${ioc_value}&amp;typ...,
+      command_auth[0]=auth-info--http-basic, in_args=ioc_value, ioc_type, tlp_default,
+      out_args=confidence_score, matched_campaign, recommended_channel, variables=api_request_id,
+      request_datatype, extensions=triage_score, authentication=Threat API Basic Auth [http-basic]
+      (username=ti-reader)
+ROLE: agent=SOC Tier 2; type=group; targets=External Threat Feed API; type=http-api,
+      mail-gateway-01; type=linux-system, Phishing; type=security-category; category=phishing</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_b4dbe0aa6b1d4812899923e0edc2ce3a" sourceRef="Task_action_query_threat_api" targetRef="TextAnnotation_eb612478a019447eb91bfe944c590e40" />
+    <bpmn:textAnnotation id="TextAnnotation_614c6a3c8ec74f5d9c18025fe8ec7251">
+      <bpmn:text>DATA: commands=workflow-trigger:trigger escalation-notification-playbook,
+      command_auth[0]=auth-info--oauth2, in_args=ioc_value, confidence_score, preferred_channel,
+      out_args=notification_status, playbook_id=playbook--notify-0001, playbook_version=1.2,
+      variables=notify_mode, authentication=Notification API OAuth2 [oauth2]
+      (grant_type=client-credentials)
+ROLE: agent=Example CERT; type=organization; targets=Messaging Business Unit; type=organization</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_698ace4d4dfc401da0f31630f47be820" sourceRef="Task_playbook_action_notify_cert" targetRef="TextAnnotation_614c6a3c8ec74f5d9c18025fe8ec7251" />
+    <bpmn:textAnnotation id="TextAnnotation_2195ae8d8e384ef089f9b12fc7caaf61">
+      <bpmn:text>DATA: commands=manual:record escalation decision in the case system, in_args=ioc_value, confidence_score,
+      notification_status, out_args=case_summary, variables=ticket_datatype, final_status
+ROLE: agent=SOC Tier 2; type=group; targets=Messaging Business Unit; type=organization, Phishing;
+      type=security-category; category=phishing</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0891d6272cff4dc186ee2063b1dd4c6f" sourceRef="Task_action_document_escalation" targetRef="TextAnnotation_2195ae8d8e384ef089f9b12fc7caaf61" />
+    <bpmn:textAnnotation id="TextAnnotation_f4a0811b7a264dd8b83cdad3495eaffb">
+      <bpmn:text>DATA: commands=manual:create low-priority observation note, in_args=ioc_value,
+      confidence_score, out_args=case_summary, variables=final_status
+ROLE: agent=SOC Tier 2; type=group; targets=mail-gateway-01; type=linux-system</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_649037340e114e11962132176a37087c" sourceRef="Task_action_record_low_priority" targetRef="TextAnnotation_f4a0811b7a264dd8b83cdad3495eaffb" />
+    <bpmn:textAnnotation id="TextAnnotation_8ac1a7bed1324306906693138797268e">
+      <bpmn:text>DATA: commands=manual:record failed enrichment request and assign man...,
+      in_args=ioc_value, ioc_type, out_args=case_summary, variables=final_status,
+      authentication=Threat API Basic Auth [http-basic] (username=ti-reader)
+ROLE: agent=SOC Tier 2; type=group; targets=External Threat Feed API;
+      type=http-api, mail-gateway-01; type=linux-system</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_296d9b7587684690ab1506044fa5811e" sourceRef="Task_action_record_enrichment_failure" targetRef="TextAnnotation_8ac1a7bed1324306906693138797268e" />
+    <bpmn:textAnnotation id="TextAnnotation_626ed53b0fae4f6ab585ed7a84b5e573">
+      <bpmn:text>META: delay=PT0S; timeout=PT30S; markings=marking-definition--tlp-green
+DATA: variables=decision_basis
+COND: ${confidence_score &gt;= 70 || escalation_required == true}</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_c97b90726b4644d590535fb828d01778" sourceRef="Gateway_if_condition_requires_escalation" targetRef="TextAnnotation_626ed53b0fae4f6ab585ed7a84b5e573" />
+    <bpmn:textAnnotation id="TextAnnotation_addfe4e8793948eb80b540814a9c8b0e">
+      <bpmn:text>OUTCOME: workflow_exception endpoint</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0fc01f35bad94f0194aae0b1f69f9440" sourceRef="EndEvent_end_workflow_exception" targetRef="TextAnnotation_addfe4e8793948eb80b540814a9c8b0e" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_playbook_22222222-3333-4444-8555-666666666666">
+      <bpmndi:BPMNShape id="BPMNShape_0" bpmnElement="StartEvent_start_ti_enrichment">
+        <dc:Bounds x="100" y="120" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1" bpmnElement="Task_action_query_threat_api">
+        <dc:Bounds x="380" y="120" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_2" bpmnElement="Gateway_if_condition_requires_escalation">
+        <dc:Bounds x="660" y="120" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_3" bpmnElement="Task_action_record_enrichment_failure">
+        <dc:Bounds x="660" y="270" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_4" bpmnElement="EndEvent_end_workflow_exception">
+        <dc:Bounds x="940" y="120" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_5" bpmnElement="Task_action_record_low_priority">
+        <dc:Bounds x="940" y="270" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_6" bpmnElement="Task_playbook_action_notify_cert">
+        <dc:Bounds x="940" y="420" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_7" bpmnElement="EndEvent_end_completed">
+        <dc:Bounds x="1220" y="120" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_8" bpmnElement="Task_action_document_escalation">
+        <dc:Bounds x="1220" y="270" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_a052df95fefd43e5a2faa497dcf3e60f" bpmnElement="TextAnnotation_a052df95fefd43e5a2faa497dcf3e60f">
+        <dc:Bounds x="226" y="528" width="740" height="354" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_814e513ee45344b9b98f73e597746c80" bpmnElement="Association_814e513ee45344b9b98f73e597746c80">
+        <di:waypoint x="136" y="138" />
+        <di:waypoint x="166" y="138" />
+        <di:waypoint x="166" y="705" />
+        <di:waypoint x="226" y="705" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_eb612478a019447eb91bfe944c590e40" bpmnElement="TextAnnotation_eb612478a019447eb91bfe944c590e40">
+        <dc:Bounds x="630" y="894" width="700" height="174" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_b4dbe0aa6b1d4812899923e0edc2ce3a" bpmnElement="Association_b4dbe0aa6b1d4812899923e0edc2ce3a">
+        <di:waypoint x="540" y="165" />
+        <di:waypoint x="670" y="165" />
+        <di:waypoint x="670" y="981" />
+        <di:waypoint x="630" y="981" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_614c6a3c8ec74f5d9c18025fe8ec7251" bpmnElement="TextAnnotation_614c6a3c8ec74f5d9c18025fe8ec7251">
+        <dc:Bounds x="1190" y="420" width="700" height="138" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_698ace4d4dfc401da0f31630f47be820" bpmnElement="Association_698ace4d4dfc401da0f31630f47be820">
+        <di:waypoint x="1100" y="465" />
+        <di:waypoint x="1130" y="465" />
+        <di:waypoint x="1130" y="489" />
+        <di:waypoint x="1190" y="489" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_2195ae8d8e384ef089f9b12fc7caaf61" bpmnElement="TextAnnotation_2195ae8d8e384ef089f9b12fc7caaf61">
+        <dc:Bounds x="1470" y="270" width="760" height="102" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_0891d6272cff4dc186ee2063b1dd4c6f" bpmnElement="Association_0891d6272cff4dc186ee2063b1dd4c6f">
+        <di:waypoint x="1380" y="315" />
+        <di:waypoint x="1410" y="315" />
+        <di:waypoint x="1410" y="321" />
+        <di:waypoint x="1470" y="321" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_f4a0811b7a264dd8b83cdad3495eaffb" bpmnElement="TextAnnotation_f4a0811b7a264dd8b83cdad3495eaffb">
+        <dc:Bounds x="1340" y="142" width="580" height="84" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_649037340e114e11962132176a37087c" bpmnElement="Association_649037340e114e11962132176a37087c">
+        <di:waypoint x="1100" y="315" />
+        <di:waypoint x="1130" y="315" />
+        <di:waypoint x="1130" y="184" />
+        <di:waypoint x="1340" y="184" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_8ac1a7bed1324306906693138797268e" bpmnElement="TextAnnotation_8ac1a7bed1324306906693138797268e">
+        <dc:Bounds x="1060" y="572" width="580" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_296d9b7587684690ab1506044fa5811e" bpmnElement="Association_296d9b7587684690ab1506044fa5811e">
+        <di:waypoint x="820" y="315" />
+        <di:waypoint x="1100" y="315" />
+        <di:waypoint x="1100" y="632" />
+        <di:waypoint x="1060" y="632" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_626ed53b0fae4f6ab585ed7a84b5e573" bpmnElement="TextAnnotation_626ed53b0fae4f6ab585ed7a84b5e573">
+        <dc:Bounds x="1520" y="40" width="520" height="84" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_c97b90726b4644d590535fb828d01778" bpmnElement="Association_c97b90726b4644d590535fb828d01778">
+        <di:waypoint x="710" y="145" />
+        <di:waypoint x="740" y="145" />
+        <di:waypoint x="740" y="82" />
+        <di:waypoint x="1520" y="82" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_addfe4e8793948eb80b540814a9c8b0e" bpmnElement="TextAnnotation_addfe4e8793948eb80b540814a9c8b0e">
+        <dc:Bounds x="1066" y="704" width="400" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_0fc01f35bad94f0194aae0b1f69f9440" bpmnElement="Association_0fc01f35bad94f0194aae0b1f69f9440">
+        <di:waypoint x="976" y="138" />
+        <di:waypoint x="1106" y="138" />
+        <di:waypoint x="1106" y="742" />
+        <di:waypoint x="1066" y="742" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_0" bpmnElement="Flow_dd4bfc4b50f4425ca21ea4f61fc4c83e">
+        <di:waypoint x="1380" y="315" />
+        <di:waypoint x="1404" y="315" />
+        <di:waypoint x="1404" y="240" />
+        <di:waypoint x="1280" y="240" />
+        <di:waypoint x="1280" y="138" />
+        <di:waypoint x="1256" y="138" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_1" bpmnElement="Flow_8c0ee50f90db4398bcd680931cf2f703">
+        <di:waypoint x="1100" y="465" />
+        <di:waypoint x="1124" y="465" />
+        <di:waypoint x="1124" y="390" />
+        <di:waypoint x="1196" y="390" />
+        <di:waypoint x="1196" y="315" />
+        <di:waypoint x="1220" y="315" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_2" bpmnElement="Flow_eaf8ef06470148d2b1cf449ba6c6ad35">
+        <di:waypoint x="710" y="145" />
+        <di:waypoint x="734" y="145" />
+        <di:waypoint x="734" y="240" />
+        <di:waypoint x="916" y="240" />
+        <di:waypoint x="916" y="465" />
+        <di:waypoint x="940" y="465" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="912" y="496" width="46" height="22" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_3" bpmnElement="Flow_d82a9df7ebe747149581ad4612d5a43a">
+        <di:waypoint x="1100" y="315" />
+        <di:waypoint x="1124" y="315" />
+        <di:waypoint x="1124" y="141" />
+        <di:waypoint x="1196" y="141" />
+        <di:waypoint x="1196" y="132" />
+        <di:waypoint x="1220" y="132" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_4" bpmnElement="Flow_3f0a18488f8d41ac855a5a2017089cf0">
+        <di:waypoint x="710" y="133" />
+        <di:waypoint x="734" y="133" />
+        <di:waypoint x="734" y="240" />
+        <di:waypoint x="916" y="240" />
+        <di:waypoint x="916" y="315" />
+        <di:waypoint x="940" y="315" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="908" y="262" width="54" height="22" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_5" bpmnElement="Flow_04c4a6c471b9431ba669a6aaa5e263e1">
+        <di:waypoint x="540" y="165" />
+        <di:waypoint x="564" y="165" />
+        <di:waypoint x="564" y="155" />
+        <di:waypoint x="636" y="155" />
+        <di:waypoint x="636" y="145" />
+        <di:waypoint x="660" y="145" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="620" y="92" width="70" height="22" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_6" bpmnElement="Flow_40fba76c6d554c6fa222913f0ee5eb1a">
+        <di:waypoint x="820" y="315" />
+        <di:waypoint x="844" y="315" />
+        <di:waypoint x="844" y="141" />
+        <di:waypoint x="916" y="141" />
+        <di:waypoint x="916" y="138" />
+        <di:waypoint x="940" y="138" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_7" bpmnElement="Flow_e051f6e4b99e4a73ab7dca33ba5e84d0">
+        <di:waypoint x="540" y="153" />
+        <di:waypoint x="564" y="153" />
+        <di:waypoint x="564" y="240" />
+        <di:waypoint x="636" y="240" />
+        <di:waypoint x="636" y="315" />
+        <di:waypoint x="660" y="315" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="620" y="346" width="70" height="22" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_8" bpmnElement="Flow_ea21734c35234faa8f7901d045973572">
+        <di:waypoint x="136" y="138" />
+        <di:waypoint x="160" y="138" />
+        <di:waypoint x="160" y="155" />
+        <di:waypoint x="356" y="155" />
+        <di:waypoint x="356" y="165" />
+        <di:waypoint x="380" y="165" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
