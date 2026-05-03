@@ -1,0 +1,402 @@
+{
+  "type": "playbook",
+  "spec_version": "2.0",
+  "id": "playbook--3c4d5e6f-1111-4222-8333-1234567890ab",
+  "name": "Phishing Investigation and Remediation Demonstration",
+  "description": "Synthetic playbook used to demonstrate a combined semi-automated phishing investigation and remediation workflow.",
+  "playbook_types": [
+    "investigation",
+    "remediation",
+    "notification"
+  ],
+  "playbook_activities": [
+    "analyze-collected-data",
+    "restrict-access",
+    "notify"
+  ],
+  "playbook_processing_summary": "Combines analyst review, automated account restriction and stakeholder notification.",
+  "created": "2025-04-24T09:00:00Z",
+  "modified": "2025-04-24T09:00:00Z",
+  "created_by": "identity--9b8f4e12-aaaa-4b56-9c12-abcdefabcdef",
+  "valid_from": "2025-04-24T09:00:00Z",
+  "valid_until": "2026-04-24T09:00:00Z",
+  "revoked": false,
+  "derived_from": [
+    "playbook--legacy-phishing-investigation-demo"
+  ],
+  "labels": [
+    "synthetic",
+    "phishing",
+    "validation-demo"
+  ],
+  "markings": [
+    "marking-definition--tlp-green-demo"
+  ],
+  "industry_sectors": [
+    "finance",
+    "government"
+  ],
+  "external_references": [
+    {
+      "source_name": "Internal Phishing SOP",
+      "description": "Reference operating procedure for phishing cases.",
+      "url": "https://example.org/phishing-sop"
+    }
+  ],
+  "signatures": [
+    {
+      "type": "jws",
+      "issuer": "security-automation-lab",
+      "algorithm": "RS256"
+    }
+  ],
+  "playbook_variables": {
+    "phishing_score": {
+      "type": "integer",
+      "description": "Confidence score for phishing classification."
+    },
+    "mailbox_user": {
+      "type": "string",
+      "description": "Primary user associated with the reported message."
+    },
+    "contains_malicious_link": {
+      "type": "boolean",
+      "description": "Flag indicating a malicious URL in the message."
+    },
+    "notification_required": {
+      "type": "boolean",
+      "description": "Whether stakeholders must be informed."
+    }
+  },
+  "authentication_info_definitions": {
+    "auth-info--soar-api": {
+      "type": "http-api-key",
+      "name": "SOAR API Key",
+      "description": "API key used for SOAR and email security service access.",
+      "key_name": "X-API-Key"
+    }
+  },
+  "extension_definitions": {
+    "extension-definition--phishing-demo": {
+      "type": "property-extension",
+      "name": "Phishing Case Extension",
+      "description": "Synthetic extension describing case urgency and mail source details.",
+      "version": "1.0",
+      "schema": "https://example.org/schemas/phishing-case-extension.json"
+    }
+  },
+  "data_marking_definitions": {
+    "marking-definition--tlp-green-demo": {
+      "type": "marking-tlp",
+      "name": "TLP:GREEN",
+      "tlp": "green",
+      "description": "Shareable within the wider community according to TLP GREEN."
+    }
+  },
+  "agent_definitions": {
+    "group--soc-tier2": {
+      "type": "group",
+      "name": "SOC Tier 2",
+      "description": "Analysts responsible for phishing triage and escalation."
+    },
+    "organization--security-ops": {
+      "type": "organization",
+      "name": "Security Operations",
+      "description": "Operational security organization owning the workflow."
+    },
+    "software--mail-gateway": {
+      "type": "software",
+      "name": "Mail Gateway",
+      "description": "Mail security platform queried for message enrichment."
+    },
+    "http-api--soar": {
+      "type": "http-api",
+      "name": "SOAR Platform API",
+      "description": "API endpoint used to isolate identities and create records."
+    },
+    "security-category--phishing": {
+      "type": "security-category",
+      "name": "Phishing",
+      "description": "Security category for phishing-related handling.",
+      "category": [
+        "phishing"
+      ]
+    }
+  },
+  "target_definitions": {
+    "linux--mail-analysis-host": {
+      "type": "linux-system",
+      "name": "Mail Analysis Host",
+      "description": "Linux sandbox host used to analyze suspicious message artifacts."
+    },
+    "http-api--email-archive": {
+      "type": "http-api",
+      "name": "Email Archive API",
+      "description": "Archive API providing message metadata and headers."
+    },
+    "security-category--credential-theft": {
+      "type": "security-category",
+      "name": "Credential Theft",
+      "description": "Potential downstream impact category.",
+      "category": [
+        "credential-theft"
+      ]
+    },
+    "organization--hr": {
+      "type": "organization",
+      "name": "Human Resources",
+      "description": "Stakeholder group informed for user communication."
+    }
+  },
+  "workflow_start": "start--phishing",
+  "workflow_exception": "end--exception",
+  "workflow": {
+    "start--phishing": {
+      "type": "start",
+      "name": "Start Investigation",
+      "description": "Begin handling of a reported phishing email.",
+      "on_completion": "action--review-alert"
+    },
+    "action--review-alert": {
+      "type": "action",
+      "name": "Review Reported Alert",
+      "description": "Analyst reviews the reported message and initial enrichment context.",
+      "agent": "group--soc-tier2",
+      "targets": [
+        "http-api--email-archive",
+        "linux--mail-analysis-host"
+      ],
+      "commands": [
+        {
+          "type": "http-api",
+          "command": "POST /mail/archive/query with reported_message_id",
+          "authentication_info": [
+            "auth-info--soar-api"
+          ]
+        }
+      ],
+      "in_args": [
+        "reported_message_id",
+        "reporting_user"
+      ],
+      "out_args": [
+        "message_headers",
+        "mailbox_user",
+        "phishing_score"
+      ],
+      "step_variables": {
+        "triage_status": "under_review"
+      },
+      "delay": "PT5M",
+      "timeout": "PT20M",
+      "markings": [
+        "marking-definition--tlp-green-demo"
+      ],
+      "step_extensions": [
+        "extension-definition--phishing-demo"
+      ],
+      "on_completion": "if--credible"
+    },
+    "if--credible": {
+      "type": "if-condition",
+      "name": "Phishing Credible?",
+      "description": "Determine whether the reported email should be treated as a phishing incident.",
+      "condition": "${phishing_score >= 70 || contains_malicious_link == true}",
+      "on_true": "parallel--response",
+      "on_false": "action--record-benign"
+    },
+    "action--record-benign": {
+      "type": "action",
+      "name": "Record Benign Outcome",
+      "description": "Document the alert as benign and retain the enrichment result.",
+      "agent": "organization--security-ops",
+      "targets": [
+        "security-category--credential-theft"
+      ],
+      "commands": [
+        {
+          "type": "manual",
+          "command": "Document benign classification in case management system."
+        }
+      ],
+      "out_args": [
+        "case_status=benign_closed"
+      ],
+      "on_completion": "end--closed"
+    },
+    "parallel--response": {
+      "type": "parallel",
+      "name": "Immediate Response Activities",
+      "description": "Perform automated restriction and evidence collection in parallel.",
+      "next_steps": [
+        "action--disable-account",
+        "action--collect-artifacts"
+      ],
+      "on_completion": null
+    },
+    "action--disable-account": {
+      "type": "action",
+      "name": "Disable Account via OpenC2",
+      "description": "Use the SOAR platform to suspend the impacted mailbox account.",
+      "agent": "http-api--soar",
+      "targets": [
+        "security-category--credential-theft"
+      ],
+      "commands": [
+        {
+          "type": "openc2-http",
+          "command": "POST /openc2/actuator/account action=deny target=mailbox_user",
+          "authentication_info": [
+            "auth-info--soar-api"
+          ]
+        }
+      ],
+      "in_args": [
+        "mailbox_user"
+      ],
+      "out_args": [
+        "account_status=disabled"
+      ],
+      "step_variables": {
+        "notification_required": true
+      },
+      "on_completion": "if--disable-successful"
+    },
+    "if--disable-successful": {
+      "type": "if-condition",
+      "name": "Account Disable Successful?",
+      "description": "Check whether automated account disabling completed successfully before synchronizing the immediate response branches.",
+      "condition": "${account_status == \"disabled\"}",
+      "on_true": "parallel--response-join",
+      "on_false": "end--exception"
+    },
+    "action--collect-artifacts": {
+      "type": "action",
+      "name": "Collect Mailbox Artifacts",
+      "description": "Collect headers, attachments and URLs for later review.",
+      "agent": "software--mail-gateway",
+      "targets": [
+        "linux--mail-analysis-host"
+      ],
+      "commands": [
+        {
+          "type": "bash",
+          "command": "extract_mail_artifacts.sh --case ${reported_message_id}"
+        }
+      ],
+      "in_args": [
+        "reported_message_id"
+      ],
+      "out_args": [
+        "artifact_bundle",
+        "contains_malicious_link"
+      ],
+      "step_variables": {
+        "artifact_status": "collected"
+      },
+      "on_completion": "parallel--response-join"
+    },
+    "parallel--response-join": {
+      "type": "parallel",
+      "name": "Join Immediate Response Activities",
+      "description": "Synchronize the successful account disable path with artifact collection before documentation.",
+      "next_steps": [
+        "action--document-response"
+      ]
+    },
+    "action--document-response": {
+      "type": "action",
+      "name": "Document Immediate Response",
+      "description": "Record the first response actions in the case system.",
+      "agent": "organization--security-ops",
+      "targets": [
+        "security-category--phishing"
+      ],
+      "commands": [
+        {
+          "type": "manual",
+          "command": "Update the case record with immediate response outcomes."
+        }
+      ],
+      "out_args": [
+        "case_status=contained"
+      ],
+      "on_completion": "switch--escalation"
+    },
+    "switch--escalation": {
+      "type": "switch-condition",
+      "name": "Select Additional Escalation Path",
+      "description": "Choose the next path based on confidence and communication needs.",
+      "cases": {
+        "high-confidence": "playbook-action--notify-stakeholders",
+        "requires-hunting": "action--manual-review"
+      },
+      "default": "action--close-contained"
+    },
+    "playbook-action--notify-stakeholders": {
+      "type": "playbook-action",
+      "name": "Call Stakeholder Notification Playbook",
+      "description": "Invoke a separate notification playbook for business stakeholders.",
+      "agent": "organization--security-ops",
+      "targets": [
+        "organization--hr"
+      ],
+      "playbook_id": "playbook--stakeholder-notification-demo",
+      "playbook_version": "1.0",
+      "in_args": [
+        "mailbox_user",
+        "artifact_bundle"
+      ],
+      "out_args": [
+        "notification_status=sent"
+      ],
+      "on_completion": "action--close-contained"
+    },
+    "action--manual-review": {
+      "type": "action",
+      "name": "Escalate to Manual Review",
+      "description": "Escalate the case to deeper analyst review and scope assessment.",
+      "agent": "group--soc-tier2",
+      "targets": [
+        "security-category--credential-theft"
+      ],
+      "commands": [
+        {
+          "type": "manual",
+          "command": "Assign case to senior analyst and request deeper review."
+        }
+      ],
+      "timeout": "PT45M",
+      "on_completion": "action--close-contained"
+    },
+    "action--close-contained": {
+      "type": "action",
+      "name": "Close Contained Case",
+      "description": "Finalize the phishing case after remediation and communication steps.",
+      "agent": "organization--security-ops",
+      "targets": [
+        "security-category--phishing"
+      ],
+      "commands": [
+        {
+          "type": "manual",
+          "command": "Mark case as contained and close the workflow."
+        }
+      ],
+      "out_args": [
+        "case_status=closed_contained"
+      ],
+      "on_completion": "end--closed"
+    },
+    "end--closed": {
+      "type": "end",
+      "name": "Case Closed",
+      "description": "The phishing case has been finalized."
+    },
+    "end--exception": {
+      "type": "end",
+      "name": "Workflow Exception End",
+      "description": "Used when automated restriction or enrichment cannot be completed."
+    }
+  }
+}

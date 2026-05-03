@@ -1,0 +1,363 @@
+{
+  "type": "playbook",
+  "spec_version": "cacao-2.0",
+  "id": "playbook--22222222-3333-4444-8555-666666666666",
+  "name": "TI Enrichment and Escalation Demo",
+  "description": "Synthetic context-heavy playbook for metadata, auth, agents, targets, markings and variables with a simple workflow.",
+  "playbook_types": [
+    "investigation",
+    "detection",
+    "notification"
+  ],
+  "playbook_activities": [
+    "enrich",
+    "validate",
+    "notify",
+    "document"
+  ],
+  "playbook_processing_summary": [
+    "Enrich suspicious indicators via external intelligence",
+    "Assess confidence and escalation need",
+    "Notify stakeholders when escalation is required"
+  ],
+  "playbook_variables": {
+    "ioc_value": "198.51.100.77",
+    "ioc_type": "ipv4-addr",
+    "confidence_score": 35,
+    "escalation_required": false,
+    "preferred_channel": "internal",
+    "tlp_default": "green",
+    "tags": [
+      "credential-access",
+      "email-gateway"
+    ],
+    "sample_context": {
+      "region": "eu-central",
+      "tenant": "alpha"
+    }
+  },
+  "created_by": "identity--bbbbbbbb-cccc-4ddd-8eee-ffffffffffff",
+  "created": "2026-04-21T08:00:00Z",
+  "modified": "2026-04-21T08:45:00Z",
+  "valid_from": "2026-04-21T00:00:00Z",
+  "valid_until": "2027-04-21T00:00:00Z",
+  "revoked": false,
+  "derived_from": [
+    "playbook--11111111-aaaa-4bbb-8ccc-000000000001"
+  ],
+  "labels": [
+    "synthetic",
+    "threat-intel",
+    "escalation"
+  ],
+  "markings": [
+    "marking-definition--tlp-green"
+  ],
+  "industry_sectors": [
+    "healthcare",
+    "information-technology"
+  ],
+  "external_references": [
+    {
+      "source_name": "Intel Handling SOP",
+      "description": "Reference process for TI triage.",
+      "url": "https://example.org/ti-sop"
+    },
+    {
+      "source_name": "Escalation Matrix",
+      "description": "Stakeholder escalation matrix.",
+      "external_id": "ESC-042"
+    }
+  ],
+  "signatures": [
+    {
+      "id": "signature--ti-demo-001",
+      "type": "jws",
+      "issuer": "Example CERT",
+      "algorithm": "RS256"
+    }
+  ],
+  "authentication_info_definitions": {
+    "auth-info--http-basic": {
+      "type": "http-basic",
+      "name": "Threat API Basic Auth",
+      "description": "Basic auth for the external TI API.",
+      "username": "ti-reader"
+    },
+    "auth-info--oauth2": {
+      "type": "oauth2",
+      "name": "Notification API OAuth2",
+      "description": "OAuth2 client credentials for the messaging endpoint.",
+      "grant_type": "client-credentials"
+    }
+  },
+  "extension_definitions": {
+    "extension-definition--triage-score": {
+      "name": "triage-score-extension",
+      "description": "Custom triage score metadata.",
+      "type": "property-extension",
+      "version": "1.0",
+      "schema": "https://example.org/schema/triage-score.json"
+    }
+  },
+  "data_marking_definitions": {
+    "marking-definition--tlp-green": {
+      "type": "marking-definition",
+      "name": "TLP:GREEN",
+      "definition_type": "tlp",
+      "tlp": "green"
+    }
+  },
+  "agent_definitions": {
+    "group--soc-tier2": {
+      "type": "group",
+      "name": "SOC Tier 2",
+      "description": "Analyst group for enrichment and triage."
+    },
+    "organization--cert": {
+      "type": "organization",
+      "name": "Example CERT",
+      "description": "Internal incident coordination team."
+    },
+    "sector--healthcare": {
+      "type": "sector",
+      "name": "Healthcare",
+      "description": "Affected sector context."
+    },
+    "security-category--credential-access": {
+      "type": "security-category",
+      "name": "Credential Access",
+      "description": "Relevant security category.",
+      "category": [
+        "credential-access"
+      ]
+    }
+  },
+  "target_definitions": {
+    "http-api--threatfeed": {
+      "type": "http-api",
+      "name": "External Threat Feed API",
+      "description": "Threat intelligence HTTP API.",
+      "authentication_info": [
+        "auth-info--http-basic"
+      ]
+    },
+    "linux--mail-gateway": {
+      "type": "linux-system",
+      "name": "mail-gateway-01",
+      "description": "Linux email gateway tied to the IOC."
+    },
+    "organization--biz-unit": {
+      "type": "organization",
+      "name": "Messaging Business Unit",
+      "description": "Business unit owning the affected asset."
+    },
+    "security-category--phishing": {
+      "type": "security-category",
+      "name": "Phishing",
+      "description": "Security category linked to the IOC.",
+      "category": [
+        "phishing"
+      ]
+    }
+  },
+  "workflow_start": "start--ti-enrichment",
+  "workflow_exception": "end--workflow-exception",
+  "workflow": {
+    "start--ti-enrichment": {
+      "type": "start",
+      "name": "Start Enrichment",
+      "description": "Entry point for indicator enrichment.",
+      "on_completion": "action--query-threat-api"
+    },
+    "action--query-threat-api": {
+      "type": "action",
+      "name": "Query Threat API",
+      "description": "Query an external threat intelligence source.",
+      "delay": "PT5S",
+      "timeout": "PT2M",
+      "step_variables": {
+        "api_request_id": "req-445",
+        "request_datatype": "identifier"
+      },
+      "in_args": [
+        "ioc_value",
+        "ioc_type",
+        "tlp_default"
+      ],
+      "out_args": [
+        "confidence_score",
+        "matched_campaign",
+        "recommended_channel"
+      ],
+      "markings": [
+        "marking-definition--tlp-green"
+      ],
+      "step_extensions": {
+        "triage_score": {
+          "extension_definition": "extension-definition--triage-score",
+          "value": 73
+        }
+      },
+      "commands": [
+        {
+          "type": "http-api",
+          "method": "GET",
+          "endpoint": "/v1/indicator/lookup",
+          "command": "GET /v1/indicator/lookup?value=${ioc_value}&type=${ioc_type}",
+          "authentication_info": [
+            "auth-info--http-basic"
+          ]
+        }
+      ],
+      "agent": "group--soc-tier2",
+      "targets": [
+        "http-api--threatfeed",
+        "linux--mail-gateway",
+        "security-category--phishing"
+      ],
+      "on_success": "if-condition--requires-escalation",
+      "on_failure": "action--record-enrichment-failure"
+    },
+    "if-condition--requires-escalation": {
+      "type": "if-condition",
+      "name": "Escalation Required?",
+      "description": "Check whether the enrichment result requires escalation.",
+      "condition": "${confidence_score >= 70 || escalation_required == true}",
+      "delay": "PT0S",
+      "timeout": "PT30S",
+      "step_variables": {
+        "decision_basis": "score-policy"
+      },
+      "markings": [
+        "marking-definition--tlp-green"
+      ],
+      "on_true": "playbook-action--notify-cert",
+      "on_false": "action--record-low-priority"
+    },
+    "playbook-action--notify-cert": {
+      "type": "playbook-action",
+      "name": "Call Escalation Notification Playbook",
+      "description": "Trigger a notification playbook for the CERT and affected business unit.",
+      "in_args": [
+        "ioc_value",
+        "confidence_score",
+        "preferred_channel"
+      ],
+      "out_args": [
+        "notification_status"
+      ],
+      "step_variables": {
+        "notify_mode": "internal"
+      },
+      "commands": [
+        {
+          "type": "workflow-trigger",
+          "command": "trigger escalation-notification-playbook",
+          "authentication_info": [
+            "auth-info--oauth2"
+          ]
+        }
+      ],
+      "agent": "organization--cert",
+      "targets": [
+        "organization--biz-unit"
+      ],
+      "playbook_id": "playbook--notify-0001",
+      "playbook_version": "1.2",
+      "on_completion": "action--document-escalation"
+    },
+    "action--document-escalation": {
+      "type": "action",
+      "name": "Document Escalation Decision",
+      "description": "Document who was notified and why escalation was required.",
+      "step_variables": {
+        "ticket_datatype": "identifier",
+        "final_status": "escalated"
+      },
+      "in_args": [
+        "ioc_value",
+        "confidence_score",
+        "notification_status"
+      ],
+      "out_args": [
+        "case_summary"
+      ],
+      "commands": [
+        {
+          "type": "manual",
+          "command": "record escalation decision in the case system"
+        }
+      ],
+      "agent": "group--soc-tier2",
+      "targets": [
+        "organization--biz-unit",
+        "security-category--phishing"
+      ],
+      "on_completion": "end--completed"
+    },
+    "action--record-low-priority": {
+      "type": "action",
+      "name": "Record Low Priority Finding",
+      "description": "Document the finding as monitored and not escalated.",
+      "step_variables": {
+        "final_status": "monitored"
+      },
+      "in_args": [
+        "ioc_value",
+        "confidence_score"
+      ],
+      "out_args": [
+        "case_summary"
+      ],
+      "commands": [
+        {
+          "type": "manual",
+          "command": "create low-priority observation note"
+        }
+      ],
+      "agent": "group--soc-tier2",
+      "targets": [
+        "linux--mail-gateway"
+      ],
+      "on_completion": "end--completed"
+    },
+    "end--completed": {
+      "type": "end",
+      "name": "Close Enrichment Case",
+      "description": "Normal end of the enrichment and triage process."
+    },
+    "end--workflow-exception": {
+      "type": "end",
+      "name": "Workflow Exception",
+      "description": "Fallback end point for unrecoverable enrichment issues."
+    },
+    "action--record-enrichment-failure": {
+      "type": "action",
+      "name": "Record Enrichment Failure",
+      "description": "Document that the enrichment request failed and hand the case to manual review.",
+      "step_variables": {
+        "final_status": "enrichment-failed"
+      },
+      "in_args": [
+        "ioc_value",
+        "ioc_type"
+      ],
+      "out_args": [
+        "case_summary"
+      ],
+      "commands": [
+        {
+          "type": "manual",
+          "command": "record failed enrichment request and assign manual review"
+        }
+      ],
+      "agent": "group--soc-tier2",
+      "targets": [
+        "http-api--threatfeed",
+        "linux--mail-gateway"
+      ],
+      "on_completion": "end--workflow-exception"
+    }
+  }
+}

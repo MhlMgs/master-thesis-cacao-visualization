@@ -1,0 +1,373 @@
+{
+  "type": "playbook",
+  "spec_version": "cacao-2.0",
+  "id": "playbook--11111111-2222-4333-8444-555555555555",
+  "name": "Extended Incident Response Demonstration",
+  "description": "Synthetic playbook to demonstrate a broader curated subset of CACAO constructs and properties.",
+  "playbook_types": [
+    "investigation",
+    "mitigation",
+    "notification"
+  ],
+  "playbook_activities": [
+    "identify",
+    "analyze",
+    "contain",
+    "notify"
+  ],
+  "playbook_processing_summary": [
+    "Investigate suspicious host activity",
+    "Contain compromised assets",
+    "Notify stakeholders and preserve evidence"
+  ],
+  "playbook_variables": {
+    "severity": "high",
+    "asset_count": 3,
+    "notification_required": true,
+    "max_iterations": 2,
+    "tlp_default": "amber"
+  },
+  "created_by": "identity--aaaaaaaa-bbbb-4ccc-8ddd-eeeeeeeeeeee",
+  "created": "2026-04-20T09:00:00Z",
+  "modified": "2026-04-20T09:30:00Z",
+  "valid_from": "2026-04-20T00:00:00Z",
+  "valid_until": "2027-04-20T00:00:00Z",
+  "revoked": false,
+  "derived_from": [
+    "playbook--00000000-1111-4222-8333-444444444444"
+  ],
+  "labels": [
+    "synthetic",
+    "incident-response",
+    "demo"
+  ],
+  "markings": [
+    "marking-definition--tlp-amber"
+  ],
+  "industry_sectors": [
+    "information-technology",
+    "public-sector"
+  ],
+  "external_references": [
+    {
+      "source_name": "Internal IR Guide",
+      "description": "Internal incident handling guide used as reference.",
+      "url": "https://example.org/ir-guide"
+    }
+  ],
+  "signatures": [
+    {
+      "signature_type": "jws",
+      "algorithm": "RS256",
+      "issuer": "Example-CA"
+    }
+  ],
+  "authentication_info_definitions": {
+    "auth--basic-api": {
+      "type": "http-basic",
+      "name": "Containment API Basic Auth",
+      "username": "soc_automation"
+    },
+    "auth--oauth2-ticketing": {
+      "type": "oauth2",
+      "name": "Ticketing OAuth2",
+      "token_type": "bearer",
+      "grant_type": "client_credentials",
+      "scopes": [
+        "tickets.write",
+        "tickets.read"
+      ]
+    }
+  },
+  "extension_definitions": {
+    "extension-definition--host-risk": {
+      "name": "Host Risk Extension",
+      "type": "property-extension",
+      "version": "1.0",
+      "schema": "https://example.org/schema/host-risk.json"
+    }
+  },
+  "data_marking_definitions": {
+    "marking-definition--tlp-amber": {
+      "name": "Amber Sharing Restriction",
+      "type": "tlp-marking",
+      "tlp": "amber"
+    }
+  },
+  "agent_definitions": {
+    "group--soc-team": {
+      "type": "group",
+      "name": "SOC Team",
+      "contact": "soc@example.org"
+    },
+    "organization--it-ops": {
+      "type": "organization",
+      "name": "IT Operations",
+      "organization_name": "Example Corp"
+    },
+    "security-category--containment": {
+      "type": "security-category",
+      "name": "Containment Controls",
+      "security_category": "containment"
+    }
+  },
+  "target_definitions": {
+    "linux--app-server-01": {
+      "type": "linux",
+      "name": "Application Server 01",
+      "hostname": "app-01",
+      "fqdn": "app-01.example.org",
+      "path": "/var/www/html"
+    },
+    "http-api--containment": {
+      "type": "http-api",
+      "name": "Containment Platform API",
+      "http_url": "https://api.example.org/contain"
+    },
+    "sector--public": {
+      "type": "sector",
+      "name": "Public Sector",
+      "sector": "government"
+    },
+    "security-category--endpoint": {
+      "type": "security-category",
+      "name": "Endpoint Security",
+      "category": [
+        "endpoint-security",
+        "monitoring"
+      ]
+    }
+  },
+  "workflow_exception": "end--workflow-exception",
+  "workflow_start": "start--01",
+  "workflow": {
+    "start--01": {
+      "type": "start",
+      "name": "Suspicious Alert Received",
+      "description": "Start the incident handling workflow.",
+      "on_completion": "action--triage"
+    },
+    "action--triage": {
+      "type": "action",
+      "name": "Initial Triage",
+      "description": "Validate the alert and enrich context.",
+      "delay": "PT5M",
+      "timeout": "PT30M",
+      "markings": [
+        "marking-definition--tlp-amber"
+      ],
+      "step_variables": {
+        "triage_status": "pending",
+        "evidence_collected": false
+      },
+      "in_args": [
+        "alert_id",
+        "host_identifier",
+        "severity"
+      ],
+      "out_args": [
+        "triage_status",
+        "evidence_bundle"
+      ],
+      "step_extensions": {
+        "host-risk-score": "high"
+      },
+      "commands": [
+        {
+          "type": "manual",
+          "command": "Review telemetry and confirm whether the alert is credible."
+        }
+      ],
+      "agent": "group--soc-team",
+      "targets": [
+        "linux--app-server-01",
+        "security-category--endpoint"
+      ],
+      "on_completion": "if-condition--escalate"
+    },
+    "if-condition--escalate": {
+      "type": "if-condition",
+      "name": "Escalate Incident?",
+      "description": "Check whether the incident requires coordinated response.",
+      "condition": "${severity == 'high' || evidence_collected == true}",
+      "on_true": "switch-condition--response-mode",
+      "on_false": "action--close-case",
+      "on_completion": "end--workflow-exception"
+    },
+    "switch-condition--response-mode": {
+      "type": "switch-condition",
+      "name": "Select Response Mode",
+      "description": "Choose the containment strategy.",
+      "cases": {
+        "host-isolated": "action--collect-evidence",
+        "network-contained": "action--ticket-only"
+      },
+      "default": "playbook-action--notify",
+      "on_completion": "end--workflow-exception"
+    },
+    "action--collect-evidence": {
+      "type": "action",
+      "name": "Collect Evidence",
+      "description": "Acquire forensic data before containment.",
+      "commands": [
+        {
+          "type": "bash",
+          "command": "tar -czf /tmp/evidence.tgz /var/log /etc"
+        }
+      ],
+      "agent": "group--soc-team",
+      "targets": [
+        "linux--app-server-01"
+      ],
+      "on_completion": "while-condition--containment-loop"
+    },
+    "while-condition--containment-loop": {
+      "type": "while-condition",
+      "name": "Containment Needed?",
+      "description": "Loop until containment is confirmed.",
+      "condition": "${containment_confirmed != true && iteration < max_iterations}",
+      "on_true": "action--contain-host",
+      "on_false": "parallel--post-containment"
+    },
+    "action--contain-host": {
+      "type": "action",
+      "name": "Contain Host via OpenC2",
+      "description": "Issue a containment command to the endpoint control platform.",
+      "in_args": [
+        "host_identifier",
+        "containment_scope"
+      ],
+      "out_args": [
+        "containment_result"
+      ],
+      "commands": [
+        {
+          "type": "openc2-http",
+          "command": "POST /openc2/command {\"action\":\"contain\",\"target\":{\"device\":\"app-01\"}}",
+          "authentication_info": [
+            "auth--basic-api"
+          ]
+        }
+      ],
+      "agent": "security-category--containment",
+      "targets": [
+        "http-api--containment",
+        "linux--app-server-01"
+      ],
+      "on_success": "while-condition--containment-loop",
+      "on_failure": "end--workflow-exception"
+    },
+    "parallel--post-containment": {
+      "type": "parallel",
+      "name": "Post-Containment Activities",
+      "description": "Run technical and communication activities in parallel.",
+      "next_steps": [
+        "action--update-record",
+        "playbook-action--stakeholder-notification"
+      ],
+      "on_completion": "action--final-review"
+    },
+    "action--ticket-only": {
+      "type": "action",
+      "name": "Create Incident Ticket",
+      "description": "Document the case in the ticketing platform.",
+      "commands": [
+        {
+          "type": "http-api",
+          "command": "POST /tickets create incident record",
+          "authentication_info": [
+            "auth--oauth2-ticketing"
+          ]
+        }
+      ],
+      "agent": "organization--it-ops",
+      "targets": [
+        "sector--public"
+      ],
+      "on_completion": "action--final-review"
+    },
+    "playbook-action--notify": {
+      "type": "playbook-action",
+      "name": "Call Notification Playbook",
+      "description": "Invoke a notification sub-playbook.",
+      "playbook_id": "playbook--99999999-8888-4777-8666-555555555555",
+      "playbook_version": "2.0",
+      "agent": "organization--it-ops",
+      "targets": [
+        "sector--public"
+      ],
+      "on_completion": "action--final-review"
+    },
+    "action--final-review": {
+      "type": "action",
+      "name": "Final Review",
+      "description": "Confirm closure conditions and summarize the response.",
+      "commands": [
+        {
+          "type": "manual",
+          "command": "Verify whether the host is contained, evidence is stored and stakeholders were informed."
+        }
+      ],
+      "agent": "group--soc-team",
+      "targets": [
+        "linux--app-server-01"
+      ],
+      "on_completion": "action--close-case"
+    },
+    "action--close-case": {
+      "type": "action",
+      "name": "Close Case",
+      "description": "Close the playbook run and archive relevant data.",
+      "commands": [
+        {
+          "type": "manual",
+          "command": "Archive the incident record and mark the playbook as completed."
+        }
+      ],
+      "agent": "group--soc-team",
+      "targets": [
+        "linux--app-server-01"
+      ],
+      "on_completion": "end--complete"
+    },
+    "end--complete": {
+      "type": "end",
+      "name": "Incident Closed"
+    },
+    "end--workflow-exception": {
+      "type": "end",
+      "name": "Workflow Exception"
+    },
+    "action--update-record": {
+      "type": "action",
+      "name": "Update Incident Record",
+      "description": "Update the case record after containment has been completed.",
+      "commands": [
+        {
+          "type": "http-api",
+          "command": "POST /tickets update incident record with containment status",
+          "authentication_info": [
+            "auth--oauth2-ticketing"
+          ]
+        }
+      ],
+      "agent": "organization--it-ops",
+      "targets": [
+        "sector--public"
+      ],
+      "on_completion": "action--final-review"
+    },
+    "playbook-action--stakeholder-notification": {
+      "type": "playbook-action",
+      "name": "Call Stakeholder Notification Playbook",
+      "description": "Invoke a follow-up notification playbook after containment.",
+      "playbook_id": "playbook--11111111-2222-4333-8444-555555555555",
+      "playbook_version": "2.0",
+      "agent": "organization--it-ops",
+      "targets": [
+        "sector--public"
+      ],
+      "on_completion": "action--final-review"
+    }
+  }
+}
