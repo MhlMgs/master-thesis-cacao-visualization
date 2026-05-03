@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='utf-8'?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:cacao="https://example.org/cacao-bpmn/extensions" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_4776364d-5cbe-47f0-999f-07bbfc7cca57" targetNamespace="https://example.org/cacao-bpmn">
+  <bpmn:process id="Process_playbook_300270f9-0e64-42c8-93cc-0927edbe3ae7" name="Example ssh" isExecutable="false">
+    <bpmn:extensionElements>
+      <cacao:property name="playbook_id" value="playbook--300270f9-0e64-42c8-93cc-0927edbe3ae7" />
+      <cacao:property name="spec_version" value="cacao-2.0" />
+      <cacao:property name="playbook_types" value="[&quot;notification&quot;]" />
+      <cacao:property name="workflow_start" value="start--9e7d62b2-88ac-4656-94e1-dbd4413ba008" />
+      <cacao:property name="created" value="2023-11-20T15:56:00.123456Z" />
+      <cacao:property name="modified" value="2023-11-20T15:56:00.123456Z" />
+      <cacao:property name="created_by" value="identity--96abab60-238a-44ff-8962-5806aa60cbce" />
+      <cacao:property name="valid_from" value="2023-11-20T15:56:00.123456Z" />
+      <cacao:property name="valid_until" value="2123-11-20T15:56:00.123456Z" />
+      <cacao:property name="labels" value="[&quot;soarca&quot;, &quot;ssh&quot;, &quot;example&quot;]" />
+    </bpmn:extensionElements>
+    <bpmn:startEvent id="StartEvent_start_9e7d62b2_88ac_4656_94e1_dbd4413ba008" name="Start ssh example">
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="start--9e7d62b2-88ac-4656-94e1-dbd4413ba008" />
+        <cacao:property name="cacao_step_type" value="start" />
+      </bpmn:extensionElements>
+    </bpmn:startEvent>
+    <bpmn:task id="Task_action_eb9372d4_d524_49fc_bf24_be26ea084779" name="Execute command">
+      <bpmn:documentation>Execute command specified in variable</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="action--eb9372d4-d524-49fc-bf24-be26ea084779" />
+        <cacao:property name="cacao_step_type" value="action" />
+        <cacao:property name="step_variables" value="[&quot;__command__&quot;]" />
+        <cacao:property name="agent" value="soarca--00010001-1000-1000-a000-000100010001" />
+        <cacao:property name="targets" value="[&quot;ssh--1c3900b4-f86b-430d-b415-12312b9e31f4&quot;]" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:task id="Task_action_88f4c4df_fa96_44e6_b310_1c06d193ea55" name="Touch file">
+      <bpmn:documentation>Touch file at path specified by variable</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="action--88f4c4df-fa96-44e6-b310-1c06d193ea55" />
+        <cacao:property name="cacao_step_type" value="action" />
+        <cacao:property name="step_variables" value="[&quot;__path__&quot;]" />
+        <cacao:property name="agent" value="soarca--00010001-1000-1000-a000-000100010001" />
+        <cacao:property name="targets" value="[&quot;ssh--1c3900b4-f86b-430d-b415-12312b9e31f4&quot;]" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:endEvent id="EndEvent_end_a6f0b81e_affb_4bca_b4f6_a2d5af908958" name="End Flow">
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="end--a6f0b81e-affb-4bca-b4f6-a2d5af908958" />
+        <cacao:property name="cacao_step_type" value="end" />
+      </bpmn:extensionElements>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_be80056b2cfa47c68e84f30e360a4dd3" sourceRef="Task_action_88f4c4df_fa96_44e6_b310_1c06d193ea55" targetRef="EndEvent_end_a6f0b81e_affb_4bca_b4f6_a2d5af908958" />
+    <bpmn:sequenceFlow id="Flow_a2ea48a54391487c95d0e5cd53bac8f7" sourceRef="Task_action_eb9372d4_d524_49fc_bf24_be26ea084779" targetRef="Task_action_88f4c4df_fa96_44e6_b310_1c06d193ea55" />
+    <bpmn:sequenceFlow id="Flow_8de1e4261bc14d8a9cf6ea5fb3741ccf" sourceRef="StartEvent_start_9e7d62b2_88ac_4656_94e1_dbd4413ba008" targetRef="Task_action_eb9372d4_d524_49fc_bf24_be26ea084779" />
+    <bpmn:textAnnotation id="TextAnnotation_7c9afac591434220b9f832c2e2e16cd4">
+      <bpmn:text>META: id=playbook--300270f9-0e64-42c8-93cc-0927edbe3ae7; name=Example ssh; description=This
+      playbook demonstrates ssh functionality; spec_version=cacao-2.0; playbook_types=notification
+      created=2023-11-20T15:56:00.123456Z; modified=2023-11-20T15:56:00.123456Z;
+valid_from=2023-11-20T15:56:00.123456Z; valid_until=2123-11-20T15:56:00.123456Z;
+workflow_start=start--9e7d62b2-88ac-4656-94e1-dbd4413ba008
+      created_by=identity--96abab60-238a-44ff-8962-5806aa60cbce; labels=soarca, ssh, example;
+authentication=user-auth--b7ddc2ea-9f6a-4e82-8eaa-be202e942090 [user-auth] (username=root);
+external_references=1</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_ba11bf90df7d4e748dca33c9d16ea262" sourceRef="StartEvent_start_9e7d62b2_88ac_4656_94e1_dbd4413ba008" targetRef="TextAnnotation_7c9afac591434220b9f832c2e2e16cd4" />
+    <bpmn:textAnnotation id="TextAnnotation_9f321ab2058e43a3b98b1d06a0892ef9">
+      <bpmn:text>DATA: commands=ssh:__command__:value, variables=__command__ (type=string, constant=True, value=ls -la),
+      authentication=user-auth--b7ddc2ea-9f6a-4e82-8eaa-be202e942090 [user-auth] (username=root)
+ROLE: agent=soarca-ssh; type=soarca; targets=system 1; type=ssh; address={"ipv4": ["192.168.0.10"]}</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_d368abf0787142c78b0f4753977d3b83" sourceRef="Task_action_eb9372d4_d524_49fc_bf24_be26ea084779" targetRef="TextAnnotation_9f321ab2058e43a3b98b1d06a0892ef9" />
+    <bpmn:textAnnotation id="TextAnnotation_a046f00647924f0d99e09ea3dc3bcce1">
+      <bpmn:text>DATA: commands=ssh:touch __path__:value, variables=__path__ (type=string, constant=True,
+      value=/root/file1), authentication=user-auth--b7ddc2ea-9f6a-4e82-8eaa-be202e942090 [user-auth]
+      (username=root)
+ROLE: agent=soarca-ssh; type=soarca; targets=system 1; type=ssh; address={"ipv4": ["192.168.0.10"]}</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_84a782288f5b466fa9cf2c1e8d0cba9c" sourceRef="Task_action_88f4c4df_fa96_44e6_b310_1c06d193ea55" targetRef="TextAnnotation_a046f00647924f0d99e09ea3dc3bcce1" />
+    <bpmn:textAnnotation id="TextAnnotation_268acf9afdaa4ca6bc08271fa8c89ab2">
+      <bpmn:text>OUTCOME: workflow_exception endpoint</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_595bc784a3d441a79b3e908fcc45c202" sourceRef="EndEvent_end_a6f0b81e_affb_4bca_b4f6_a2d5af908958" targetRef="TextAnnotation_268acf9afdaa4ca6bc08271fa8c89ab2" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_playbook_300270f9-0e64-42c8-93cc-0927edbe3ae7">
+      <bpmndi:BPMNShape id="BPMNShape_0" bpmnElement="StartEvent_start_9e7d62b2_88ac_4656_94e1_dbd4413ba008">
+        <dc:Bounds x="100" y="120" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1" bpmnElement="Task_action_eb9372d4_d524_49fc_bf24_be26ea084779">
+        <dc:Bounds x="380" y="120" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_2" bpmnElement="Task_action_88f4c4df_fa96_44e6_b310_1c06d193ea55">
+        <dc:Bounds x="660" y="120" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_3" bpmnElement="EndEvent_end_a6f0b81e_affb_4bca_b4f6_a2d5af908958">
+        <dc:Bounds x="940" y="120" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_7c9afac591434220b9f832c2e2e16cd4" bpmnElement="TextAnnotation_7c9afac591434220b9f832c2e2e16cd4">
+        <dc:Bounds x="226" y="224" width="700" height="174" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_ba11bf90df7d4e748dca33c9d16ea262" bpmnElement="Association_ba11bf90df7d4e748dca33c9d16ea262">
+        <di:waypoint x="136" y="138" />
+        <di:waypoint x="166" y="138" />
+        <di:waypoint x="166" y="311" />
+        <di:waypoint x="226" y="311" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_9f321ab2058e43a3b98b1d06a0892ef9" bpmnElement="TextAnnotation_9f321ab2058e43a3b98b1d06a0892ef9">
+        <dc:Bounds x="630" y="422" width="740" height="84" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_d368abf0787142c78b0f4753977d3b83" bpmnElement="Association_d368abf0787142c78b0f4753977d3b83">
+        <di:waypoint x="540" y="165" />
+        <di:waypoint x="670" y="165" />
+        <di:waypoint x="670" y="464" />
+        <di:waypoint x="630" y="464" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_a046f00647924f0d99e09ea3dc3bcce1" bpmnElement="TextAnnotation_a046f00647924f0d99e09ea3dc3bcce1">
+        <dc:Bounds x="1060" y="120" width="740" height="102" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_84a782288f5b466fa9cf2c1e8d0cba9c" bpmnElement="Association_84a782288f5b466fa9cf2c1e8d0cba9c">
+        <di:waypoint x="820" y="165" />
+        <di:waypoint x="850" y="165" />
+        <di:waypoint x="850" y="171" />
+        <di:waypoint x="1060" y="171" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_268acf9afdaa4ca6bc08271fa8c89ab2" bpmnElement="TextAnnotation_268acf9afdaa4ca6bc08271fa8c89ab2">
+        <dc:Bounds x="1066" y="240" width="400" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_595bc784a3d441a79b3e908fcc45c202" bpmnElement="Association_595bc784a3d441a79b3e908fcc45c202">
+        <di:waypoint x="976" y="138" />
+        <di:waypoint x="1006" y="138" />
+        <di:waypoint x="1006" y="278" />
+        <di:waypoint x="1066" y="278" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_0" bpmnElement="Flow_be80056b2cfa47c68e84f30e360a4dd3">
+        <di:waypoint x="820" y="165" />
+        <di:waypoint x="844" y="165" />
+        <di:waypoint x="844" y="151" />
+        <di:waypoint x="916" y="151" />
+        <di:waypoint x="916" y="138" />
+        <di:waypoint x="940" y="138" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_1" bpmnElement="Flow_a2ea48a54391487c95d0e5cd53bac8f7">
+        <di:waypoint x="540" y="165" />
+        <di:waypoint x="660" y="165" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_2" bpmnElement="Flow_8de1e4261bc14d8a9cf6ea5fb3741ccf">
+        <di:waypoint x="136" y="138" />
+        <di:waypoint x="160" y="138" />
+        <di:waypoint x="160" y="151" />
+        <di:waypoint x="356" y="151" />
+        <di:waypoint x="356" y="165" />
+        <di:waypoint x="380" y="165" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

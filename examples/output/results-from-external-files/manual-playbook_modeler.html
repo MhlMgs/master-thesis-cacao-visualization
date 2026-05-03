@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>manual-playbook.bpmn</title>
+  <link rel="stylesheet" href="https://unpkg.com/bpmn-js@18/dist/assets/diagram-js.css">
+  <link rel="stylesheet" href="https://unpkg.com/bpmn-js@18/dist/assets/bpmn-js.css">
+  <link rel="stylesheet" href="https://unpkg.com/bpmn-js@18/dist/assets/bpmn-font/css/bpmn-embedded.css">
+  <style>
+    html, body { height: 100%; margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+    body { display: grid; grid-template-rows: auto 1fr; background: #f7f7f8; }
+    .toolbar {
+      display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+      padding: 10px 12px; background: #ffffff; border-bottom: 1px solid #ddd;
+    }
+    .toolbar button {
+      border: 1px solid #ccc; background: #fff; border-radius: 8px; padding: 7px 10px; cursor: pointer;
+      font-size: 14px;
+    }
+    .toolbar button:hover { background: #f4f6fb; }
+    .toolbar .grow { flex: 1; }
+    .toolbar .title { font-weight: 600; color: #223; }
+    .toolbar .hint { color: #555; font-size: 13px; }
+    #canvas { width: 100%; height: 100%; background: #fcfcfd; }
+    .error { color: #b00020; font-size: 13px; margin-left: 8px; }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <div class="title" id="title"></div>
+    <button id="fitBtn">Fit</button>
+    <button id="zoomInBtn">Zoom +</button>
+    <button id="zoomOutBtn">Zoom -</button>
+    <button id="resetBtn">100%</button>
+    <button id="handBtn">Hand tool</button>
+    <button id="saveXmlBtn">Download BPMN</button>
+    <button id="saveSvgBtn">Download SVG</button>
+    <div class="grow"></div>
+    <span class="hint">Drag, move and edit elements if needed.</span>
+    <span id="error" class="error"></span>
+  </div>
+  <div id="canvas"></div>
+
+  <script src="https://unpkg.com/bpmn-js@18/dist/bpmn-modeler.production.min.js"></script>
+  <script>
+    const initialXml = "<?xml version='1.0' encoding='utf-8'?>\n<bpmn:definitions xmlns:bpmn=\"http://www.omg.org/spec/BPMN/20100524/MODEL\" xmlns:bpmndi=\"http://www.omg.org/spec/BPMN/20100524/DI\" xmlns:cacao=\"https://example.org/cacao-bpmn/extensions\" xmlns:dc=\"http://www.omg.org/spec/DD/20100524/DC\" xmlns:di=\"http://www.omg.org/spec/DD/20100524/DI\" id=\"Definitions_126e07eb-48f5-44d2-9ef1-f1383fd15a97\" targetNamespace=\"https://example.org/cacao-bpmn\">\n  <bpmn:process id=\"Process_playbook_fe65ef7b-e8b1-4ed9-ba60-3c380ae5ab28\" name=\"Example manual\" isExecutable=\"false\">\n    <bpmn:extensionElements>\n      <cacao:property name=\"playbook_id\" value=\"playbook--fe65ef7b-e8b1-4ed9-ba60-3c380ae5ab28\" />\n      <cacao:property name=\"spec_version\" value=\"cacao-2.0\" />\n      <cacao:property name=\"playbook_types\" value=\"[&quot;notification&quot;]\" />\n      <cacao:property name=\"workflow_start\" value=\"start--9e7d62b2-88ac-4656-94e1-dbd4413ba008\" />\n      <cacao:property name=\"created\" value=\"2025-01-21T14:14:23.263Z\" />\n      <cacao:property name=\"modified\" value=\"2025-01-21T14:14:23.263Z\" />\n      <cacao:property name=\"created_by\" value=\"identity--ac3c0258-7a81-46e7-a2ae-d34b6d06cc54\" />\n      <cacao:property name=\"valid_from\" value=\"2023-11-20T15:56:00.123Z\" />\n      <cacao:property name=\"valid_until\" value=\"2123-11-20T15:56:00.123Z\" />\n      <cacao:property name=\"revoked\" value=\"false\" />\n      <cacao:property name=\"labels\" value=\"[&quot;soarca&quot;, &quot;manual&quot;]\" />\n    </bpmn:extensionElements>\n    <bpmn:startEvent id=\"StartEvent_start_9e7d62b2_88ac_4656_94e1_dbd4413ba008\" name=\"Start example flow for manual command\">\n      <bpmn:extensionElements>\n        <cacao:property name=\"cacao_step_id\" value=\"start--9e7d62b2-88ac-4656-94e1-dbd4413ba008\" />\n        <cacao:property name=\"cacao_step_type\" value=\"start\" />\n      </bpmn:extensionElements>\n    </bpmn:startEvent>\n    <bpmn:task id=\"Task_action_eb9372d4_d524_49fc_bf24_be26ea084779\" name=\"manual\">\n      <bpmn:documentation>Instruction to the operator to be executed manually</bpmn:documentation>\n      <bpmn:extensionElements>\n        <cacao:property name=\"cacao_step_id\" value=\"action--eb9372d4-d524-49fc-bf24-be26ea084779\" />\n        <cacao:property name=\"cacao_step_type\" value=\"action\" />\n        <cacao:property name=\"timeout\" value=\"100000\" />\n        <cacao:property name=\"out_args\" value=\"[&quot;__hyperspeed_ready__&quot;]\" />\n        <cacao:property name=\"step_variables\" value=\"[&quot;__hyperspeed_ready__&quot;]\" />\n        <cacao:property name=\"agent\" value=\"soarca-manual-capability--7b0e98db-fa93-42aa-8511-e871c65131b1\" />\n        <cacao:property name=\"targets\" value=\"[&quot;individual--9d1f6217-34d5-435c-b29a-6a1af6b664d9&quot;]\" />\n      </bpmn:extensionElements>\n    </bpmn:task>\n    <bpmn:endEvent id=\"EndEvent_end_a6f0b81e_affb_4bca_b4f6_a2d5af908958\" name=\"End Flow\">\n      <bpmn:extensionElements>\n        <cacao:property name=\"cacao_step_id\" value=\"end--a6f0b81e-affb-4bca-b4f6-a2d5af908958\" />\n        <cacao:property name=\"cacao_step_type\" value=\"end\" />\n      </bpmn:extensionElements>\n    </bpmn:endEvent>\n    <bpmn:sequenceFlow id=\"Flow_6847d4fe94a34198b7452538a0fe7bf5\" sourceRef=\"Task_action_eb9372d4_d524_49fc_bf24_be26ea084779\" targetRef=\"EndEvent_end_a6f0b81e_affb_4bca_b4f6_a2d5af908958\" />\n    <bpmn:sequenceFlow id=\"Flow_eae065a89cfd43c0ba9683420a5b25ec\" sourceRef=\"StartEvent_start_9e7d62b2_88ac_4656_94e1_dbd4413ba008\" targetRef=\"Task_action_eb9372d4_d524_49fc_bf24_be26ea084779\" />\n    <bpmn:textAnnotation id=\"TextAnnotation_f05667ece1f84066a4b498bf94d8a171\">\n      <bpmn:text>META: id=playbook--fe65ef7b-e8b1-4ed9-ba60-3c380ae5ab28; name=Example manual; description=This playbook is\n      to demonstrate the manual command definition; spec_version=cacao-2.0; playbook_types=notification\n      created=2025-01-21T14:14:23.263Z; modified=2025-01-21T14:14:23.263Z;\nvalid_from=2023-11-20T15:56:00.123Z; valid_until=2123-11-20T15:56:00.123Z;\nworkflow_start=start--9e7d62b2-88ac-4656-94e1-dbd4413ba008\n      created_by=identity--ac3c0258-7a81-46e7-a2ae-d34b6d06cc54; revoked=False; labels=soarca, manual;\nexternal_references=1</bpmn:text>\n    </bpmn:textAnnotation>\n    <bpmn:association id=\"Association_3646bb6bd1bc4f44a5771d4fc0c176e7\" sourceRef=\"StartEvent_start_9e7d62b2_88ac_4656_94e1_dbd4413ba008\" targetRef=\"TextAnnotation_f05667ece1f84066a4b498bf94d8a171\" />\n    <bpmn:textAnnotation id=\"TextAnnotation_1c736d535aa442d8806fc76ca3a0335a\">\n      <bpmn:text>META: timeout=100000\nDATA: commands=manual:prepare Falcon for hyperspeed jump, out_args=__hyperspeed_ready__,\n      variables=__hyperspeed_ready__ (type=string, constant=False)\nROLE: agent=soarca-manual; type=soarca-manual; targets=Luke Skywalker; type=individual;\n      location={\"name\": \"Somewhere in a galaxy far far away\"}</bpmn:text>\n    </bpmn:textAnnotation>\n    <bpmn:association id=\"Association_bb97a1fac2284a64ac2117491f083b52\" sourceRef=\"Task_action_eb9372d4_d524_49fc_bf24_be26ea084779\" targetRef=\"TextAnnotation_1c736d535aa442d8806fc76ca3a0335a\" />\n    <bpmn:textAnnotation id=\"TextAnnotation_932d25489b6c4d6f9664c89ba90e524d\">\n      <bpmn:text>OUTCOME: workflow_exception endpoint</bpmn:text>\n    </bpmn:textAnnotation>\n    <bpmn:association id=\"Association_843a1aa1a94341509ad47d09d9049a63\" sourceRef=\"EndEvent_end_a6f0b81e_affb_4bca_b4f6_a2d5af908958\" targetRef=\"TextAnnotation_932d25489b6c4d6f9664c89ba90e524d\" />\n  </bpmn:process>\n  <bpmndi:BPMNDiagram id=\"BPMNDiagram_1\">\n    <bpmndi:BPMNPlane id=\"BPMNPlane_1\" bpmnElement=\"Process_playbook_fe65ef7b-e8b1-4ed9-ba60-3c380ae5ab28\">\n      <bpmndi:BPMNShape id=\"BPMNShape_0\" bpmnElement=\"StartEvent_start_9e7d62b2_88ac_4656_94e1_dbd4413ba008\">\n        <dc:Bounds x=\"100\" y=\"120\" width=\"36\" height=\"36\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_1\" bpmnElement=\"Task_action_eb9372d4_d524_49fc_bf24_be26ea084779\">\n        <dc:Bounds x=\"380\" y=\"120\" width=\"160\" height=\"90\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_2\" bpmnElement=\"EndEvent_end_a6f0b81e_affb_4bca_b4f6_a2d5af908958\">\n        <dc:Bounds x=\"660\" y=\"120\" width=\"36\" height=\"36\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_TextAnnotation_f05667ece1f84066a4b498bf94d8a171\" bpmnElement=\"TextAnnotation_f05667ece1f84066a4b498bf94d8a171\">\n        <dc:Bounds x=\"226\" y=\"224\" width=\"760\" height=\"156\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_Association_3646bb6bd1bc4f44a5771d4fc0c176e7\" bpmnElement=\"Association_3646bb6bd1bc4f44a5771d4fc0c176e7\">\n        <di:waypoint x=\"136\" y=\"138\" />\n        <di:waypoint x=\"166\" y=\"138\" />\n        <di:waypoint x=\"166\" y=\"302\" />\n        <di:waypoint x=\"226\" y=\"302\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNShape id=\"BPMNShape_TextAnnotation_1c736d535aa442d8806fc76ca3a0335a\" bpmnElement=\"TextAnnotation_1c736d535aa442d8806fc76ca3a0335a\">\n        <dc:Bounds x=\"780\" y=\"40\" width=\"660\" height=\"120\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_Association_bb97a1fac2284a64ac2117491f083b52\" bpmnElement=\"Association_bb97a1fac2284a64ac2117491f083b52\">\n        <di:waypoint x=\"540\" y=\"165\" />\n        <di:waypoint x=\"570\" y=\"165\" />\n        <di:waypoint x=\"570\" y=\"100\" />\n        <di:waypoint x=\"780\" y=\"100\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNShape id=\"BPMNShape_TextAnnotation_932d25489b6c4d6f9664c89ba90e524d\" bpmnElement=\"TextAnnotation_932d25489b6c4d6f9664c89ba90e524d\">\n        <dc:Bounds x=\"786\" y=\"392\" width=\"400\" height=\"76\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_Association_843a1aa1a94341509ad47d09d9049a63\" bpmnElement=\"Association_843a1aa1a94341509ad47d09d9049a63\">\n        <di:waypoint x=\"696\" y=\"138\" />\n        <di:waypoint x=\"826\" y=\"138\" />\n        <di:waypoint x=\"826\" y=\"430\" />\n        <di:waypoint x=\"786\" y=\"430\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_Flow_0\" bpmnElement=\"Flow_6847d4fe94a34198b7452538a0fe7bf5\">\n        <di:waypoint x=\"540\" y=\"165\" />\n        <di:waypoint x=\"564\" y=\"165\" />\n        <di:waypoint x=\"564\" y=\"151\" />\n        <di:waypoint x=\"636\" y=\"151\" />\n        <di:waypoint x=\"636\" y=\"138\" />\n        <di:waypoint x=\"660\" y=\"138\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_Flow_1\" bpmnElement=\"Flow_eae065a89cfd43c0ba9683420a5b25ec\">\n        <di:waypoint x=\"136\" y=\"138\" />\n        <di:waypoint x=\"160\" y=\"138\" />\n        <di:waypoint x=\"160\" y=\"151\" />\n        <di:waypoint x=\"356\" y=\"151\" />\n        <di:waypoint x=\"356\" y=\"165\" />\n        <di:waypoint x=\"380\" y=\"165\" />\n      </bpmndi:BPMNEdge>\n    </bpmndi:BPMNPlane>\n  </bpmndi:BPMNDiagram>\n</bpmn:definitions>";
+    const titleText = "manual-playbook.bpmn";
+    document.getElementById('title').textContent = titleText;
+
+    const modeler = new BpmnJS({
+      container: '#canvas'
+    });
+
+    const errorEl = document.getElementById('error');
+
+    function download(filename, data, type) {
+      const blob = new Blob([data], { type });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+
+    async function openDiagram(xml) {
+      errorEl.textContent = '';
+      try {
+        await modeler.importXML(xml);
+        modeler.get('canvas').zoom('fit-viewport', 'auto');
+      } catch (err) {
+        console.error(err);
+        errorEl.textContent = 'Could not open BPMN diagram.';
+      }
+    }
+
+    document.getElementById('fitBtn').addEventListener('click', () => {
+      modeler.get('canvas').zoom('fit-viewport', 'auto');
+    });
+
+    document.getElementById('zoomInBtn').addEventListener('click', () => {
+      modeler.get('zoomScroll').stepZoom(1);
+    });
+
+    document.getElementById('zoomOutBtn').addEventListener('click', () => {
+      modeler.get('zoomScroll').stepZoom(-1);
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      modeler.get('canvas').zoom(1.0);
+    });
+
+    document.getElementById('handBtn').addEventListener('click', () => {
+      modeler.get('handTool').activateMove();
+    });
+
+    document.getElementById('saveXmlBtn').addEventListener('click', async () => {
+      try {
+        const { xml } = await modeler.saveXML({ format: true });
+        download('diagram.bpmn', xml, 'application/xml');
+      } catch (err) {
+        console.error(err);
+        errorEl.textContent = 'Could not save BPMN XML.';
+      }
+    });
+
+    document.getElementById('saveSvgBtn').addEventListener('click', async () => {
+      try {
+        const { svg } = await modeler.saveSVG();
+        download('diagram.svg', svg, 'image/svg+xml');
+      } catch (err) {
+        console.error(err);
+        errorEl.textContent = 'Could not save SVG.';
+      }
+    });
+
+    openDiagram(initialXml);
+  </script>
+</body>
+</html>

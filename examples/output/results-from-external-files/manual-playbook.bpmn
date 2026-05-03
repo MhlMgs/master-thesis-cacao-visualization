@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='utf-8'?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:cacao="https://example.org/cacao-bpmn/extensions" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_126e07eb-48f5-44d2-9ef1-f1383fd15a97" targetNamespace="https://example.org/cacao-bpmn">
+  <bpmn:process id="Process_playbook_fe65ef7b-e8b1-4ed9-ba60-3c380ae5ab28" name="Example manual" isExecutable="false">
+    <bpmn:extensionElements>
+      <cacao:property name="playbook_id" value="playbook--fe65ef7b-e8b1-4ed9-ba60-3c380ae5ab28" />
+      <cacao:property name="spec_version" value="cacao-2.0" />
+      <cacao:property name="playbook_types" value="[&quot;notification&quot;]" />
+      <cacao:property name="workflow_start" value="start--9e7d62b2-88ac-4656-94e1-dbd4413ba008" />
+      <cacao:property name="created" value="2025-01-21T14:14:23.263Z" />
+      <cacao:property name="modified" value="2025-01-21T14:14:23.263Z" />
+      <cacao:property name="created_by" value="identity--ac3c0258-7a81-46e7-a2ae-d34b6d06cc54" />
+      <cacao:property name="valid_from" value="2023-11-20T15:56:00.123Z" />
+      <cacao:property name="valid_until" value="2123-11-20T15:56:00.123Z" />
+      <cacao:property name="revoked" value="false" />
+      <cacao:property name="labels" value="[&quot;soarca&quot;, &quot;manual&quot;]" />
+    </bpmn:extensionElements>
+    <bpmn:startEvent id="StartEvent_start_9e7d62b2_88ac_4656_94e1_dbd4413ba008" name="Start example flow for manual command">
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="start--9e7d62b2-88ac-4656-94e1-dbd4413ba008" />
+        <cacao:property name="cacao_step_type" value="start" />
+      </bpmn:extensionElements>
+    </bpmn:startEvent>
+    <bpmn:task id="Task_action_eb9372d4_d524_49fc_bf24_be26ea084779" name="manual">
+      <bpmn:documentation>Instruction to the operator to be executed manually</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="action--eb9372d4-d524-49fc-bf24-be26ea084779" />
+        <cacao:property name="cacao_step_type" value="action" />
+        <cacao:property name="timeout" value="100000" />
+        <cacao:property name="out_args" value="[&quot;__hyperspeed_ready__&quot;]" />
+        <cacao:property name="step_variables" value="[&quot;__hyperspeed_ready__&quot;]" />
+        <cacao:property name="agent" value="soarca-manual-capability--7b0e98db-fa93-42aa-8511-e871c65131b1" />
+        <cacao:property name="targets" value="[&quot;individual--9d1f6217-34d5-435c-b29a-6a1af6b664d9&quot;]" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:endEvent id="EndEvent_end_a6f0b81e_affb_4bca_b4f6_a2d5af908958" name="End Flow">
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="end--a6f0b81e-affb-4bca-b4f6-a2d5af908958" />
+        <cacao:property name="cacao_step_type" value="end" />
+      </bpmn:extensionElements>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_6847d4fe94a34198b7452538a0fe7bf5" sourceRef="Task_action_eb9372d4_d524_49fc_bf24_be26ea084779" targetRef="EndEvent_end_a6f0b81e_affb_4bca_b4f6_a2d5af908958" />
+    <bpmn:sequenceFlow id="Flow_eae065a89cfd43c0ba9683420a5b25ec" sourceRef="StartEvent_start_9e7d62b2_88ac_4656_94e1_dbd4413ba008" targetRef="Task_action_eb9372d4_d524_49fc_bf24_be26ea084779" />
+    <bpmn:textAnnotation id="TextAnnotation_f05667ece1f84066a4b498bf94d8a171">
+      <bpmn:text>META: id=playbook--fe65ef7b-e8b1-4ed9-ba60-3c380ae5ab28; name=Example manual; description=This playbook is
+      to demonstrate the manual command definition; spec_version=cacao-2.0; playbook_types=notification
+      created=2025-01-21T14:14:23.263Z; modified=2025-01-21T14:14:23.263Z;
+valid_from=2023-11-20T15:56:00.123Z; valid_until=2123-11-20T15:56:00.123Z;
+workflow_start=start--9e7d62b2-88ac-4656-94e1-dbd4413ba008
+      created_by=identity--ac3c0258-7a81-46e7-a2ae-d34b6d06cc54; revoked=False; labels=soarca, manual;
+external_references=1</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_3646bb6bd1bc4f44a5771d4fc0c176e7" sourceRef="StartEvent_start_9e7d62b2_88ac_4656_94e1_dbd4413ba008" targetRef="TextAnnotation_f05667ece1f84066a4b498bf94d8a171" />
+    <bpmn:textAnnotation id="TextAnnotation_1c736d535aa442d8806fc76ca3a0335a">
+      <bpmn:text>META: timeout=100000
+DATA: commands=manual:prepare Falcon for hyperspeed jump, out_args=__hyperspeed_ready__,
+      variables=__hyperspeed_ready__ (type=string, constant=False)
+ROLE: agent=soarca-manual; type=soarca-manual; targets=Luke Skywalker; type=individual;
+      location={"name": "Somewhere in a galaxy far far away"}</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_bb97a1fac2284a64ac2117491f083b52" sourceRef="Task_action_eb9372d4_d524_49fc_bf24_be26ea084779" targetRef="TextAnnotation_1c736d535aa442d8806fc76ca3a0335a" />
+    <bpmn:textAnnotation id="TextAnnotation_932d25489b6c4d6f9664c89ba90e524d">
+      <bpmn:text>OUTCOME: workflow_exception endpoint</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_843a1aa1a94341509ad47d09d9049a63" sourceRef="EndEvent_end_a6f0b81e_affb_4bca_b4f6_a2d5af908958" targetRef="TextAnnotation_932d25489b6c4d6f9664c89ba90e524d" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_playbook_fe65ef7b-e8b1-4ed9-ba60-3c380ae5ab28">
+      <bpmndi:BPMNShape id="BPMNShape_0" bpmnElement="StartEvent_start_9e7d62b2_88ac_4656_94e1_dbd4413ba008">
+        <dc:Bounds x="100" y="120" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1" bpmnElement="Task_action_eb9372d4_d524_49fc_bf24_be26ea084779">
+        <dc:Bounds x="380" y="120" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_2" bpmnElement="EndEvent_end_a6f0b81e_affb_4bca_b4f6_a2d5af908958">
+        <dc:Bounds x="660" y="120" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_f05667ece1f84066a4b498bf94d8a171" bpmnElement="TextAnnotation_f05667ece1f84066a4b498bf94d8a171">
+        <dc:Bounds x="226" y="224" width="760" height="156" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_3646bb6bd1bc4f44a5771d4fc0c176e7" bpmnElement="Association_3646bb6bd1bc4f44a5771d4fc0c176e7">
+        <di:waypoint x="136" y="138" />
+        <di:waypoint x="166" y="138" />
+        <di:waypoint x="166" y="302" />
+        <di:waypoint x="226" y="302" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_1c736d535aa442d8806fc76ca3a0335a" bpmnElement="TextAnnotation_1c736d535aa442d8806fc76ca3a0335a">
+        <dc:Bounds x="780" y="40" width="660" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_bb97a1fac2284a64ac2117491f083b52" bpmnElement="Association_bb97a1fac2284a64ac2117491f083b52">
+        <di:waypoint x="540" y="165" />
+        <di:waypoint x="570" y="165" />
+        <di:waypoint x="570" y="100" />
+        <di:waypoint x="780" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_932d25489b6c4d6f9664c89ba90e524d" bpmnElement="TextAnnotation_932d25489b6c4d6f9664c89ba90e524d">
+        <dc:Bounds x="786" y="392" width="400" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_843a1aa1a94341509ad47d09d9049a63" bpmnElement="Association_843a1aa1a94341509ad47d09d9049a63">
+        <di:waypoint x="696" y="138" />
+        <di:waypoint x="826" y="138" />
+        <di:waypoint x="826" y="430" />
+        <di:waypoint x="786" y="430" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_0" bpmnElement="Flow_6847d4fe94a34198b7452538a0fe7bf5">
+        <di:waypoint x="540" y="165" />
+        <di:waypoint x="564" y="165" />
+        <di:waypoint x="564" y="151" />
+        <di:waypoint x="636" y="151" />
+        <di:waypoint x="636" y="138" />
+        <di:waypoint x="660" y="138" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_1" bpmnElement="Flow_eae065a89cfd43c0ba9683420a5b25ec">
+        <di:waypoint x="136" y="138" />
+        <di:waypoint x="160" y="138" />
+        <di:waypoint x="160" y="151" />
+        <di:waypoint x="356" y="151" />
+        <di:waypoint x="356" y="165" />
+        <di:waypoint x="380" y="165" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

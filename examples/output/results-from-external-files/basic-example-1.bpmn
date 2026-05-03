@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='utf-8'?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:cacao="https://example.org/cacao-bpmn/extensions" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_f5f53ff0-07a8-4a38-9a51-fa66f7331877" targetNamespace="https://example.org/cacao-bpmn">
+  <bpmn:process id="Process_playbook_fe85f68d-1960-4596-96a2-228113e143cf" name="Bad MAC Address" isExecutable="false">
+    <bpmn:extensionElements>
+      <cacao:property name="playbook_id" value="playbook--fe85f68d-1960-4596-96a2-228113e143cf" />
+      <cacao:property name="spec_version" value="cacao-2.0" />
+      <cacao:property name="workflow_start" value="start--fa16a4e9-e6b9-4658-b464-ca1632ff57f4" />
+      <cacao:property name="created" value="2023-02-19T01:09:00.000Z" />
+      <cacao:property name="modified" value="2023-02-19T01:09:00.000Z" />
+      <cacao:property name="created_by" value="identity--351b1469-64b4-4778-8d93-f7949a88990d" />
+    </bpmn:extensionElements>
+    <bpmn:startEvent id="StartEvent_start_fa16a4e9_e6b9_4658_b464_ca1632ff57f4" name="Start">
+      <bpmn:documentation>Start example playbook.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="start--fa16a4e9-e6b9-4658-b464-ca1632ff57f4" />
+        <cacao:property name="cacao_step_type" value="start" />
+      </bpmn:extensionElements>
+    </bpmn:startEvent>
+    <bpmn:task id="Task_action_6398eb05_3eb8_43f5_87d3_f24e07492a41" name="Block MAC address">
+      <bpmn:documentation>This command blocks a MAC address on a switch.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="action--6398eb05-3eb8-43f5-87d3-f24e07492a41" />
+        <cacao:property name="cacao_step_type" value="action" />
+        <cacao:property name="agent" value="individual--75baba7d-a198-4c5c-805c-af616b4f7a31" />
+        <cacao:property name="targets" value="[&quot;security-category--3c1daf98-7e22-4e0c-bb8c-6bd78159ca5d&quot;]" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:endEvent id="EndEvent_end_116cdac5_63f1_4d8f_b3a8_e5667936e9b6" name="End">
+      <bpmn:documentation>End of example playbook.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="end--116cdac5-63f1-4d8f-b3a8-e5667936e9b6" />
+        <cacao:property name="cacao_step_type" value="end" />
+      </bpmn:extensionElements>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1986756a3e004be88796699124b32595" sourceRef="Task_action_6398eb05_3eb8_43f5_87d3_f24e07492a41" targetRef="EndEvent_end_116cdac5_63f1_4d8f_b3a8_e5667936e9b6" />
+    <bpmn:sequenceFlow id="Flow_c8f5bc64e95447e594bd71fb8921ebdb" sourceRef="StartEvent_start_fa16a4e9_e6b9_4658_b464_ca1632ff57f4" targetRef="Task_action_6398eb05_3eb8_43f5_87d3_f24e07492a41" />
+    <bpmn:textAnnotation id="TextAnnotation_c18d93d7edbc485186ebbe914261f46e">
+      <bpmn:text>META: id=playbook--fe85f68d-1960-4596-96a2-228113e143cf; name=Bad MAC Address;
+      description=This playbook addresses a malicious MAC address, illustrating
+      an action step, command, and agent/target.; spec_version=cacao-2.0
+      created=2023-02-19T01:09:00.000Z; modified=2023-02-19T01:09:00.000Z;
+workflow_start=start--fa16a4e9-e6b9-4658-b464-ca1632ff57f4;
+created_by=identity--351b1469-64b4-4778-8d93-f7949a88990d</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_9312a438984442b290f14d2d5a8ce810" sourceRef="StartEvent_start_fa16a4e9_e6b9_4658_b464_ca1632ff57f4" targetRef="TextAnnotation_c18d93d7edbc485186ebbe914261f46e" />
+    <bpmn:textAnnotation id="TextAnnotation_f48baa2385d44c12aa3a930dfaf8427a">
+      <bpmn:text>DATA: commands=ssh:Switch(conf)#mac address-table static 3467.0933...
+ROLE: agent=Network Admin; type=individual; targets=Switch;
+      type=security-category; category=switch</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0a6d900d4216443f90db16d84f048cd0" sourceRef="Task_action_6398eb05_3eb8_43f5_87d3_f24e07492a41" targetRef="TextAnnotation_f48baa2385d44c12aa3a930dfaf8427a" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_playbook_fe85f68d-1960-4596-96a2-228113e143cf">
+      <bpmndi:BPMNShape id="BPMNShape_0" bpmnElement="StartEvent_start_fa16a4e9_e6b9_4658_b464_ca1632ff57f4">
+        <dc:Bounds x="100" y="120" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1" bpmnElement="Task_action_6398eb05_3eb8_43f5_87d3_f24e07492a41">
+        <dc:Bounds x="380" y="120" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_2" bpmnElement="EndEvent_end_116cdac5_63f1_4d8f_b3a8_e5667936e9b6">
+        <dc:Bounds x="660" y="120" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_c18d93d7edbc485186ebbe914261f46e" bpmnElement="TextAnnotation_c18d93d7edbc485186ebbe914261f46e">
+        <dc:Bounds x="226" y="224" width="580" height="138" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_9312a438984442b290f14d2d5a8ce810" bpmnElement="Association_9312a438984442b290f14d2d5a8ce810">
+        <di:waypoint x="136" y="138" />
+        <di:waypoint x="166" y="138" />
+        <di:waypoint x="166" y="293" />
+        <di:waypoint x="226" y="293" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_f48baa2385d44c12aa3a930dfaf8427a" bpmnElement="TextAnnotation_f48baa2385d44c12aa3a930dfaf8427a">
+        <dc:Bounds x="780" y="120" width="500" height="84" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_0a6d900d4216443f90db16d84f048cd0" bpmnElement="Association_0a6d900d4216443f90db16d84f048cd0">
+        <di:waypoint x="540" y="165" />
+        <di:waypoint x="570" y="165" />
+        <di:waypoint x="570" y="162" />
+        <di:waypoint x="780" y="162" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_0" bpmnElement="Flow_1986756a3e004be88796699124b32595">
+        <di:waypoint x="540" y="165" />
+        <di:waypoint x="564" y="165" />
+        <di:waypoint x="564" y="151" />
+        <di:waypoint x="636" y="151" />
+        <di:waypoint x="636" y="138" />
+        <di:waypoint x="660" y="138" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_1" bpmnElement="Flow_c8f5bc64e95447e594bd71fb8921ebdb">
+        <di:waypoint x="136" y="138" />
+        <di:waypoint x="160" y="138" />
+        <di:waypoint x="160" y="151" />
+        <di:waypoint x="356" y="151" />
+        <di:waypoint x="356" y="165" />
+        <di:waypoint x="380" y="165" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

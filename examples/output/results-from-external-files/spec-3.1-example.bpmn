@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='utf-8'?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:cacao="https://example.org/cacao-bpmn/extensions" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_c7695470-1b40-4c24-9e72-768c77be1c2f" targetNamespace="https://example.org/cacao-bpmn">
+  <bpmn:process id="Process_playbook_61a6c41e-6efc-4516-a242-dfbc5c89d562" name="Find Malware FuzzyPanda" isExecutable="false">
+    <bpmn:extensionElements>
+      <cacao:property name="playbook_id" value="playbook--61a6c41e-6efc-4516-a242-dfbc5c89d562" />
+      <cacao:property name="spec_version" value="cacao-2.0" />
+      <cacao:property name="playbook_types" value="[&quot;investigation&quot;]" />
+      <cacao:property name="playbook_activities" value="[&quot;analyze-collected-data&quot;, &quot;identify-indicators&quot;]" />
+      <cacao:property name="playbook_processing_summary" value="{&quot;data_markings&quot;: true}" />
+      <cacao:property name="workflow_start" value="start--07bea005-4a36-4a77-bd1f-79a6e4682a13" />
+      <cacao:property name="created" value="2023-02-19T08:00:24.918Z" />
+      <cacao:property name="modified" value="2023-02-19T08:00:24.918Z" />
+      <cacao:property name="created_by" value="identity--5abe695c-7bd5-4c31-8824-2528696cdbf1" />
+      <cacao:property name="valid_from" value="2023-02-19T08:00:24.918Z" />
+      <cacao:property name="valid_until" value="2023-12-31T23:59:59.999Z" />
+      <cacao:property name="derived_from" value="[&quot;playbook--00ee41a2-c2ca-41da-8ea9-681344eb3926&quot;]" />
+      <cacao:property name="labels" value="[&quot;malware&quot;, &quot;fuzzypanda&quot;, &quot;apt&quot;]" />
+      <cacao:property name="markings" value="[&quot;marking-statement--6424867b-0440-4885-bd0b-604d51786d06&quot;, &quot;marking-tlp--bab4a63c-aed9-4cf5-a766-dfca5abac2bb&quot;]" />
+      <cacao:property name="industry_sectors" value="[&quot;aerospace&quot;, &quot;defense&quot;]" />
+    </bpmn:extensionElements>
+    <bpmn:startEvent id="StartEvent_start_07bea005_4a36_4a77_bd1f_79a6e4682a13" name="Start Playbook Example 1">
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="start--07bea005-4a36-4a77-bd1f-79a6e4682a13" />
+        <cacao:property name="cacao_step_type" value="start" />
+      </bpmn:extensionElements>
+    </bpmn:startEvent>
+    <bpmn:task id="Task_action_7f40f9d7_de39_4027_ab97_15035beff2ff" name="IP Lookup">
+      <bpmn:documentation>Lookup the IP address in the SIEM</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="action--7f40f9d7-de39-4027-ab97-15035beff2ff" />
+        <cacao:property name="cacao_step_type" value="action" />
+        <cacao:property name="agent" value="group--18d3a2e0-f534-4374-a117-abdddd3e809b" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:endEvent id="EndEvent_end_6b23c237_ade8_4d00_9aa1_75999738d557" name="End Playbook Example 1">
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="end--6b23c237-ade8-4d00-9aa1-75999738d557" />
+        <cacao:property name="cacao_step_type" value="end" />
+      </bpmn:extensionElements>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_89910f9c9e6f46dfaf115cc7bd778327" sourceRef="Task_action_7f40f9d7_de39_4027_ab97_15035beff2ff" targetRef="EndEvent_end_6b23c237_ade8_4d00_9aa1_75999738d557" />
+    <bpmn:sequenceFlow id="Flow_cb7d429075c441fd8a00e28cc18051fc" sourceRef="StartEvent_start_07bea005_4a36_4a77_bd1f_79a6e4682a13" targetRef="Task_action_7f40f9d7_de39_4027_ab97_15035beff2ff" />
+    <bpmn:textAnnotation id="TextAnnotation_75c846ea638d4e1c894125d78d62820f">
+      <bpmn:text>META: id=playbook--61a6c41e-6efc-4516-a242-dfbc5c89d562; name=Find Malware FuzzyPanda; description=This
+      playbook will look for FuzzyPanda on the network and in a SIEM; spec_version=cacao-2.0;
+      playbook_types=investigation
+      playbook_activities=analyze-collected-data, identify-indicators; processing=data_markings;
+created=2023-02-19T08:00:24.918Z; modified=2023-02-19T08:00:24.918Z; valid_from=2023-02-19T08:00:24.918Z
+      valid_until=2023-12-31T23:59:59.999Z; workflow_start=start--07bea005-4a36-4a77-bd1f-79a6e4682a13;
+created_by=identity--5abe695c-7bd5-4c31-8824-2528696cdbf1
+      derived_from=playbook--00ee41a2-c2ca-41da-8ea9-681344eb3926; labels=malware, fuzzypanda, apt;
+industry_sectors=aerospace, defense; variables=__data_exfil_site__ (type=ipv4-addr, value=1.2.3.4)
+      marking_refs=marking-statement--6424867b-0440-4885-bd0b-604d51786d06,
+marking-tlp--bab4a63c-aed9-4cf5-a766-dfca5abac2bb
+      data_markings=marking-statement--6424867b-0440-4885-bd0b-604d51786d06 [Copyright 2023 ACME Security
+Company], marking-tlp--bab4a63c-aed9-4cf5-a766-dfca5abac2bb [marking-tlp]; external_references=1</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_2d21745bc26f40d189015af40196728f" sourceRef="StartEvent_start_07bea005_4a36_4a77_bd1f_79a6e4682a13" targetRef="TextAnnotation_75c846ea638d4e1c894125d78d62820f" />
+    <bpmn:textAnnotation id="TextAnnotation_adbd62a965af4cc0bcc5c7567efefba3">
+      <bpmn:text>DATA: commands=manual:Look up IP __data_exfil_site__:value in SIEM
+ROLE: agent=IR team; type=group</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_b820533cf5b74ed88b3d0bdd124a590f" sourceRef="Task_action_7f40f9d7_de39_4027_ab97_15035beff2ff" targetRef="TextAnnotation_adbd62a965af4cc0bcc5c7567efefba3" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_playbook_61a6c41e-6efc-4516-a242-dfbc5c89d562">
+      <bpmndi:BPMNShape id="BPMNShape_0" bpmnElement="StartEvent_start_07bea005_4a36_4a77_bd1f_79a6e4682a13">
+        <dc:Bounds x="100" y="120" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1" bpmnElement="Task_action_7f40f9d7_de39_4027_ab97_15035beff2ff">
+        <dc:Bounds x="380" y="120" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_2" bpmnElement="EndEvent_end_6b23c237_ade8_4d00_9aa1_75999738d557">
+        <dc:Bounds x="660" y="120" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_75c846ea638d4e1c894125d78d62820f" bpmnElement="TextAnnotation_75c846ea638d4e1c894125d78d62820f">
+        <dc:Bounds x="226" y="224" width="760" height="264" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_2d21745bc26f40d189015af40196728f" bpmnElement="Association_2d21745bc26f40d189015af40196728f">
+        <di:waypoint x="136" y="138" />
+        <di:waypoint x="166" y="138" />
+        <di:waypoint x="166" y="356" />
+        <di:waypoint x="226" y="356" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_adbd62a965af4cc0bcc5c7567efefba3" bpmnElement="TextAnnotation_adbd62a965af4cc0bcc5c7567efefba3">
+        <dc:Bounds x="780" y="120" width="500" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_b820533cf5b74ed88b3d0bdd124a590f" bpmnElement="Association_b820533cf5b74ed88b3d0bdd124a590f">
+        <di:waypoint x="540" y="165" />
+        <di:waypoint x="570" y="165" />
+        <di:waypoint x="570" y="158" />
+        <di:waypoint x="780" y="158" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_0" bpmnElement="Flow_89910f9c9e6f46dfaf115cc7bd778327">
+        <di:waypoint x="540" y="165" />
+        <di:waypoint x="564" y="165" />
+        <di:waypoint x="564" y="151" />
+        <di:waypoint x="636" y="151" />
+        <di:waypoint x="636" y="138" />
+        <di:waypoint x="660" y="138" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_1" bpmnElement="Flow_cb7d429075c441fd8a00e28cc18051fc">
+        <di:waypoint x="136" y="138" />
+        <di:waypoint x="160" y="138" />
+        <di:waypoint x="160" y="151" />
+        <di:waypoint x="356" y="151" />
+        <di:waypoint x="356" y="165" />
+        <di:waypoint x="380" y="165" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,338 @@
+<?xml version='1.0' encoding='utf-8'?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:cacao="https://example.org/cacao-bpmn/extensions" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_3dffdc04-fcc7-471a-8325-03c16ed8408f" targetNamespace="https://example.org/cacao-bpmn">
+  <bpmn:process id="Process_playbook_acad08f9-abcd-48c6-9297-bf1da815030c" name="Hello World Demonstration" isExecutable="false">
+    <bpmn:extensionElements>
+      <cacao:property name="playbook_id" value="playbook--acad08f9-abcd-48c6-9297-bf1da815030c" />
+      <cacao:property name="spec_version" value="1.1" />
+      <cacao:property name="playbook_types" value="[&quot;notification&quot;]" />
+      <cacao:property name="workflow_start" value="step--68d2f914-992a-4308-aeaf-8ba246f9e596" />
+      <cacao:property name="created" value="2024-09-16T07:54:54Z" />
+      <cacao:property name="modified" value="2024-09-16T07:54:54Z" />
+      <cacao:property name="created_by" value="identity--0be4e2a0-1294-4df7-9834-43d8c2a5df62" />
+      <cacao:property name="revoked" value="true" />
+    </bpmn:extensionElements>
+    <bpmn:startEvent id="StartEvent_step_68d2f914_992a_4308_aeaf_8ba246f9e596" name="Start Step">
+      <bpmn:documentation>Thing starts here</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="step--68d2f914-992a-4308-aeaf-8ba246f9e596" />
+        <cacao:property name="cacao_step_type" value="start" />
+      </bpmn:extensionElements>
+    </bpmn:startEvent>
+    <bpmn:task id="Task_step_952da296_cda0_4c6f_a8e0_0fb60a98eab6" name="Say &quot;Hello World&quot;">
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="step--952da296-cda0-4c6f-a8e0-0fb60a98eab6" />
+        <cacao:property name="cacao_step_type" value="single" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:parallelGateway id="Gateway_step_c12fc3b0_511d_4969_b293_8ef639fc7c06" name="Parallel-1">
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="step--c12fc3b0-511d-4969-b293-8ef639fc7c06" />
+        <cacao:property name="cacao_step_type" value="parallel" />
+      </bpmn:extensionElements>
+    </bpmn:parallelGateway>
+    <bpmn:task id="Task_step_b6066b3b_0de2_4023_b631_d382eed15264" name="Say &quot;Hello Tree&quot;">
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="step--b6066b3b-0de2-4023-b631-d382eed15264" />
+        <cacao:property name="cacao_step_type" value="single" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:parallelGateway id="GatewayJoin_step_c12fc3b0_511d_4969_b293_8ef639fc7c06">
+      <bpmn:documentation>Synthetic join gateway for parallel step Parallel-1.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="synthetic_for_step" value="step--c12fc3b0-511d-4969-b293-8ef639fc7c06" />
+        <cacao:property name="synthetic_for_type" value="parallel" />
+        <cacao:property name="synthetic_kind" value="parallel_join" />
+      </bpmn:extensionElements>
+    </bpmn:parallelGateway>
+    <bpmn:sequenceFlow id="Flow_fa0a9adb701742239e997065692f669b" sourceRef="Task_step_b6066b3b_0de2_4023_b631_d382eed15264" targetRef="GatewayJoin_step_c12fc3b0_511d_4969_b293_8ef639fc7c06" />
+    <bpmn:sequenceFlow id="Flow_983e4c30c1b045d186817d5ccd7c38fc" sourceRef="Gateway_step_c12fc3b0_511d_4969_b293_8ef639fc7c06" targetRef="Task_step_b6066b3b_0de2_4023_b631_d382eed15264" />
+    <bpmn:task id="Task_step_ff0c180a_5ea4_46e3_bb52_8d0cbc963ca9" name="Say &quot;Hello Stone&quot;">
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="step--ff0c180a-5ea4-46e3-bb52-8d0cbc963ca9" />
+        <cacao:property name="cacao_step_type" value="single" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_01ed6689aa8348b58435942513c4ef93" sourceRef="Task_step_ff0c180a_5ea4_46e3_bb52_8d0cbc963ca9" targetRef="GatewayJoin_step_c12fc3b0_511d_4969_b293_8ef639fc7c06" />
+    <bpmn:sequenceFlow id="Flow_1b7cc0ddad4b4b83977d8d460395efe6" sourceRef="Gateway_step_c12fc3b0_511d_4969_b293_8ef639fc7c06" targetRef="Task_step_ff0c180a_5ea4_46e3_bb52_8d0cbc963ca9" />
+    <bpmn:task id="Task_step_610f87c5_263f_49e8_b1ad_9cc6dc66eebb" name="Say &quot;Hello Bird&quot;">
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="step--610f87c5-263f-49e8-b1ad-9cc6dc66eebb" />
+        <cacao:property name="cacao_step_type" value="single" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_9a873bf4e3e54334857329e2e29698d9" sourceRef="Task_step_610f87c5_263f_49e8_b1ad_9cc6dc66eebb" targetRef="GatewayJoin_step_c12fc3b0_511d_4969_b293_8ef639fc7c06" />
+    <bpmn:sequenceFlow id="Flow_73217f2f53a345c98979815e148a690e" sourceRef="Gateway_step_c12fc3b0_511d_4969_b293_8ef639fc7c06" targetRef="Task_step_610f87c5_263f_49e8_b1ad_9cc6dc66eebb" />
+    <bpmn:task id="Task_step_4a4dcbc6_0734_49c0_b0a5_a20d791e37c0" name="Evaluate Response">
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="step--4a4dcbc6-0734-49c0-b0a5-a20d791e37c0" />
+        <cacao:property name="cacao_step_type" value="single" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="Gateway_step_2dd17671_edec_4a58_bed1_c2e34a23624e" name="IF-Step-1">
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="step--2dd17671-edec-4a58-bed1-c2e34a23624e" />
+        <cacao:property name="cacao_step_type" value="if-condition" />
+      </bpmn:extensionElements>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="Task_step_da06fe29_16f3_489b_9b6e_be5234120cd3" name="Be Happy">
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="step--da06fe29-16f3-489b-9b6e-be5234120cd3" />
+        <cacao:property name="cacao_step_type" value="single" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="GatewayMerge_step_2dd17671_edec_4a58_bed1_c2e34a23624e">
+      <bpmn:documentation>Synthetic merge gateway for IF-Step-1.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="synthetic_for_step" value="step--2dd17671-edec-4a58-bed1-c2e34a23624e" />
+        <cacao:property name="synthetic_for_type" value="if-condition" />
+        <cacao:property name="synthetic_kind" value="xor_merge" />
+      </bpmn:extensionElements>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_69fec6886f3a47fb96b061b34b12915f" sourceRef="Task_step_da06fe29_16f3_489b_9b6e_be5234120cd3" targetRef="GatewayMerge_step_2dd17671_edec_4a58_bed1_c2e34a23624e" />
+    <bpmn:sequenceFlow id="Flow_3db87bc16e4943f49842712424c0a17a" sourceRef="Gateway_step_2dd17671_edec_4a58_bed1_c2e34a23624e" targetRef="Task_step_da06fe29_16f3_489b_9b6e_be5234120cd3" name="True" />
+    <bpmn:task id="Task_step_255380aa_7317_4084_b916_5640cdc465d5" name="Be Angry">
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="step--255380aa-7317-4084-b916-5640cdc465d5" />
+        <cacao:property name="cacao_step_type" value="single" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_2ca02d92127949d8b0d1653941242785" sourceRef="Task_step_255380aa_7317_4084_b916_5640cdc465d5" targetRef="GatewayMerge_step_2dd17671_edec_4a58_bed1_c2e34a23624e" />
+    <bpmn:sequenceFlow id="Flow_f808b2c023114e7c9f1f6c72edfee9b9" sourceRef="Gateway_step_2dd17671_edec_4a58_bed1_c2e34a23624e" targetRef="Task_step_255380aa_7317_4084_b916_5640cdc465d5" name="False" />
+    <bpmn:endEvent id="EndEvent_step_17e55f25_c1f2_4b55_8dda_7e55f2befd2b" name="End-Global">
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="step--17e55f25-c1f2-4b55-8dda-7e55f2befd2b" />
+        <cacao:property name="cacao_step_type" value="end" />
+      </bpmn:extensionElements>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_d114045a096443d38c80d84ae590d556" sourceRef="GatewayMerge_step_2dd17671_edec_4a58_bed1_c2e34a23624e" targetRef="EndEvent_step_17e55f25_c1f2_4b55_8dda_7e55f2befd2b" />
+    <bpmn:sequenceFlow id="Flow_dc695c1d05c14688994ba63874cdb934" sourceRef="Task_step_4a4dcbc6_0734_49c0_b0a5_a20d791e37c0" targetRef="Gateway_step_2dd17671_edec_4a58_bed1_c2e34a23624e" />
+    <bpmn:sequenceFlow id="Flow_b7809528a8e7403b8792b4f364ce928c" sourceRef="GatewayJoin_step_c12fc3b0_511d_4969_b293_8ef639fc7c06" targetRef="Task_step_4a4dcbc6_0734_49c0_b0a5_a20d791e37c0" />
+    <bpmn:sequenceFlow id="Flow_a71c4124ce81404093d07aeccf253053" sourceRef="Task_step_952da296_cda0_4c6f_a8e0_0fb60a98eab6" targetRef="Gateway_step_c12fc3b0_511d_4969_b293_8ef639fc7c06" />
+    <bpmn:sequenceFlow id="Flow_f84ef31a44a34d70b49d0f314d5d10e9" sourceRef="StartEvent_step_68d2f914_992a_4308_aeaf_8ba246f9e596" targetRef="Task_step_952da296_cda0_4c6f_a8e0_0fb60a98eab6" />
+    <bpmn:textAnnotation id="TextAnnotation_ed0a723c5a4645aba785e11ffe424d68">
+      <bpmn:text>META: id=playbook--acad08f9-abcd-48c6-9297-bf1da815030c; name=Hello World Demonstration; description=This
+      is an example playbook; spec_version=1.1; playbook_types=notification; created=2024-09-16T07:54:54Z
+      modified=2024-09-16T07:54:54Z; workflow_start=step--68d2f914-992a-4308-aeaf-8ba246f9e596;
+created_by=identity--0be4e2a0-1294-4df7-9834-43d8c2a5df62; revoked=True</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0a2bf0449d864969a59e13a9723e10fe" sourceRef="StartEvent_step_68d2f914_992a_4308_aeaf_8ba246f9e596" targetRef="TextAnnotation_ed0a723c5a4645aba785e11ffe424d68" />
+    <bpmn:textAnnotation id="TextAnnotation_d5c41546a1564da3be67b333601c8b48">
+      <bpmn:text>DATA: commands=attack-cmd:Do say that</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_e537abf0f6c74865be0e974e14769385" sourceRef="Task_step_952da296_cda0_4c6f_a8e0_0fb60a98eab6" targetRef="TextAnnotation_d5c41546a1564da3be67b333601c8b48" />
+    <bpmn:textAnnotation id="TextAnnotation_9afd6eaa913249f2a3efc7881e19ddee">
+      <bpmn:text>DATA: commands=manual:"Do say that"</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_63927b49cd964221acc300982d220298" sourceRef="Task_step_610f87c5_263f_49e8_b1ad_9cc6dc66eebb" targetRef="TextAnnotation_9afd6eaa913249f2a3efc7881e19ddee" />
+    <bpmn:textAnnotation id="TextAnnotation_867082b2708f47e1a58d52bc3c0b7a38">
+      <bpmn:text>OUTCOME: parallel completion for
+         step--c12fc3b0-511d-4969-b293-8ef639fc7c06</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_37b5eba5872a47efb2b457c608952618" sourceRef="GatewayJoin_step_c12fc3b0_511d_4969_b293_8ef639fc7c06" targetRef="TextAnnotation_867082b2708f47e1a58d52bc3c0b7a38" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_playbook_acad08f9-abcd-48c6-9297-bf1da815030c">
+      <bpmndi:BPMNShape id="BPMNShape_0" bpmnElement="StartEvent_step_68d2f914_992a_4308_aeaf_8ba246f9e596">
+        <dc:Bounds x="100" y="120" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1" bpmnElement="Task_step_952da296_cda0_4c6f_a8e0_0fb60a98eab6">
+        <dc:Bounds x="380" y="120" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_2" bpmnElement="Gateway_step_c12fc3b0_511d_4969_b293_8ef639fc7c06">
+        <dc:Bounds x="660" y="120" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_3" bpmnElement="Task_step_610f87c5_263f_49e8_b1ad_9cc6dc66eebb">
+        <dc:Bounds x="940" y="120" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_4" bpmnElement="Task_step_b6066b3b_0de2_4023_b631_d382eed15264">
+        <dc:Bounds x="940" y="270" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_5" bpmnElement="Task_step_ff0c180a_5ea4_46e3_bb52_8d0cbc963ca9">
+        <dc:Bounds x="940" y="420" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_6" bpmnElement="GatewayJoin_step_c12fc3b0_511d_4969_b293_8ef639fc7c06">
+        <dc:Bounds x="1220" y="120" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_7" bpmnElement="Task_step_4a4dcbc6_0734_49c0_b0a5_a20d791e37c0">
+        <dc:Bounds x="1500" y="120" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_8" bpmnElement="Gateway_step_2dd17671_edec_4a58_bed1_c2e34a23624e">
+        <dc:Bounds x="1780" y="120" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_9" bpmnElement="Task_step_255380aa_7317_4084_b916_5640cdc465d5">
+        <dc:Bounds x="2060" y="120" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_10" bpmnElement="Task_step_da06fe29_16f3_489b_9b6e_be5234120cd3">
+        <dc:Bounds x="2060" y="270" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_11" bpmnElement="GatewayMerge_step_2dd17671_edec_4a58_bed1_c2e34a23624e">
+        <dc:Bounds x="2340" y="120" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_12" bpmnElement="EndEvent_step_17e55f25_c1f2_4b55_8dda_7e55f2befd2b">
+        <dc:Bounds x="2620" y="120" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_ed0a723c5a4645aba785e11ffe424d68" bpmnElement="TextAnnotation_ed0a723c5a4645aba785e11ffe424d68">
+        <dc:Bounds x="226" y="528" width="760" height="102" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_0a2bf0449d864969a59e13a9723e10fe" bpmnElement="Association_0a2bf0449d864969a59e13a9723e10fe">
+        <di:waypoint x="136" y="138" />
+        <di:waypoint x="166" y="138" />
+        <di:waypoint x="166" y="579" />
+        <di:waypoint x="226" y="579" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_d5c41546a1564da3be67b333601c8b48" bpmnElement="TextAnnotation_d5c41546a1564da3be67b333601c8b48">
+        <dc:Bounds x="630" y="648" width="460" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_e537abf0f6c74865be0e974e14769385" bpmnElement="Association_e537abf0f6c74865be0e974e14769385">
+        <di:waypoint x="540" y="165" />
+        <di:waypoint x="670" y="165" />
+        <di:waypoint x="670" y="686" />
+        <di:waypoint x="630" y="686" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_9afd6eaa913249f2a3efc7881e19ddee" bpmnElement="TextAnnotation_9afd6eaa913249f2a3efc7881e19ddee">
+        <dc:Bounds x="1190" y="232" width="460" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_63927b49cd964221acc300982d220298" bpmnElement="Association_63927b49cd964221acc300982d220298">
+        <di:waypoint x="1100" y="165" />
+        <di:waypoint x="1130" y="165" />
+        <di:waypoint x="1130" y="270" />
+        <di:waypoint x="1190" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_867082b2708f47e1a58d52bc3c0b7a38" bpmnElement="TextAnnotation_867082b2708f47e1a58d52bc3c0b7a38">
+        <dc:Bounds x="1360" y="328" width="420" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_37b5eba5872a47efb2b457c608952618" bpmnElement="Association_37b5eba5872a47efb2b457c608952618">
+        <di:waypoint x="1270" y="145" />
+        <di:waypoint x="1400" y="145" />
+        <di:waypoint x="1400" y="366" />
+        <di:waypoint x="1360" y="366" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_0" bpmnElement="Flow_fa0a9adb701742239e997065692f669b">
+        <di:waypoint x="1100" y="315" />
+        <di:waypoint x="1124" y="315" />
+        <di:waypoint x="1124" y="155" />
+        <di:waypoint x="1196" y="155" />
+        <di:waypoint x="1196" y="145" />
+        <di:waypoint x="1220" y="145" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_1" bpmnElement="Flow_983e4c30c1b045d186817d5ccd7c38fc">
+        <di:waypoint x="710" y="145" />
+        <di:waypoint x="734" y="145" />
+        <di:waypoint x="734" y="240" />
+        <di:waypoint x="916" y="240" />
+        <di:waypoint x="916" y="315" />
+        <di:waypoint x="940" y="315" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_2" bpmnElement="Flow_01ed6689aa8348b58435942513c4ef93">
+        <di:waypoint x="1100" y="465" />
+        <di:waypoint x="1124" y="465" />
+        <di:waypoint x="1124" y="141" />
+        <di:waypoint x="1196" y="141" />
+        <di:waypoint x="1196" y="133" />
+        <di:waypoint x="1220" y="133" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_3" bpmnElement="Flow_1b7cc0ddad4b4b83977d8d460395efe6">
+        <di:waypoint x="710" y="133" />
+        <di:waypoint x="734" y="133" />
+        <di:waypoint x="734" y="390" />
+        <di:waypoint x="916" y="390" />
+        <di:waypoint x="916" y="465" />
+        <di:waypoint x="940" y="465" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_4" bpmnElement="Flow_9a873bf4e3e54334857329e2e29698d9">
+        <di:waypoint x="1100" y="165" />
+        <di:waypoint x="1124" y="165" />
+        <di:waypoint x="1124" y="155" />
+        <di:waypoint x="1196" y="155" />
+        <di:waypoint x="1196" y="157" />
+        <di:waypoint x="1220" y="157" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_5" bpmnElement="Flow_73217f2f53a345c98979815e148a690e">
+        <di:waypoint x="710" y="157" />
+        <di:waypoint x="734" y="157" />
+        <di:waypoint x="734" y="155" />
+        <di:waypoint x="916" y="155" />
+        <di:waypoint x="916" y="165" />
+        <di:waypoint x="940" y="165" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_6" bpmnElement="Flow_69fec6886f3a47fb96b061b34b12915f">
+        <di:waypoint x="2220" y="315" />
+        <di:waypoint x="2244" y="315" />
+        <di:waypoint x="2244" y="155" />
+        <di:waypoint x="2316" y="155" />
+        <di:waypoint x="2316" y="145" />
+        <di:waypoint x="2340" y="145" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_7" bpmnElement="Flow_3db87bc16e4943f49842712424c0a17a">
+        <di:waypoint x="1830" y="145" />
+        <di:waypoint x="1854" y="145" />
+        <di:waypoint x="1854" y="240" />
+        <di:waypoint x="2036" y="240" />
+        <di:waypoint x="2036" y="315" />
+        <di:waypoint x="2060" y="315" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2032" y="346" width="46" height="22" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_8" bpmnElement="Flow_2ca02d92127949d8b0d1653941242785">
+        <di:waypoint x="2220" y="165" />
+        <di:waypoint x="2244" y="165" />
+        <di:waypoint x="2244" y="141" />
+        <di:waypoint x="2316" y="141" />
+        <di:waypoint x="2316" y="133" />
+        <di:waypoint x="2340" y="133" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_9" bpmnElement="Flow_f808b2c023114e7c9f1f6c72edfee9b9">
+        <di:waypoint x="1830" y="133" />
+        <di:waypoint x="1854" y="133" />
+        <di:waypoint x="1854" y="155" />
+        <di:waypoint x="2036" y="155" />
+        <di:waypoint x="2036" y="165" />
+        <di:waypoint x="2060" y="165" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2028" y="112" width="54" height="22" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_10" bpmnElement="Flow_d114045a096443d38c80d84ae590d556">
+        <di:waypoint x="2390" y="145" />
+        <di:waypoint x="2414" y="145" />
+        <di:waypoint x="2414" y="141" />
+        <di:waypoint x="2596" y="141" />
+        <di:waypoint x="2596" y="138" />
+        <di:waypoint x="2620" y="138" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_11" bpmnElement="Flow_dc695c1d05c14688994ba63874cdb934">
+        <di:waypoint x="1660" y="165" />
+        <di:waypoint x="1684" y="165" />
+        <di:waypoint x="1684" y="155" />
+        <di:waypoint x="1756" y="155" />
+        <di:waypoint x="1756" y="145" />
+        <di:waypoint x="1780" y="145" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_12" bpmnElement="Flow_b7809528a8e7403b8792b4f364ce928c">
+        <di:waypoint x="1270" y="145" />
+        <di:waypoint x="1294" y="145" />
+        <di:waypoint x="1294" y="155" />
+        <di:waypoint x="1476" y="155" />
+        <di:waypoint x="1476" y="165" />
+        <di:waypoint x="1500" y="165" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_13" bpmnElement="Flow_a71c4124ce81404093d07aeccf253053">
+        <di:waypoint x="540" y="165" />
+        <di:waypoint x="564" y="165" />
+        <di:waypoint x="564" y="155" />
+        <di:waypoint x="636" y="155" />
+        <di:waypoint x="636" y="145" />
+        <di:waypoint x="660" y="145" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_14" bpmnElement="Flow_f84ef31a44a34d70b49d0f314d5d10e9">
+        <di:waypoint x="136" y="138" />
+        <di:waypoint x="160" y="138" />
+        <di:waypoint x="160" y="155" />
+        <di:waypoint x="356" y="155" />
+        <di:waypoint x="356" y="165" />
+        <di:waypoint x="380" y="165" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

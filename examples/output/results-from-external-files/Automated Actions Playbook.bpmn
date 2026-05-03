@@ -1,0 +1,206 @@
+<?xml version='1.0' encoding='utf-8'?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:cacao="https://example.org/cacao-bpmn/extensions" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_c41e34ed-432c-437c-91df-f4e6a404a6ae" targetNamespace="https://example.org/cacao-bpmn">
+  <bpmn:process id="Process_playbook_93abbe83-a306-4b36-9784-bc8d5b807bdd" name="Automated Actions Playbook" isExecutable="false">
+    <bpmn:extensionElements>
+      <cacao:property name="playbook_id" value="playbook--93abbe83-a306-4b36-9784-bc8d5b807bdd" />
+      <cacao:property name="spec_version" value="1.1" />
+      <cacao:property name="playbook_types" value="[&quot;investigation&quot;]" />
+      <cacao:property name="workflow_start" value="step--66c100ee-3aa6-4ae1-8d18-c5cb6c5f5705" />
+      <cacao:property name="created" value="2024-07-10T12:34:00Z" />
+      <cacao:property name="modified" value="2024-07-10T12:34:00Z" />
+      <cacao:property name="created_by" value="identity--93abbe83-a306-4b36-9784-bc8d5b807bdd" />
+      <cacao:property name="revoked" value="true" />
+    </bpmn:extensionElements>
+    <bpmn:startEvent id="StartEvent_step_66c100ee_3aa6_4ae1_8d18_c5cb6c5f5705" name="start - case arrives">
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="step--66c100ee-3aa6-4ae1-8d18-c5cb6c5f5705" />
+        <cacao:property name="cacao_step_type" value="start" />
+      </bpmn:extensionElements>
+    </bpmn:startEvent>
+    <bpmn:task id="Task_step_12e96281_cdff_4ca7_8895_1e7f42da4cbd" name="single - Evaluate Observable">
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="step--12e96281-cdff-4ca7-8895-1e7f42da4cbd" />
+        <cacao:property name="cacao_step_type" value="single" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="Gateway_step_79b6276a_e875_4255_b9ef_02050aa09206" name="ifcondition - Read result">
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="step--79b6276a-e875-4255-b9ef-02050aa09206" />
+        <cacao:property name="cacao_step_type" value="if-condition" />
+      </bpmn:extensionElements>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="Task_step_5195d65e_dd06_48f3_a430_ae90ef10dd92" name="single - Manual response required">
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="step--5195d65e-dd06-48f3-a430-ae90ef10dd92" />
+        <cacao:property name="cacao_step_type" value="single" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:endEvent id="EndEvent_step_1d53dca2_e5a7_417d_8c26_91bc4d94c5dd" name="end - End of incident">
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="step--1d53dca2-e5a7-417d-8c26-91bc4d94c5dd" />
+        <cacao:property name="cacao_step_type" value="end" />
+      </bpmn:extensionElements>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0106d1eba6a747d9a0bad909c00435a7" sourceRef="Task_step_5195d65e_dd06_48f3_a430_ae90ef10dd92" targetRef="EndEvent_step_1d53dca2_e5a7_417d_8c26_91bc4d94c5dd" />
+    <bpmn:sequenceFlow id="Flow_393a039ca3e742e8b73439d2295713b8" sourceRef="Gateway_step_79b6276a_e875_4255_b9ef_02050aa09206" targetRef="Task_step_5195d65e_dd06_48f3_a430_ae90ef10dd92" name="True" />
+    <bpmn:endEvent id="EndEvent_step_1d7d7912_05b0_43c0_88a5_ff415d8c9336" name="end - No action required">
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="step--1d7d7912-05b0-43c0-88a5-ff415d8c9336" />
+        <cacao:property name="cacao_step_type" value="end" />
+      </bpmn:extensionElements>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1e0dedbc2cfa4ea5853b9d05a269a8d6" sourceRef="Gateway_step_79b6276a_e875_4255_b9ef_02050aa09206" targetRef="EndEvent_step_1d7d7912_05b0_43c0_88a5_ff415d8c9336" name="False" />
+    <bpmn:sequenceFlow id="Flow_958edaf46d5b4bbdb22aa8d1e0cfe051" sourceRef="Task_step_12e96281_cdff_4ca7_8895_1e7f42da4cbd" targetRef="Gateway_step_79b6276a_e875_4255_b9ef_02050aa09206" />
+    <bpmn:sequenceFlow id="Flow_3594d15ffa554e488ac0f471cfb30e35" sourceRef="StartEvent_step_66c100ee_3aa6_4ae1_8d18_c5cb6c5f5705" targetRef="Task_step_12e96281_cdff_4ca7_8895_1e7f42da4cbd" />
+    <bpmn:endEvent id="EndEvent_step_ade7e943_db35_4625_ab1e_206f2c585e75" name="end - Exception occurred">
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="step--ade7e943-db35-4625-ab1e-206f2c585e75" />
+        <cacao:property name="cacao_step_type" value="end" />
+      </bpmn:extensionElements>
+    </bpmn:endEvent>
+    <bpmn:textAnnotation id="TextAnnotation_96cf961e22a54d78a43d2370dfa19e14">
+      <bpmn:text>META: id=playbook--93abbe83-a306-4b36-9784-bc8d5b807bdd; name=Automated Actions Playbook; spec_version=1.1;
+      playbook_types=investigation; created=2024-07-10T12:34:00Z; modified=2024-07-10T12:34:00Z
+      workflow_start=step--66c100ee-3aa6-4ae1-8d18-c5cb6c5f5705;
+created_by=identity--93abbe83-a306-4b36-9784-bc8d5b807bdd; revoked=True</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_f5e075205c8b4753b594c5acb3ffd6e8" sourceRef="StartEvent_step_66c100ee_3aa6_4ae1_8d18_c5cb6c5f5705" targetRef="TextAnnotation_96cf961e22a54d78a43d2370dfa19e14" />
+    <bpmn:textAnnotation id="TextAnnotation_ebc7d514d213453e965d76a0edab6c0e">
+      <bpmn:text>DATA: commands=openc2-json:{
+    "action": "start",
+    "target": {
+      ...</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1e52ac4e7a834bfaadeb2ba677d61f7f" sourceRef="Task_step_12e96281_cdff_4ca7_8895_1e7f42da4cbd" targetRef="TextAnnotation_ebc7d514d213453e965d76a0edab6c0e" />
+    <bpmn:textAnnotation id="TextAnnotation_8ab41a73d5a14d81b2949b677383121a">
+      <bpmn:text>DATA: commands=manual:Review response and take action</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_d61eab452ebf4877b43f6688457996a3" sourceRef="Task_step_5195d65e_dd06_48f3_a430_ae90ef10dd92" targetRef="TextAnnotation_8ab41a73d5a14d81b2949b677383121a" />
+    <bpmn:textAnnotation id="TextAnnotation_29fd44b5321c45bf9d70acdb2b5b3b69">
+      <bpmn:text>COND: [hive-analyzer-result-by-step:step--12e96281-cdff-4ca7-8895-1e7f42da4cbd[0].report.success
+      = true]
+OUTCOME: on_completion -&gt; end - No action required</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_8647fefaf6e242ce916e9a0d57464d40" sourceRef="Gateway_step_79b6276a_e875_4255_b9ef_02050aa09206" targetRef="TextAnnotation_29fd44b5321c45bf9d70acdb2b5b3b69" />
+    <bpmn:textAnnotation id="TextAnnotation_7765f1a61aa043d594196cef59dec034">
+      <bpmn:text>OUTCOME: workflow_exception endpoint</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_705c294adcff4d3f882bb15a7d7d62c0" sourceRef="EndEvent_step_ade7e943_db35_4625_ab1e_206f2c585e75" targetRef="TextAnnotation_7765f1a61aa043d594196cef59dec034" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_playbook_93abbe83-a306-4b36-9784-bc8d5b807bdd">
+      <bpmndi:BPMNShape id="BPMNShape_0" bpmnElement="StartEvent_step_66c100ee_3aa6_4ae1_8d18_c5cb6c5f5705">
+        <dc:Bounds x="100" y="120" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1" bpmnElement="Task_step_12e96281_cdff_4ca7_8895_1e7f42da4cbd">
+        <dc:Bounds x="380" y="120" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_2" bpmnElement="Gateway_step_79b6276a_e875_4255_b9ef_02050aa09206">
+        <dc:Bounds x="660" y="120" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_3" bpmnElement="EndEvent_step_1d7d7912_05b0_43c0_88a5_ff415d8c9336">
+        <dc:Bounds x="940" y="120" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_4" bpmnElement="Task_step_5195d65e_dd06_48f3_a430_ae90ef10dd92">
+        <dc:Bounds x="940" y="270" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_5" bpmnElement="EndEvent_step_1d53dca2_e5a7_417d_8c26_91bc4d94c5dd">
+        <dc:Bounds x="1220" y="120" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_6" bpmnElement="EndEvent_step_ade7e943_db35_4625_ab1e_206f2c585e75">
+        <dc:Bounds x="100" y="540" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_96cf961e22a54d78a43d2370dfa19e14" bpmnElement="TextAnnotation_96cf961e22a54d78a43d2370dfa19e14">
+        <dc:Bounds x="226" y="376" width="760" height="102" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_f5e075205c8b4753b594c5acb3ffd6e8" bpmnElement="Association_f5e075205c8b4753b594c5acb3ffd6e8">
+        <di:waypoint x="136" y="138" />
+        <di:waypoint x="166" y="138" />
+        <di:waypoint x="166" y="427" />
+        <di:waypoint x="226" y="427" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_ebc7d514d213453e965d76a0edab6c0e" bpmnElement="TextAnnotation_ebc7d514d213453e965d76a0edab6c0e">
+        <dc:Bounds x="630" y="494" width="460" height="102" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_1e52ac4e7a834bfaadeb2ba677d61f7f" bpmnElement="Association_1e52ac4e7a834bfaadeb2ba677d61f7f">
+        <di:waypoint x="540" y="165" />
+        <di:waypoint x="670" y="165" />
+        <di:waypoint x="670" y="545" />
+        <di:waypoint x="630" y="545" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_8ab41a73d5a14d81b2949b677383121a" bpmnElement="TextAnnotation_8ab41a73d5a14d81b2949b677383121a">
+        <dc:Bounds x="1190" y="270" width="460" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_d61eab452ebf4877b43f6688457996a3" bpmnElement="Association_d61eab452ebf4877b43f6688457996a3">
+        <di:waypoint x="1100" y="315" />
+        <di:waypoint x="1130" y="315" />
+        <di:waypoint x="1130" y="308" />
+        <di:waypoint x="1190" y="308" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_29fd44b5321c45bf9d70acdb2b5b3b69" bpmnElement="TextAnnotation_29fd44b5321c45bf9d70acdb2b5b3b69">
+        <dc:Bounds x="800" y="616" width="440" height="84" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_8647fefaf6e242ce916e9a0d57464d40" bpmnElement="Association_8647fefaf6e242ce916e9a0d57464d40">
+        <di:waypoint x="710" y="145" />
+        <di:waypoint x="840" y="145" />
+        <di:waypoint x="840" y="658" />
+        <di:waypoint x="800" y="658" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_7765f1a61aa043d594196cef59dec034" bpmnElement="TextAnnotation_7765f1a61aa043d594196cef59dec034">
+        <dc:Bounds x="226" y="612" width="400" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_705c294adcff4d3f882bb15a7d7d62c0" bpmnElement="Association_705c294adcff4d3f882bb15a7d7d62c0">
+        <di:waypoint x="136" y="558" />
+        <di:waypoint x="166" y="558" />
+        <di:waypoint x="166" y="650" />
+        <di:waypoint x="226" y="650" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_0" bpmnElement="Flow_0106d1eba6a747d9a0bad909c00435a7">
+        <di:waypoint x="1100" y="315" />
+        <di:waypoint x="1124" y="315" />
+        <di:waypoint x="1124" y="141" />
+        <di:waypoint x="1196" y="141" />
+        <di:waypoint x="1196" y="138" />
+        <di:waypoint x="1220" y="138" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_1" bpmnElement="Flow_393a039ca3e742e8b73439d2295713b8">
+        <di:waypoint x="710" y="145" />
+        <di:waypoint x="734" y="145" />
+        <di:waypoint x="734" y="240" />
+        <di:waypoint x="916" y="240" />
+        <di:waypoint x="916" y="315" />
+        <di:waypoint x="940" y="315" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="912" y="346" width="46" height="22" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_2" bpmnElement="Flow_1e0dedbc2cfa4ea5853b9d05a269a8d6">
+        <di:waypoint x="710" y="133" />
+        <di:waypoint x="734" y="133" />
+        <di:waypoint x="734" y="141" />
+        <di:waypoint x="916" y="141" />
+        <di:waypoint x="916" y="138" />
+        <di:waypoint x="940" y="138" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="908" y="85" width="54" height="22" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_3" bpmnElement="Flow_958edaf46d5b4bbdb22aa8d1e0cfe051">
+        <di:waypoint x="540" y="165" />
+        <di:waypoint x="564" y="165" />
+        <di:waypoint x="564" y="155" />
+        <di:waypoint x="636" y="155" />
+        <di:waypoint x="636" y="145" />
+        <di:waypoint x="660" y="145" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_4" bpmnElement="Flow_3594d15ffa554e488ac0f471cfb30e35">
+        <di:waypoint x="136" y="138" />
+        <di:waypoint x="160" y="138" />
+        <di:waypoint x="160" y="155" />
+        <di:waypoint x="356" y="155" />
+        <di:waypoint x="356" y="165" />
+        <di:waypoint x="380" y="165" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

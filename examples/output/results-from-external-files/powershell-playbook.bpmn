@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='utf-8'?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:cacao="https://example.org/cacao-bpmn/extensions" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_330311cc-aaa9-4e2d-b446-88bcc65176d7" targetNamespace="https://example.org/cacao-bpmn">
+  <bpmn:process id="Process_playbook_6673b5cb-d9e9-408e-ab50-2fbb9abe91f5" name="SOARCA PowerShell playbook" isExecutable="false">
+    <bpmn:extensionElements>
+      <cacao:property name="playbook_id" value="playbook--6673b5cb-d9e9-408e-ab50-2fbb9abe91f5" />
+      <cacao:property name="spec_version" value="cacao-2.0" />
+      <cacao:property name="workflow_start" value="start--baccd71d-5a22-4999-8cba-ff3d634971fa" />
+      <cacao:property name="created" value="2024-08-27T09:28:36.611Z" />
+      <cacao:property name="modified" value="2024-08-27T11:26:01.205Z" />
+      <cacao:property name="created_by" value="identity--691f1eb6-2a1e-495b-8f5e-18f44380c26a" />
+      <cacao:property name="revoked" value="false" />
+    </bpmn:extensionElements>
+    <bpmn:startEvent id="StartEvent_start_baccd71d_5a22_4999_8cba_ff3d634971fa" name="Start">
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="start--baccd71d-5a22-4999-8cba-ff3d634971fa" />
+        <cacao:property name="cacao_step_type" value="start" />
+      </bpmn:extensionElements>
+    </bpmn:startEvent>
+    <bpmn:task id="Task_action_010b0420_db3e_4810_ba75_08a10f473214" name="PowerShell example">
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="action--010b0420-db3e-4810-ba75-08a10f473214" />
+        <cacao:property name="cacao_step_type" value="action" />
+        <cacao:property name="agent" value="soarca--00040001-1000-1000-a000-000100010001" />
+        <cacao:property name="targets" value="[&quot;net-address--0115a514-7a79-4c3f-8d87-77d5e52fabab&quot;]" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:endEvent id="EndEvent_end_28cd6cb6_b0e5_4445_8e4b_dfa9e0eab79a" name="End">
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="end--28cd6cb6-b0e5-4445-8e4b-dfa9e0eab79a" />
+        <cacao:property name="cacao_step_type" value="end" />
+      </bpmn:extensionElements>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_06ec2bad6395494ab58936cb47fb01b4" sourceRef="Task_action_010b0420_db3e_4810_ba75_08a10f473214" targetRef="EndEvent_end_28cd6cb6_b0e5_4445_8e4b_dfa9e0eab79a" />
+    <bpmn:sequenceFlow id="Flow_9835eba0434345f49dd48cd1dd8501db" sourceRef="StartEvent_start_baccd71d_5a22_4999_8cba_ff3d634971fa" targetRef="Task_action_010b0420_db3e_4810_ba75_08a10f473214" />
+    <bpmn:textAnnotation id="TextAnnotation_8c16d0d9292c4c5e847c5e29de75a3ba">
+      <bpmn:text>META: id=playbook--6673b5cb-d9e9-408e-ab50-2fbb9abe91f5; name=SOARCA PowerShell playbook;
+      description=This playbook demonstrates the powershell capability; spec_version=cacao-2.0;
+      created=2024-08-27T09:28:36.611Z
+      modified=2024-08-27T11:26:01.205Z; workflow_start=start--baccd71d-5a22-4999-8cba-ff3d634971fa;
+created_by=identity--691f1eb6-2a1e-495b-8f5e-18f44380c26a; revoked=False
+      authentication=Server [authentication-info] (username=admin)</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_8f4704f2f90b4ebf97b7a279b6a70111" sourceRef="StartEvent_start_baccd71d_5a22_4999_8cba_ff3d634971fa" targetRef="TextAnnotation_8c16d0d9292c4c5e847c5e29de75a3ba" />
+    <bpmn:textAnnotation id="TextAnnotation_7060f45aa4f84364a98bf48de7d8f8c8">
+      <bpmn:text>DATA: commands=powershell:pwd
+ROLE: agent=soarca-powershell; type=soarca; targets=Windows;
+      type=net-address; address={"ipv4": ["192.168.1.2"]}</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_cc34d08333684828948d57b8dd3be453" sourceRef="Task_action_010b0420_db3e_4810_ba75_08a10f473214" targetRef="TextAnnotation_7060f45aa4f84364a98bf48de7d8f8c8" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_playbook_6673b5cb-d9e9-408e-ab50-2fbb9abe91f5">
+      <bpmndi:BPMNShape id="BPMNShape_0" bpmnElement="StartEvent_start_baccd71d_5a22_4999_8cba_ff3d634971fa">
+        <dc:Bounds x="100" y="120" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1" bpmnElement="Task_action_010b0420_db3e_4810_ba75_08a10f473214">
+        <dc:Bounds x="380" y="120" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_2" bpmnElement="EndEvent_end_28cd6cb6_b0e5_4445_8e4b_dfa9e0eab79a">
+        <dc:Bounds x="660" y="120" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_8c16d0d9292c4c5e847c5e29de75a3ba" bpmnElement="TextAnnotation_8c16d0d9292c4c5e847c5e29de75a3ba">
+        <dc:Bounds x="226" y="224" width="740" height="138" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_8f4704f2f90b4ebf97b7a279b6a70111" bpmnElement="Association_8f4704f2f90b4ebf97b7a279b6a70111">
+        <di:waypoint x="136" y="138" />
+        <di:waypoint x="166" y="138" />
+        <di:waypoint x="166" y="293" />
+        <di:waypoint x="226" y="293" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_7060f45aa4f84364a98bf48de7d8f8c8" bpmnElement="TextAnnotation_7060f45aa4f84364a98bf48de7d8f8c8">
+        <dc:Bounds x="780" y="120" width="460" height="84" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_cc34d08333684828948d57b8dd3be453" bpmnElement="Association_cc34d08333684828948d57b8dd3be453">
+        <di:waypoint x="540" y="165" />
+        <di:waypoint x="570" y="165" />
+        <di:waypoint x="570" y="162" />
+        <di:waypoint x="780" y="162" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_0" bpmnElement="Flow_06ec2bad6395494ab58936cb47fb01b4">
+        <di:waypoint x="540" y="165" />
+        <di:waypoint x="564" y="165" />
+        <di:waypoint x="564" y="151" />
+        <di:waypoint x="636" y="151" />
+        <di:waypoint x="636" y="138" />
+        <di:waypoint x="660" y="138" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_1" bpmnElement="Flow_9835eba0434345f49dd48cd1dd8501db">
+        <di:waypoint x="136" y="138" />
+        <di:waypoint x="160" y="138" />
+        <di:waypoint x="160" y="151" />
+        <di:waypoint x="356" y="151" />
+        <di:waypoint x="356" y="165" />
+        <di:waypoint x="380" y="165" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

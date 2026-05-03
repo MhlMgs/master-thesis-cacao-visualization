@@ -1,0 +1,351 @@
+<?xml version='1.0' encoding='utf-8'?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:cacao="https://example.org/cacao-bpmn/extensions" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_f3b708ce-7c01-44d5-bd77-42f213fba545" targetNamespace="https://example.org/cacao-bpmn">
+  <bpmn:process id="Process_playbook_fefb9f12-d308-461c-8aa7-a5d6279ab468" name="LockyBart ransomware" isExecutable="false">
+    <bpmn:extensionElements>
+      <cacao:property name="playbook_id" value="playbook--fefb9f12-d308-461c-8aa7-a5d6279ab468" />
+      <cacao:property name="spec_version" value="cacao-2.0" />
+      <cacao:property name="playbook_types" value="[&quot;attack&quot;]" />
+      <cacao:property name="playbook_activities" value="[&quot;step-sequence&quot;]" />
+      <cacao:property name="workflow_start" value="start--507aadb2-9f8f-4937-8643-5f50cd358906" />
+      <cacao:property name="created" value="2023-05-01T12:08:00.000Z" />
+      <cacao:property name="modified" value="2023-05-01T12:08:00.000Z" />
+      <cacao:property name="created_by" value="identity--c59f3ff7-2f24-5bd4-a0ed-2fd36ec04b06" />
+      <cacao:property name="labels" value="[&quot;ransonware&quot;, &quot;LockyBart&quot;]" />
+    </bpmn:extensionElements>
+    <bpmn:startEvent id="StartEvent_start_507aadb2_9f8f_4937_8643_5f50cd358906" name="Start LockyBart ransomware attack">
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="start--507aadb2-9f8f-4937-8643-5f50cd358906" />
+        <cacao:property name="cacao_step_type" value="start" />
+      </bpmn:extensionElements>
+    </bpmn:startEvent>
+    <bpmn:task id="Task_action_cdc2f237_8823_413b_8beb_84a612be0ae8" name="Use a software protection technique">
+      <bpmn:documentation>Code virtualization is added to the Locky Bart binary using WPProtect.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="action--cdc2f237-8823-413b-8beb-84a612be0ae8" />
+        <cacao:property name="cacao_step_type" value="action" />
+        <cacao:property name="agent" value="group--a757ce82-b838-4c68-9e41-74b0e94211a5" />
+        <cacao:property name="targets" value="[&quot;software--5e1cadae-7532-45d8-89f8-fe051a1e7df8&quot;]" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:task id="Task_action_3fdb51db_2548_4beb_ab7d_f52b3ab1e5ed" name=" Install LockyBart on victim's endpoint">
+      <bpmn:documentation>ftp LockyBart to victim</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="action--3fdb51db-2548-4beb-ab7d-f52b3ab1e5ed" />
+        <cacao:property name="cacao_step_type" value="action" />
+        <cacao:property name="agent" value="group--a757ce82-b838-4c68-9e41-74b0e94211a5" />
+        <cacao:property name="targets" value="[&quot;security-category--324ccb41-3306-4876-b017-1e07a81e16de&quot;]" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:task id="Task_action_7953f6e2_5f09_4fe3_8ffd_476ec5dabe3c" name="Wipe System Restore Points with VSSadmin">
+      <bpmn:documentation>The ransomware deletes any backed-up files</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="action--7953f6e2-5f09-4fe3-8ffd-476ec5dabe3c" />
+        <cacao:property name="cacao_step_type" value="action" />
+        <cacao:property name="agent" value="software--5e1cadae-7532-45d8-89f8-fe051a1e7df8" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:task id="Task_action_d31e28d1_3584_4f59_a139_6764c6509c6e" name="Generate a seed to create a key to encrypt user’s files.">
+      <bpmn:documentation>Execute the function used to generate a seed, which is used to create a key to encrypt the files with. It uses variables like system time, process ID, thread ID, Process Alive Time, and CPU ticks to generate a random number</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="action--d31e28d1-3584-4f59-a139-6764c6509c6e" />
+        <cacao:property name="cacao_step_type" value="action" />
+        <cacao:property name="agent" value="software--5e1cadae-7532-45d8-89f8-fe051a1e7df8" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:task id="Task_action_191bce6e_2fea_4a7e_b4a5_c0d96f129a8d" name="Enumerate the files it wants to encrypt, skipping certain folders to speed it up">
+      <bpmn:documentation>Scan filesystem for user files</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="action--191bce6e-2fea-4a7e-b4a5-c0d96f129a8d" />
+        <cacao:property name="cacao_step_type" value="action" />
+        <cacao:property name="agent" value="software--5e1cadae-7532-45d8-89f8-fe051a1e7df8" />
+        <cacao:property name="targets" value="[&quot;security-category--acc1cff5-af87-4caa-8529-84b08c187653&quot;]" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:task id="Task_action_edd41723_869d_5a07_9971_55876c706533" name="Generate Key using data on victim's endpoint">
+      <bpmn:documentation>Locky Bart gathers information on the victim’s machine to create an encryption key.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="action--edd41723-869d-5a07-9971-55876c706533" />
+        <cacao:property name="cacao_step_type" value="action" />
+        <cacao:property name="agent" value="software--5e1cadae-7532-45d8-89f8-fe051a1e7df8" />
+        <cacao:property name="targets" value="[&quot;security-category--324ccb41-3306-4876-b017-1e07a81e16de&quot;]" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:task id="Task_action_3f0dc5a7_ffd8_57e1_8b0b_2181638f5c95" name="Encrypt Files">
+      <bpmn:documentation>Encrypt files gathered during a previous step with the key generated in the previous step</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="action--3f0dc5a7-ffd8-57e1-8b0b-2181638f5c95" />
+        <cacao:property name="cacao_step_type" value="action" />
+        <cacao:property name="agent" value="software--5e1cadae-7532-45d8-89f8-fe051a1e7df8" />
+        <cacao:property name="targets" value="[&quot;security-category--191bce6e-2fea-4a7e-b4a5-c0d96f129a8d&quot;]" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:task id="Task_action_a7fca25a_2ee2_59c0_8df6_9f6ade83e286" name="Encrypt key">
+      <bpmn:documentation>Encrypt the key used to encrypt the files with a master key, which now becomes the victim’s UID used to identify them</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="action--a7fca25a-2ee2-59c0-8df6-9f6ade83e286" />
+        <cacao:property name="cacao_step_type" value="action" />
+        <cacao:property name="agent" value="software--5e1cadae-7532-45d8-89f8-fe051a1e7df8" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:task id="Task_action_e742fc09_743d_4174_9edb_1b4bcccd03bb" name="Create and display ransom note">
+      <bpmn:documentation>Locky Bart then generates a URL on the victim’s machine. It contains the link to a TOR cloaked .onion address where the malicious backend website is hosted. This URL has a user ID within it. This UID is the original decryption key, in encrypted form. Display the ransom note on the desktop with the URL to a payment page.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="action--e742fc09-743d-4174-9edb-1b4bcccd03bb" />
+        <cacao:property name="cacao_step_type" value="action" />
+        <cacao:property name="agent" value="software--5e1cadae-7532-45d8-89f8-fe051a1e7df8" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:endEvent id="EndEvent_end_0176c66e_9dad_4008_8b4c_bc2d52264557" name="Ransomware attack initiated">
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="end--0176c66e-9dad-4008-8b4c-bc2d52264557" />
+        <cacao:property name="cacao_step_type" value="end" />
+      </bpmn:extensionElements>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_b3e1084d38df4fd0b7341be088f138fe" sourceRef="Task_action_e742fc09_743d_4174_9edb_1b4bcccd03bb" targetRef="EndEvent_end_0176c66e_9dad_4008_8b4c_bc2d52264557" />
+    <bpmn:sequenceFlow id="Flow_e5965d0370b44c3f9a359ee176b39f91" sourceRef="Task_action_a7fca25a_2ee2_59c0_8df6_9f6ade83e286" targetRef="Task_action_e742fc09_743d_4174_9edb_1b4bcccd03bb" />
+    <bpmn:sequenceFlow id="Flow_1a9e09ff9dca417b8df61f1085ab2bc3" sourceRef="Task_action_3f0dc5a7_ffd8_57e1_8b0b_2181638f5c95" targetRef="Task_action_a7fca25a_2ee2_59c0_8df6_9f6ade83e286" />
+    <bpmn:sequenceFlow id="Flow_4c6e413fbd99445cb01e8d0075ffba3e" sourceRef="Task_action_edd41723_869d_5a07_9971_55876c706533" targetRef="Task_action_3f0dc5a7_ffd8_57e1_8b0b_2181638f5c95" />
+    <bpmn:sequenceFlow id="Flow_2a108c2eac9b4e6d807fd615c8f3530d" sourceRef="Task_action_191bce6e_2fea_4a7e_b4a5_c0d96f129a8d" targetRef="Task_action_edd41723_869d_5a07_9971_55876c706533" />
+    <bpmn:sequenceFlow id="Flow_f28382516c5846169be179e7653fef05" sourceRef="Task_action_d31e28d1_3584_4f59_a139_6764c6509c6e" targetRef="Task_action_191bce6e_2fea_4a7e_b4a5_c0d96f129a8d" />
+    <bpmn:sequenceFlow id="Flow_1b89a36190784b549f5645a19c8eaa66" sourceRef="Task_action_7953f6e2_5f09_4fe3_8ffd_476ec5dabe3c" targetRef="Task_action_d31e28d1_3584_4f59_a139_6764c6509c6e" />
+    <bpmn:sequenceFlow id="Flow_52c334396e8541688c57ac9b177c5ac8" sourceRef="Task_action_3fdb51db_2548_4beb_ab7d_f52b3ab1e5ed" targetRef="Task_action_7953f6e2_5f09_4fe3_8ffd_476ec5dabe3c" />
+    <bpmn:sequenceFlow id="Flow_f88c978423b44ca09df89099e27603ec" sourceRef="Task_action_cdc2f237_8823_413b_8beb_84a612be0ae8" targetRef="Task_action_3fdb51db_2548_4beb_ab7d_f52b3ab1e5ed" />
+    <bpmn:sequenceFlow id="Flow_5a86b764f0a04d4d86e3b18ef8f30ac2" sourceRef="StartEvent_start_507aadb2_9f8f_4937_8643_5f50cd358906" targetRef="Task_action_cdc2f237_8823_413b_8beb_84a612be0ae8" />
+    <bpmn:textAnnotation id="TextAnnotation_e4bf27de0aba466a955ffc69ba380e4d">
+      <bpmn:text>META: id=playbook--fefb9f12-d308-461c-8aa7-a5d6279ab468; name=LockyBart ransomware;
+      description=This playbook captures the sequence of steps of how encrypts files to
+      obtain a ransom using the LockyBart ransomware.
+      spec_version=cacao-2.0; playbook_types=attack; playbook_activities=step-sequence;
+created=2023-05-01T12:08:00.000Z; modified=2023-05-01T12:08:00.000Z;
+workflow_start=start--507aadb2-9f8f-4937-8643-5f50cd358906
+      created_by=identity--c59f3ff7-2f24-5bd4-a0ed-2fd36ec04b06; labels=ransonware,
+LockyBart; external_references=1</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_09ae0cb136c14a3688b6c11b3302e2a4" sourceRef="StartEvent_start_507aadb2_9f8f_4937_8643_5f50cd358906" targetRef="TextAnnotation_e4bf27de0aba466a955ffc69ba380e4d" />
+    <bpmn:textAnnotation id="TextAnnotation_04913682fa984645b80af576a8fb5680">
+      <bpmn:text>DATA: commands=bash:WPProtect
+ROLE: agent=Adversary Group; type=group; targets=LockyBart; type=software</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1d06ea36983040f4998bab6d57129330" sourceRef="Task_action_cdc2f237_8823_413b_8beb_84a612be0ae8" targetRef="TextAnnotation_04913682fa984645b80af576a8fb5680" />
+    <bpmn:textAnnotation id="TextAnnotation_fe34431b752846ee8d15d4e42dfb5d96">
+      <bpmn:text>DATA: commands=ftp:ftp malware.victim.com lockybart.exe
+ROLE: agent=Adversary Group; type=group; targets=Endpoint with
+      ransomware; type=security-category; category=endpoint</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_67f457d76b374b70869ede18181ca1a0" sourceRef="Task_action_3fdb51db_2548_4beb_ab7d_f52b3ab1e5ed" targetRef="TextAnnotation_fe34431b752846ee8d15d4e42dfb5d96" />
+    <bpmn:textAnnotation id="TextAnnotation_0c1bc146121b42a28b8439475fade41d">
+      <bpmn:text>DATA: commands=bash:vssadmin.exe delete shadows /all /quiet
+ROLE: agent=LockyBart; type=software</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_2d243a28b21b4c87992095463b17b4a8" sourceRef="Task_action_7953f6e2_5f09_4fe3_8ffd_476ec5dabe3c" targetRef="TextAnnotation_0c1bc146121b42a28b8439475fade41d" />
+    <bpmn:textAnnotation id="TextAnnotation_f80f67894b1c4046922121469069c85f">
+      <bpmn:text>DATA: commands=subroutine:GenerateSeed()
+ROLE: agent=LockyBart; type=software</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_f71b47df1ff34835b9c822e94c40fa45" sourceRef="Task_action_d31e28d1_3584_4f59_a139_6764c6509c6e" targetRef="TextAnnotation_f80f67894b1c4046922121469069c85f" />
+    <bpmn:textAnnotation id="TextAnnotation_18ffa9407aac4ae2b7a6ed57e4407fa7">
+      <bpmn:text>DATA: commands=subroutine:Enumerate()
+ROLE: agent=LockyBart; type=software;
+      targets=security-category--acc1cff5-af87-4caa-8529-84b08c187653</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_8fb2554fb4b744889d6cdee9a1ff6577" sourceRef="Task_action_191bce6e_2fea_4a7e_b4a5_c0d96f129a8d" targetRef="TextAnnotation_18ffa9407aac4ae2b7a6ed57e4407fa7" />
+    <bpmn:textAnnotation id="TextAnnotation_f2dc46446bf649588bfa84f4a31f8d7b">
+      <bpmn:text>DATA: commands=subroutine:Run function to perform action
+ROLE: agent=LockyBart; type=software; targets=Endpoint with
+      ransomware; type=security-category; category=endpoint</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_96c419a98b9a4ed6a67ab743dfc23a16" sourceRef="Task_action_edd41723_869d_5a07_9971_55876c706533" targetRef="TextAnnotation_f2dc46446bf649588bfa84f4a31f8d7b" />
+    <bpmn:textAnnotation id="TextAnnotation_c455956c6c5c49a180987754573ff23d">
+      <bpmn:text>DATA: commands=subroutine:Run function to perform action
+ROLE: agent=LockyBart; type=software; targets=Files on
+      endpoint; type=security-category; category=filesystem</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_aef333d663ec4b479b6923044732c4ac" sourceRef="Task_action_3f0dc5a7_ffd8_57e1_8b0b_2181638f5c95" targetRef="TextAnnotation_c455956c6c5c49a180987754573ff23d" />
+    <bpmn:textAnnotation id="TextAnnotation_8933a2c059db4f379d5b0cffa01c8ef8">
+      <bpmn:text>DATA: commands=subroutine:Encrypt key using a public key and RC4 PRGA
+ROLE: agent=LockyBart; type=software</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_75428e9b1c754c7dafdf01541b184b2e" sourceRef="Task_action_a7fca25a_2ee2_59c0_8df6_9f6ade83e286" targetRef="TextAnnotation_8933a2c059db4f379d5b0cffa01c8ef8" />
+    <bpmn:textAnnotation id="TextAnnotation_1c018e1d23d140909644c0c1eb323b88">
+      <bpmn:text>DATA: commands=subroutine:Create note with URL that contains
+      the encrypte...
+ROLE: agent=LockyBart; type=software</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_15b9824cc8bd405297adaf99a2afdd95" sourceRef="Task_action_e742fc09_743d_4174_9edb_1b4bcccd03bb" targetRef="TextAnnotation_1c018e1d23d140909644c0c1eb323b88" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_playbook_fefb9f12-d308-461c-8aa7-a5d6279ab468">
+      <bpmndi:BPMNShape id="BPMNShape_0" bpmnElement="StartEvent_start_507aadb2_9f8f_4937_8643_5f50cd358906">
+        <dc:Bounds x="100" y="120" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1" bpmnElement="Task_action_cdc2f237_8823_413b_8beb_84a612be0ae8">
+        <dc:Bounds x="380" y="120" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_2" bpmnElement="Task_action_3fdb51db_2548_4beb_ab7d_f52b3ab1e5ed">
+        <dc:Bounds x="660" y="120" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_3" bpmnElement="Task_action_7953f6e2_5f09_4fe3_8ffd_476ec5dabe3c">
+        <dc:Bounds x="940" y="120" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_4" bpmnElement="Task_action_d31e28d1_3584_4f59_a139_6764c6509c6e">
+        <dc:Bounds x="1220" y="120" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_5" bpmnElement="Task_action_191bce6e_2fea_4a7e_b4a5_c0d96f129a8d">
+        <dc:Bounds x="1500" y="120" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_6" bpmnElement="Task_action_edd41723_869d_5a07_9971_55876c706533">
+        <dc:Bounds x="1780" y="120" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_7" bpmnElement="Task_action_3f0dc5a7_ffd8_57e1_8b0b_2181638f5c95">
+        <dc:Bounds x="2060" y="120" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_8" bpmnElement="Task_action_a7fca25a_2ee2_59c0_8df6_9f6ade83e286">
+        <dc:Bounds x="2340" y="120" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_9" bpmnElement="Task_action_e742fc09_743d_4174_9edb_1b4bcccd03bb">
+        <dc:Bounds x="2620" y="120" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_10" bpmnElement="EndEvent_end_0176c66e_9dad_4008_8b4c_bc2d52264557">
+        <dc:Bounds x="2900" y="120" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_e4bf27de0aba466a955ffc69ba380e4d" bpmnElement="TextAnnotation_e4bf27de0aba466a955ffc69ba380e4d">
+        <dc:Bounds x="226" y="224" width="620" height="174" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_09ae0cb136c14a3688b6c11b3302e2a4" bpmnElement="Association_09ae0cb136c14a3688b6c11b3302e2a4">
+        <di:waypoint x="136" y="138" />
+        <di:waypoint x="166" y="138" />
+        <di:waypoint x="166" y="311" />
+        <di:waypoint x="226" y="311" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_04913682fa984645b80af576a8fb5680" bpmnElement="TextAnnotation_04913682fa984645b80af576a8fb5680">
+        <dc:Bounds x="630" y="422" width="540" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_1d06ea36983040f4998bab6d57129330" bpmnElement="Association_1d06ea36983040f4998bab6d57129330">
+        <di:waypoint x="540" y="165" />
+        <di:waypoint x="670" y="165" />
+        <di:waypoint x="670" y="460" />
+        <di:waypoint x="630" y="460" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_fe34431b752846ee8d15d4e42dfb5d96" bpmnElement="TextAnnotation_fe34431b752846ee8d15d4e42dfb5d96">
+        <dc:Bounds x="910" y="232" width="460" height="84" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_67f457d76b374b70869ede18181ca1a0" bpmnElement="Association_67f457d76b374b70869ede18181ca1a0">
+        <di:waypoint x="820" y="165" />
+        <di:waypoint x="850" y="165" />
+        <di:waypoint x="850" y="274" />
+        <di:waypoint x="910" y="274" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_0c1bc146121b42a28b8439475fade41d" bpmnElement="TextAnnotation_0c1bc146121b42a28b8439475fade41d">
+        <dc:Bounds x="1190" y="328" width="460" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_2d243a28b21b4c87992095463b17b4a8" bpmnElement="Association_2d243a28b21b4c87992095463b17b4a8">
+        <di:waypoint x="1100" y="165" />
+        <di:waypoint x="1230" y="165" />
+        <di:waypoint x="1230" y="366" />
+        <di:waypoint x="1190" y="366" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_f80f67894b1c4046922121469069c85f" bpmnElement="TextAnnotation_f80f67894b1c4046922121469069c85f">
+        <dc:Bounds x="1470" y="232" width="460" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_f71b47df1ff34835b9c822e94c40fa45" bpmnElement="Association_f71b47df1ff34835b9c822e94c40fa45">
+        <di:waypoint x="1380" y="165" />
+        <di:waypoint x="1410" y="165" />
+        <di:waypoint x="1410" y="270" />
+        <di:waypoint x="1470" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_18ffa9407aac4ae2b7a6ed57e4407fa7" bpmnElement="TextAnnotation_18ffa9407aac4ae2b7a6ed57e4407fa7">
+        <dc:Bounds x="1750" y="326" width="460" height="84" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_8fb2554fb4b744889d6cdee9a1ff6577" bpmnElement="Association_8fb2554fb4b744889d6cdee9a1ff6577">
+        <di:waypoint x="1660" y="165" />
+        <di:waypoint x="1790" y="165" />
+        <di:waypoint x="1790" y="368" />
+        <di:waypoint x="1750" y="368" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_f2dc46446bf649588bfa84f4a31f8d7b" bpmnElement="TextAnnotation_f2dc46446bf649588bfa84f4a31f8d7b">
+        <dc:Bounds x="2030" y="422" width="460" height="84" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_96c419a98b9a4ed6a67ab743dfc23a16" bpmnElement="Association_96c419a98b9a4ed6a67ab743dfc23a16">
+        <di:waypoint x="1940" y="165" />
+        <di:waypoint x="2070" y="165" />
+        <di:waypoint x="2070" y="464" />
+        <di:waypoint x="2030" y="464" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_c455956c6c5c49a180987754573ff23d" bpmnElement="TextAnnotation_c455956c6c5c49a180987754573ff23d">
+        <dc:Bounds x="2310" y="232" width="460" height="84" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_aef333d663ec4b479b6923044732c4ac" bpmnElement="Association_aef333d663ec4b479b6923044732c4ac">
+        <di:waypoint x="2220" y="165" />
+        <di:waypoint x="2250" y="165" />
+        <di:waypoint x="2250" y="274" />
+        <di:waypoint x="2310" y="274" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_8933a2c059db4f379d5b0cffa01c8ef8" bpmnElement="TextAnnotation_8933a2c059db4f379d5b0cffa01c8ef8">
+        <dc:Bounds x="2590" y="328" width="500" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_75428e9b1c754c7dafdf01541b184b2e" bpmnElement="Association_75428e9b1c754c7dafdf01541b184b2e">
+        <di:waypoint x="2500" y="165" />
+        <di:waypoint x="2630" y="165" />
+        <di:waypoint x="2630" y="366" />
+        <di:waypoint x="2590" y="366" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_1c018e1d23d140909644c0c1eb323b88" bpmnElement="TextAnnotation_1c018e1d23d140909644c0c1eb323b88">
+        <dc:Bounds x="2870" y="208" width="460" height="84" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_15b9824cc8bd405297adaf99a2afdd95" bpmnElement="Association_15b9824cc8bd405297adaf99a2afdd95">
+        <di:waypoint x="2780" y="165" />
+        <di:waypoint x="2810" y="165" />
+        <di:waypoint x="2810" y="250" />
+        <di:waypoint x="2870" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_0" bpmnElement="Flow_b3e1084d38df4fd0b7341be088f138fe">
+        <di:waypoint x="2780" y="165" />
+        <di:waypoint x="2804" y="165" />
+        <di:waypoint x="2804" y="151" />
+        <di:waypoint x="2876" y="151" />
+        <di:waypoint x="2876" y="138" />
+        <di:waypoint x="2900" y="138" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_1" bpmnElement="Flow_e5965d0370b44c3f9a359ee176b39f91">
+        <di:waypoint x="2500" y="165" />
+        <di:waypoint x="2620" y="165" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_2" bpmnElement="Flow_1a9e09ff9dca417b8df61f1085ab2bc3">
+        <di:waypoint x="2220" y="165" />
+        <di:waypoint x="2340" y="165" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_3" bpmnElement="Flow_4c6e413fbd99445cb01e8d0075ffba3e">
+        <di:waypoint x="1940" y="165" />
+        <di:waypoint x="2060" y="165" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_4" bpmnElement="Flow_2a108c2eac9b4e6d807fd615c8f3530d">
+        <di:waypoint x="1660" y="165" />
+        <di:waypoint x="1780" y="165" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_5" bpmnElement="Flow_f28382516c5846169be179e7653fef05">
+        <di:waypoint x="1380" y="165" />
+        <di:waypoint x="1500" y="165" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_6" bpmnElement="Flow_1b89a36190784b549f5645a19c8eaa66">
+        <di:waypoint x="1100" y="165" />
+        <di:waypoint x="1220" y="165" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_7" bpmnElement="Flow_52c334396e8541688c57ac9b177c5ac8">
+        <di:waypoint x="820" y="165" />
+        <di:waypoint x="940" y="165" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_8" bpmnElement="Flow_f88c978423b44ca09df89099e27603ec">
+        <di:waypoint x="540" y="165" />
+        <di:waypoint x="660" y="165" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_9" bpmnElement="Flow_5a86b764f0a04d4d86e3b18ef8f30ac2">
+        <di:waypoint x="136" y="138" />
+        <di:waypoint x="160" y="138" />
+        <di:waypoint x="160" y="151" />
+        <di:waypoint x="356" y="151" />
+        <di:waypoint x="356" y="165" />
+        <di:waypoint x="380" y="165" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

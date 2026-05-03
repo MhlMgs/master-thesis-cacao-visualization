@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='utf-8'?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:cacao="https://example.org/cacao-bpmn/extensions" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_e436621d-db48-4cf6-88c9-18535d88e61a" targetNamespace="https://example.org/cacao-bpmn">
+  <bpmn:process id="Process_playbook_300270f9-0e64-42c8-93cc-0927edbe3ae7" name="Example http" isExecutable="false">
+    <bpmn:extensionElements>
+      <cacao:property name="playbook_id" value="playbook--300270f9-0e64-42c8-93cc-0927edbe3ae7" />
+      <cacao:property name="spec_version" value="cacao-2.0" />
+      <cacao:property name="playbook_types" value="[&quot;notification&quot;]" />
+      <cacao:property name="workflow_start" value="start--9e7d62b2-88ac-4656-94e1-dbd4413ba008" />
+      <cacao:property name="created" value="2023-11-20T15:56:00.123456Z" />
+      <cacao:property name="modified" value="2023-11-20T15:56:00.123456Z" />
+      <cacao:property name="created_by" value="identity--96abab60-238a-44ff-8962-5806aa60cbce" />
+      <cacao:property name="valid_from" value="2023-11-20T15:56:00.123456Z" />
+      <cacao:property name="valid_until" value="2123-11-20T15:56:00.123456Z" />
+      <cacao:property name="labels" value="[&quot;soarca&quot;, &quot;http-api&quot;, &quot;get&quot;]" />
+    </bpmn:extensionElements>
+    <bpmn:startEvent id="StartEvent_start_9e7d62b2_88ac_4656_94e1_dbd4413ba008" name="Start example flow http-api">
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="start--9e7d62b2-88ac-4656-94e1-dbd4413ba008" />
+        <cacao:property name="cacao_step_type" value="start" />
+      </bpmn:extensionElements>
+    </bpmn:startEvent>
+    <bpmn:task id="Task_action_eb9372d4_d524_49fc_bf24_be26ea084779" name="get">
+      <bpmn:documentation>Get request with </bpmn:documentation>
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="action--eb9372d4-d524-49fc-bf24-be26ea084779" />
+        <cacao:property name="cacao_step_type" value="action" />
+        <cacao:property name="agent" value="soarca--00020001-1000-1000-a000-000100010001" />
+        <cacao:property name="targets" value="[&quot;http-api--1c3900b4-f86b-430d-b415-12312b9e31f4&quot;]" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:endEvent id="EndEvent_end_a6f0b81e_affb_4bca_b4f6_a2d5af908958" name="End Flow">
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="end--a6f0b81e-affb-4bca-b4f6-a2d5af908958" />
+        <cacao:property name="cacao_step_type" value="end" />
+      </bpmn:extensionElements>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_5677ff9589cf407b8811a414a999f61c" sourceRef="Task_action_eb9372d4_d524_49fc_bf24_be26ea084779" targetRef="EndEvent_end_a6f0b81e_affb_4bca_b4f6_a2d5af908958" />
+    <bpmn:sequenceFlow id="Flow_cea1c3cbf2e54ab8b109e9745b1052e3" sourceRef="StartEvent_start_9e7d62b2_88ac_4656_94e1_dbd4413ba008" targetRef="Task_action_eb9372d4_d524_49fc_bf24_be26ea084779" />
+    <bpmn:textAnnotation id="TextAnnotation_e1338a169d5f4ef8a805447d3642342a">
+      <bpmn:text>META: id=playbook--300270f9-0e64-42c8-93cc-0927edbe3ae7; name=Example http; description=This playbook is
+      to demonstrate the http functionality; spec_version=cacao-2.0; playbook_types=notification
+      created=2023-11-20T15:56:00.123456Z; modified=2023-11-20T15:56:00.123456Z;
+valid_from=2023-11-20T15:56:00.123456Z; valid_until=2123-11-20T15:56:00.123456Z;
+workflow_start=start--9e7d62b2-88ac-4656-94e1-dbd4413ba008
+      created_by=identity--96abab60-238a-44ff-8962-5806aa60cbce; labels=soarca, http-api, get;
+external_references=1</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_3e4c72789dda4f0c93b7af882eef4980" sourceRef="StartEvent_start_9e7d62b2_88ac_4656_94e1_dbd4413ba008" targetRef="TextAnnotation_e1338a169d5f4ef8a805447d3642342a" />
+    <bpmn:textAnnotation id="TextAnnotation_896779712a904689933d6b69695b0b59">
+      <bpmn:text>DATA: commands=http-api:GET get HTTP1.1
+ROLE: agent=soarca-http-api; type=soarca; targets=httpbin;
+      type=http-api; address={"dname": ["httpbin.org"]}</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0b49f935d5a24fb990523fa2b48dd216" sourceRef="Task_action_eb9372d4_d524_49fc_bf24_be26ea084779" targetRef="TextAnnotation_896779712a904689933d6b69695b0b59" />
+    <bpmn:textAnnotation id="TextAnnotation_addb6fde267b4636b288b739562e22bf">
+      <bpmn:text>OUTCOME: workflow_exception endpoint</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_c32b6743b06d4c909201fbcbb453cce4" sourceRef="EndEvent_end_a6f0b81e_affb_4bca_b4f6_a2d5af908958" targetRef="TextAnnotation_addb6fde267b4636b288b739562e22bf" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_playbook_300270f9-0e64-42c8-93cc-0927edbe3ae7">
+      <bpmndi:BPMNShape id="BPMNShape_0" bpmnElement="StartEvent_start_9e7d62b2_88ac_4656_94e1_dbd4413ba008">
+        <dc:Bounds x="100" y="120" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1" bpmnElement="Task_action_eb9372d4_d524_49fc_bf24_be26ea084779">
+        <dc:Bounds x="380" y="120" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_2" bpmnElement="EndEvent_end_a6f0b81e_affb_4bca_b4f6_a2d5af908958">
+        <dc:Bounds x="660" y="120" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_e1338a169d5f4ef8a805447d3642342a" bpmnElement="TextAnnotation_e1338a169d5f4ef8a805447d3642342a">
+        <dc:Bounds x="226" y="224" width="740" height="156" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_3e4c72789dda4f0c93b7af882eef4980" bpmnElement="Association_3e4c72789dda4f0c93b7af882eef4980">
+        <di:waypoint x="136" y="138" />
+        <di:waypoint x="166" y="138" />
+        <di:waypoint x="166" y="302" />
+        <di:waypoint x="226" y="302" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_896779712a904689933d6b69695b0b59" bpmnElement="TextAnnotation_896779712a904689933d6b69695b0b59">
+        <dc:Bounds x="780" y="120" width="460" height="84" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_0b49f935d5a24fb990523fa2b48dd216" bpmnElement="Association_0b49f935d5a24fb990523fa2b48dd216">
+        <di:waypoint x="540" y="165" />
+        <di:waypoint x="570" y="165" />
+        <di:waypoint x="570" y="162" />
+        <di:waypoint x="780" y="162" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_addb6fde267b4636b288b739562e22bf" bpmnElement="TextAnnotation_addb6fde267b4636b288b739562e22bf">
+        <dc:Bounds x="786" y="392" width="400" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_c32b6743b06d4c909201fbcbb453cce4" bpmnElement="Association_c32b6743b06d4c909201fbcbb453cce4">
+        <di:waypoint x="696" y="138" />
+        <di:waypoint x="826" y="138" />
+        <di:waypoint x="826" y="430" />
+        <di:waypoint x="786" y="430" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_0" bpmnElement="Flow_5677ff9589cf407b8811a414a999f61c">
+        <di:waypoint x="540" y="165" />
+        <di:waypoint x="564" y="165" />
+        <di:waypoint x="564" y="151" />
+        <di:waypoint x="636" y="151" />
+        <di:waypoint x="636" y="138" />
+        <di:waypoint x="660" y="138" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_1" bpmnElement="Flow_cea1c3cbf2e54ab8b109e9745b1052e3">
+        <di:waypoint x="136" y="138" />
+        <di:waypoint x="160" y="138" />
+        <di:waypoint x="160" y="151" />
+        <di:waypoint x="356" y="151" />
+        <di:waypoint x="356" y="165" />
+        <di:waypoint x="380" y="165" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

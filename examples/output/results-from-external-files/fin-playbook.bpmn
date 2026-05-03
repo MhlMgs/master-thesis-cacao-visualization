@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='utf-8'?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:cacao="https://example.org/cacao-bpmn/extensions" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_efca906a-b220-4977-a220-b926ba50cd0e" targetNamespace="https://example.org/cacao-bpmn">
+  <bpmn:process id="Process_playbook_3c9885e6-95cc-49cb-9044-0e1d2c22be4a" name="New Playbook1" isExecutable="false">
+    <bpmn:extensionElements>
+      <cacao:property name="playbook_id" value="playbook--3c9885e6-95cc-49cb-9044-0e1d2c22be4a" />
+      <cacao:property name="spec_version" value="cacao-2.0" />
+      <cacao:property name="workflow_start" value="start--b6c62023-dbd4-422e-adf9-505277f29a79" />
+      <cacao:property name="created" value="2025-06-23T09:41:13.868Z" />
+      <cacao:property name="modified" value="2023-11-01T15:33:31.072Z" />
+      <cacao:property name="created_by" value="identity--112e9923-5c87-4cf2-9685-eda58a162a7a" />
+      <cacao:property name="revoked" value="false" />
+    </bpmn:extensionElements>
+    <bpmn:startEvent id="StartEvent_start_b6c62023_dbd4_422e_adf9_505277f29a79" name="Start">
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="start--b6c62023-dbd4-422e-adf9-505277f29a79" />
+        <cacao:property name="cacao_step_type" value="start" />
+      </bpmn:extensionElements>
+    </bpmn:startEvent>
+    <bpmn:task id="Task_action_2fd6bca0_24ed_4d74_8eae_da126a84f7c4" name="action">
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="action--2fd6bca0-24ed-4d74-8eae-da126a84f7c4" />
+        <cacao:property name="cacao_step_type" value="action" />
+        <cacao:property name="agent" value="soarca-fin-pong-f896bb3b-bb37-429e-8ece-2d4286cf326d" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:endEvent id="EndEvent_end_156d0625_26cb_458d_997b_c1f8a552cb3c" name="End step">
+      <bpmn:extensionElements>
+        <cacao:property name="cacao_step_id" value="end--156d0625-26cb-458d-997b-c1f8a552cb3c" />
+        <cacao:property name="cacao_step_type" value="end" />
+      </bpmn:extensionElements>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_458c114bcc3b4bdeb74e5054e320aa30" sourceRef="Task_action_2fd6bca0_24ed_4d74_8eae_da126a84f7c4" targetRef="EndEvent_end_156d0625_26cb_458d_997b_c1f8a552cb3c" />
+    <bpmn:sequenceFlow id="Flow_98d834dcc4d440abbfed3a50241d307e" sourceRef="StartEvent_start_b6c62023_dbd4_422e_adf9_505277f29a79" targetRef="Task_action_2fd6bca0_24ed_4d74_8eae_da126a84f7c4" />
+    <bpmn:textAnnotation id="TextAnnotation_8a694bacffe54e4cacf1025337a9b2ae">
+      <bpmn:text>META: id=playbook--3c9885e6-95cc-49cb-9044-0e1d2c22be4a; name=New Playbook1; description=This is a
+      template playbook containing only a start and end node; spec_version=cacao-2.0;
+      created=2025-06-23T09:41:13.868Z
+      modified=2023-11-01T15:33:31.072Z; workflow_start=start--b6c62023-dbd4-422e-adf9-505277f29a79;
+created_by=identity--112e9923-5c87-4cf2-9685-eda58a162a7a; revoked=False</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_ff9d70dde1fc44ed91dd4e6ed57c350b" sourceRef="StartEvent_start_b6c62023_dbd4_422e_adf9_505277f29a79" targetRef="TextAnnotation_8a694bacffe54e4cacf1025337a9b2ae" />
+    <bpmn:textAnnotation id="TextAnnotation_11c4b89e49554b9a9c34a97f0cd57ac0">
+      <bpmn:text>DATA: commands=pong
+ROLE: agent=soarca-fin-pong-f896bb3b-bb37-429e-8ece-2d4286cf326d;
+      type=net-address</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_9eac50a7ff6e43388a28504d5fdfe9cd" sourceRef="Task_action_2fd6bca0_24ed_4d74_8eae_da126a84f7c4" targetRef="TextAnnotation_11c4b89e49554b9a9c34a97f0cd57ac0" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_playbook_3c9885e6-95cc-49cb-9044-0e1d2c22be4a">
+      <bpmndi:BPMNShape id="BPMNShape_0" bpmnElement="StartEvent_start_b6c62023_dbd4_422e_adf9_505277f29a79">
+        <dc:Bounds x="100" y="120" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1" bpmnElement="Task_action_2fd6bca0_24ed_4d74_8eae_da126a84f7c4">
+        <dc:Bounds x="380" y="120" width="160" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_2" bpmnElement="EndEvent_end_156d0625_26cb_458d_997b_c1f8a552cb3c">
+        <dc:Bounds x="660" y="120" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_8a694bacffe54e4cacf1025337a9b2ae" bpmnElement="TextAnnotation_8a694bacffe54e4cacf1025337a9b2ae">
+        <dc:Bounds x="226" y="224" width="740" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_ff9d70dde1fc44ed91dd4e6ed57c350b" bpmnElement="Association_ff9d70dde1fc44ed91dd4e6ed57c350b">
+        <di:waypoint x="136" y="138" />
+        <di:waypoint x="166" y="138" />
+        <di:waypoint x="166" y="284" />
+        <di:waypoint x="226" y="284" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_11c4b89e49554b9a9c34a97f0cd57ac0" bpmnElement="TextAnnotation_11c4b89e49554b9a9c34a97f0cd57ac0">
+        <dc:Bounds x="780" y="120" width="460" height="84" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_9eac50a7ff6e43388a28504d5fdfe9cd" bpmnElement="Association_9eac50a7ff6e43388a28504d5fdfe9cd">
+        <di:waypoint x="540" y="165" />
+        <di:waypoint x="570" y="165" />
+        <di:waypoint x="570" y="162" />
+        <di:waypoint x="780" y="162" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_0" bpmnElement="Flow_458c114bcc3b4bdeb74e5054e320aa30">
+        <di:waypoint x="540" y="165" />
+        <di:waypoint x="564" y="165" />
+        <di:waypoint x="564" y="151" />
+        <di:waypoint x="636" y="151" />
+        <di:waypoint x="636" y="138" />
+        <di:waypoint x="660" y="138" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_1" bpmnElement="Flow_98d834dcc4d440abbfed3a50241d307e">
+        <di:waypoint x="136" y="138" />
+        <di:waypoint x="160" y="138" />
+        <di:waypoint x="160" y="151" />
+        <di:waypoint x="356" y="151" />
+        <di:waypoint x="356" y="165" />
+        <di:waypoint x="380" y="165" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
